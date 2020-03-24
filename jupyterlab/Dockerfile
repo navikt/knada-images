@@ -104,6 +104,7 @@ RUN useradd -M -s /bin/bash -N -u $NB_UID $NB_USER && \
     chown -R jovyan:users /home/*
 
 COPY jupyterlab/docker-entrypoint.sh /home/entrypoint.sh
+RUN chmod +x /home/entrypoint.sh
 
 EXPOSE 8888
 USER jovyan
