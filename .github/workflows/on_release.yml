@@ -28,7 +28,7 @@ jobs:
   build-naisflow-jupyterhub:
     name: Build naisflow jupyterhub image
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/hub-')
+    if: startsWith(github.ref, 'refs/tags/jupyterhub-')
     steps:
     - name: Checkout
       uses: actions/checkout@master
@@ -38,6 +38,6 @@ jobs:
     - name: Login Dockerhub
       run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Build kubeflow base docker image
-      run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterlab/Dockerfile .
+      run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub/Dockerfile .
     - name: Push kubeflow base docker image
       run: docker push ${IMAGE}:${IMAGE_TAG}
