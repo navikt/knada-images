@@ -43,23 +43,11 @@ RUN apt-get update && \
     apt-get install -y nodejs && \
     curl -L https://npmjs.org/install.sh | sh
 
-# Install jupyter lab
-RUN pip3 install \
-    jupyter==1.0.0 \
-    jupyterlab==1.2.4 \
-    jupyterlab-git==0.9.0
+# Install jupyter
+RUN pip3 install jupyter==1.0.0
 
 RUN pip3 install ipyleaflet && \
     jupyter nbextension enable --py --sys-prefix ipyleaflet
-
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
-    jupyter labextension install jupyter-leaflet --no-build && \
-    jupyter labextension install plotlywidget --no-build && \
-    jupyter labextension install @jupyterlab/plotly-extension --no-build && \
-    jupyter labextension install jupyterlab-jupytext --no-build && \
-    jupyter labextension install keplergl-jupyter --no-build
-
-RUN jupyter lab build
 
 # Set system envs
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
@@ -103,7 +91,7 @@ RUN useradd -M -s /bin/bash -N -u $NB_UID $NB_USER && \
     mkdir -p $HOME && \
     chown -R jovyan:users /home/*
 
-COPY jupyterlab/docker-entrypoint.sh /home/entrypoint.sh
+COPY jupyterhub/docker-entrypoint.sh /home/entrypoint.sh
 
 EXPOSE 8888
 USER jovyan
