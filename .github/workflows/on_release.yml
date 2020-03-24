@@ -1,0 +1,43 @@
+name: Build kubeflow base image
+
+on:
+  release:
+    types: [published]
+
+env:
+  IMAGE: navikt/naisflow
+
+jobs:
+  build-naisflow-jupyterlab:
+    name: Build naisflow jupyterlab image
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/jupyterlab-')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Set image tag
+        run: |
+          echo ::set-env name=IMAGE_TAG::$(echo ${{ github.ref }} | sed "s~refs/tags/~~")
+      - name: Login Dockerhub
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build naisflow jupyterlab image
+        run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterlab/Dockerfile .
+      - name: Push naisflow jupyterlab image
+        run: docker push ${IMAGE}:${IMAGE_TAG}
+
+#  build-naisflow-jupyterhub:
+#    name: Build naisflow jupyterhub image
+#    runs-on: ubuntu-latest
+#    if: startsWith(github.ref, 'refs/tags/hub-')
+#    steps:
+#    - name: Checkout
+#      uses: actions/checkout@master
+#    - name: Set image tag
+#      run: |
+#        echo ::set-env name=IMAGE_TAG::$(echo ${{ github.ref }} | sed "s~refs/tags/~~")
+#    - name: Login Dockerhub
+#      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+#    - name: Build kubeflow base docker image
+#      run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterlab/Dockerfile .
+#    - name: Push kubeflow base docker image
+#      run: docker push ${IMAGE}:${IMAGE_TAG}
