@@ -94,6 +94,14 @@ RUN useradd -M -s /bin/bash -N -u $NB_UID $NB_USER && \
 COPY jupyterhub/docker-entrypoint.sh /home/entrypoint.sh
 RUN chmod +x /home/entrypoint.sh
 
+# Install openssl 1.1.1
+RUN wget https://www.openssl.org/source/openssl-1.1.1.tar.gz && \
+    tar xzvf openssl-1.1.1.tar.gz && \
+    cd openssl-1.1.1 && \
+    ./config -Wl,--enable-new-dtags,-rpath,'$(LIBRPATH)' && \
+    make && \
+    sudo make install
+
 EXPOSE 8888
-USER jovyan
+USER ${NB_USER}
 ENTRYPOINT ["tini", "--", "/home/entrypoint.sh"]
