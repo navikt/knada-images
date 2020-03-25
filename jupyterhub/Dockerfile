@@ -1,20 +1,32 @@
-FROM navikt/python:3.7
+FROM python:3.7-slim-stretch
 
 USER root
 
 RUN apt-get update && apt-get install -yq --no-install-recommends \
-  build-essential \
-  curl \
-  sudo \
-  wget \
-  alien \
-  libaio1 \
-  libaio-dev \
-  libpq-dev \
-  fonts-humor-sans \
-  cmake \
-  && apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+    build-essential \
+    curl \
+    sudo \
+    wget \
+    alien \
+    libaio1 \
+    libaio-dev \
+    libpq-dev \
+    fonts-humor-sans \
+    cmake \
+    bzip2 \
+    ca-certificates \
+    git \
+    gnupg \
+    graphviz \
+    locales \
+    lsb-release \
+    unzip \
+    vim \
+    nano \
+    zip \
+    emacs \
+    && apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Tini - used as entrypoint for container
 RUN cd /tmp && \
@@ -39,9 +51,9 @@ COPY ca_bundles/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
 COPY fonts/xkcd-script.ttf /home/xkcd-script.ttf
 
 # Install nodejs + npm
+RUN curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
 RUN apt-get update && \
-    apt-get install -y nodejs && \
-    curl -L https://npmjs.org/install.sh | sh
+    apt-get install -y nodejs
 
 # Install jupyter
 RUN pip3 install jupyter==1.0.0
@@ -62,22 +74,6 @@ ENV VKS_KV_PATH kv/prod/kubeflow
 ENV VKS_SECRET_DEST_PATH /var/run/secrets/nais.io/vault
 ENV K8S_SERVICEACCOUNT_PATH /var/run/secrets/kubernetes.io/serviceaccount
 
-RUN apt-get update && apt-get install -yq --no-install-recommends \
-    bzip2 \
-    ca-certificates \
-    git \
-    gnupg \
-    graphviz \
-    locales \
-    lsb-release \
-    unzip \
-    vim \
-    nano \
-    zip \
-    emacs \
-    && apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
 ENV NB_USER jovyan
 ENV NB_UID 1000
 ENV HOME /home/$NB_USER
@@ -93,14 +89,6 @@ RUN useradd -M -s /bin/bash -N -u $NB_UID $NB_USER && \
 
 COPY jupyterhub/docker-entrypoint.sh /home/entrypoint.sh
 RUN chmod +x /home/entrypoint.sh
-
-# Install openssl 1.1.1
-RUN wget https://www.openssl.org/source/openssl-1.1.1.tar.gz && \
-    tar xzvf openssl-1.1.1.tar.gz && \
-    cd openssl-1.1.1 && \
-    ./config -Wl,--enable-new-dtags,-rpath,'$(LIBRPATH)' && \
-    make && \
-    sudo make install
 
 EXPOSE 8888
 USER ${NB_USER}
