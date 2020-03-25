@@ -3,7 +3,7 @@
 ## Lag ditt eget kubeflow image
 
 Finn siste versjon av navikt/naisflow:jupyterlab og navikt/naisflow:jupyterhub 
-på [dockerhub]("https://hub.docker.com/r/navikt/naisflow/tags")
+på [dockerhub](https://hub.docker.com/r/navikt/naisflow/tags)
 
 ### Jupyterlab
 ````dockerfile
