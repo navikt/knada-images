@@ -1,4 +1,4 @@
-FROM python:3.7-slim-stretch
+FROM navikt/python:3.7
 
 USER root
 
@@ -78,6 +78,7 @@ ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
 ENV SHELL /bin/bash
 ENV REQUESTS_CA_BUNDLE /etc/pki/tls/certs/ca-bundle.crt
 ENV SSL_CERT_FILE /etc/pki/tls/certs/ca-bundle.crt
+ENV DATAVERK_SECRETS_FROM_API "true"
 
 # Set vault envs
 ENV VKS_VAULT_ADDR https://vault.adeo.no
