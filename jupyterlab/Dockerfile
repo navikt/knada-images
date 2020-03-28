@@ -58,8 +58,8 @@ RUN apt-get update && \
 # Install jupyter lab
 RUN pip3 install \
     jupyter==1.0.0 \
-    jupyterlab==1.2.4 \
-    jupyterlab-git==0.9.0
+    jupyterlab==2.0.1 \
+    jupyterlab-git==0.10.0
 
 RUN pip3 install ipyleaflet && \
     jupyter nbextension enable --py --sys-prefix ipyleaflet
@@ -67,7 +67,7 @@ RUN pip3 install ipyleaflet && \
 RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
     jupyter labextension install jupyter-leaflet --no-build && \
     jupyter labextension install plotlywidget --no-build && \
-    jupyter labextension install @jupyterlab/plotly-extension --no-build && \
+    jupyter labextension install jupyterlab-plotly --no-build && \
     jupyter labextension install jupyterlab-jupytext --no-build && \
     jupyter labextension install keplergl-jupyter --no-build && \
     jupyter labextension install @aquirdturtle/collapsible_headings --no-build && \
