@@ -73,7 +73,7 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build 
     jupyter labextension install @aquirdturtle/collapsible_headings --no-build && \
     jupyter labextension install @jupyterlab/toc --no-build
 
-RUN jupyter lab build
+RUN jupyter lab build --dev-build=False --minimize=False
 
 # Set system envs
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
