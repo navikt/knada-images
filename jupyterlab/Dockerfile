@@ -75,6 +75,10 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build 
 
 RUN jupyter lab build --dev-build=False --minimize=False
 
+RUN apt-get update -y && \
+    apt-get install -y locales-all && \
+    dpkg-reconfigure locales
+
 # Set system envs
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
 ENV SHELL /bin/bash
