@@ -61,6 +61,10 @@ RUN pip3 install jupyter==1.0.0
 RUN pip3 install ipyleaflet && \
     jupyter nbextension enable --py --sys-prefix ipyleaflet
 
+RUN apt-get update -y && \
+    apt-get install -y locales-all && \
+    sudo dpkg-reconfigure locales
+
 # Set system envs
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
 ENV SHELL /bin/bash
