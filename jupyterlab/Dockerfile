@@ -71,7 +71,8 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build 
     jupyter labextension install jupyterlab-jupytext --no-build && \
     jupyter labextension install keplergl-jupyter --no-build && \
     jupyter labextension install @aquirdturtle/collapsible_headings --no-build && \
-    jupyter labextension install @jupyterlab/toc --no-build
+    jupyter labextension install @jupyterlab/toc --no-build && \
+    jupyter labextension install @deck.gl/jupyter-widget --no-build
 
 RUN jupyter lab build --dev-build=False --minimize=False
 
