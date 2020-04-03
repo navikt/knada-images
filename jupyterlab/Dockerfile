@@ -62,14 +62,15 @@ RUN pip3 install \
     jupyterlab-git==0.10.0
 
 RUN pip3 install ipyleaflet && \
-    jupyter nbextension enable --py --sys-prefix ipyleaflet
+    jupyter nbextension enable --py --sys-prefix ipyleaflet && \
+    jupyter serverextension enable --py jupyterlab --sys-prefix && \
+    pip3 install pydeck==0.2.1
 
 RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
     jupyter labextension install jupyter-leaflet --no-build && \
     jupyter labextension install plotlywidget --no-build && \
     jupyter labextension install jupyterlab-plotly --no-build && \
     jupyter labextension install jupyterlab-jupytext --no-build && \
-    jupyter labextension install keplergl-jupyter --no-build && \
     jupyter labextension install @aquirdturtle/collapsible_headings --no-build && \
     jupyter labextension install @jupyterlab/toc --no-build && \
     jupyter labextension install @deck.gl/jupyter-widget --no-build
