@@ -25,8 +25,11 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     nano \
     zip \
     emacs \
+    locales-all \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+RUN dpkg-reconfigure locales
 
 # Install Tini - used as entrypoint for container
 RUN cd /tmp && \
@@ -58,11 +61,13 @@ RUN apt-get update && \
 # Install jupyter lab
 RUN pip3 install \
     jupyter==1.0.0 \
-    jupyterlab==2.0.1 \
-    jupyterlab-git==0.10.0
+    jupyterlab==2.0.1
 
 RUN pip3 install ipyleaflet && \
-    jupyter nbextension enable --py --sys-prefix ipyleaflet
+    jupyter nbextension enable --py --sys-prefix ipyleaflet && \
+    jupyter serverextension enable --py jupyterlab --sys-prefix && \
+    pip3 install pydeck==0.2.0 && \
+    pip3 install keplergl==0.1.2
 
 RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
     jupyter labextension install jupyter-leaflet --no-build && \
@@ -71,14 +76,10 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build 
     jupyter labextension install jupyterlab-jupytext --no-build && \
     jupyter labextension install keplergl-jupyter --no-build && \
     jupyter labextension install @aquirdturtle/collapsible_headings --no-build && \
-    jupyter labextension install @jupyterlab/toc --no-build && \
-    jupyter labextension install @deck.gl/jupyter-widget --no-build
+    jupyter labextension install @jupyterlab/toc --no-build
+
 
 RUN jupyter lab build --dev-build=False --minimize=False
-
-RUN apt-get update -y && \
-    apt-get install -y locales-all && \
-    dpkg-reconfigure locales
 
 # Set system envs
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
