@@ -76,6 +76,7 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build 
     jupyter labextension install plotlywidget --no-build && \
     jupyter labextension install jupyterlab-plotly --no-build && \
     jupyter labextension install jupyterlab-jupytext --no-build && \
+    jupyter labextension install keplergl-jupyter --no-build && \
     jupyter labextension install @aquirdturtle/collapsible_headings --no-build && \
     jupyter labextension install @jupyterlab/toc --no-build
 
