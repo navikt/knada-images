@@ -67,7 +67,9 @@ RUN pip3 install ipyleaflet && \
     jupyter nbextension enable --py --sys-prefix ipyleaflet && \
     jupyter serverextension enable --py jupyterlab --sys-prefix && \
     pip3 install pydeck==0.2.1 && \
-    pip3 install keplergl==0.1.2
+    pip3 install keplergl==0.1.2 && \
+    jupyter nbextension install --py --sys-prefix keplergl && \
+    jupyter nbextension enable --py --sys-prefix keplergl
 
 RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
     jupyter labextension install jupyter-leaflet --no-build && \
