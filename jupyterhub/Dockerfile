@@ -25,8 +25,11 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     nano \
     zip \
     emacs \
+    locales-all \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+RUN dpkg-reconfigure locales
 
 # Install Tini - used as entrypoint for container
 RUN cd /tmp && \
@@ -50,20 +53,13 @@ COPY ca_bundles/ca-bundle.crt /etc/pki/tls/certs/ca-bundle.crt
 COPY ca_bundles/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
 COPY fonts/xkcd-script.ttf /home/xkcd-script.ttf
 
-# Install nodejs + npm
-RUN curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-RUN apt-get update && \
-    apt-get install -y nodejs
-
 # Install jupyter
 RUN pip3 install jupyter==1.0.0
 
 RUN pip3 install ipyleaflet && \
     jupyter nbextension enable --py --sys-prefix ipyleaflet
 
-RUN apt-get update -y && \
-    apt-get install -y locales-all && \
-    dpkg-reconfigure locales
+RUN pip3 install keplergl
 
 # Set system envs
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
@@ -92,7 +88,7 @@ RUN useradd -M -s /bin/bash -N -u $NB_UID $NB_USER && \
     mkdir -p $HOME && \
     chown -R jovyan:users /home/*
 
-COPY jupyterhub/docker-entrypoint.sh /home/entrypoint.sh
+COPY docker-entrypoint.sh /home/entrypoint.sh
 RUN chmod +x /home/entrypoint.sh
 
 EXPOSE 8888
