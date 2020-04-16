@@ -88,7 +88,7 @@ RUN useradd -M -s /bin/bash -N -u $NB_UID $NB_USER && \
     mkdir -p $HOME && \
     chown -R jovyan:users /home/*
 
-COPY docker-entrypoint.sh /home/entrypoint.sh
+COPY jupyterhub/docker-entrypoint.sh /home/entrypoint.sh
 RUN chmod +x /home/entrypoint.sh
 
 EXPOSE 8888
