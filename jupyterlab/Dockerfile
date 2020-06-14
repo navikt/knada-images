@@ -60,10 +60,11 @@ RUN apt-get update && \
 
 # Install jupyter lab
 RUN pip3 install \
-    jupyter==1.0.0 \
-    jupyterlab==2.0.1 \
-    pydeck==0.3.1 \
-    keplergl==0.1.2
+    jupyter \
+    jupyterlab \
+    pydeck \
+    keplergl \
+    dask_labextension
 
 RUN pip3 install ipyleaflet && \
     jupyter nbextension enable --py --sys-prefix ipyleaflet
@@ -75,12 +76,15 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build 
     jupyter labextension install jupyterlab-jupytext --no-build && \
     jupyter labextension install keplergl-jupyter --no-build && \
     jupyter labextension install @aquirdturtle/collapsible_headings --no-build && \
-    jupyter labextension install @jupyterlab/toc --no-build
+    jupyter labextension install @jupyterlab/toc --no-build && \
+    jupyter labextension install dask-labextension --no-build
 
 RUN jupyter lab build --dev-build=False --minimize=False
 
 RUN DECKGL_SEMVER=`python3 -c "import pydeck; print(pydeck.frontend_semver.DECKGL_SEMVER)"` && \
     jupyter labextension install @deck.gl/jupyter-widget@$DECKGL_SEMVER --dev-build=False --minimize=False
+    
+RUN jupyter serverextension enable dask_labextension
 
 # Set system envs
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
