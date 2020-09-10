@@ -1,0 +1,28 @@
+name: build-jupyterlab-image
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'jupyter/**'
+
+env:
+  IMAGE: navikt/jupyterlab
+
+jobs:
+  build-jupyter-image:
+    name: Build standalone jupyter image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Set image tag
+        run: |
+          echo ::set-env name=IMAGE_TAG::$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)
+      - name: Login Dockerhub
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build dataverk image
+        run: docker build -t ${IMAGE}:${IMAGE_TAG} -f cronjob/Dockerfile .
+      - name: Push dataverk image
+        run: docker push ${IMAGE}:${IMAGE_TAG}
