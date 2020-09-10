@@ -6,6 +6,7 @@ on:
       - master
     paths:
       - 'jupyter/**'
+      - '.github/workflows/on_push.yml'
 
 env:
   IMAGE: navikt/jupyterlab
