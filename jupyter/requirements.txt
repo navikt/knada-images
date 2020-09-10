@@ -47,10 +47,6 @@ schwifty==2020.5.3
 scikit-learn==0.21.2
 sklearn-crfsuite==0.3.6
 spacy==2.2.4
-tableauserverclient==0.11
-talos==0.6.6
-tblib==1.4.0
-tensorflow==2.2.0
 torch==1.6.0
 transformers==3.0.2
 vega==2.6.0
@@ -58,7 +54,6 @@ vega-datasets==0.7.0
 xlrd==1.1.0
 openpyxl==3.0.1
 dvc==0.83.0
-tfx==0.15.0
 pandas-profiling==2.5.0
 tensorflow-data-validation==0.21.1
 protobuf==3.11.3
