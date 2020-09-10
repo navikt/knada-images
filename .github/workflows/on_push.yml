@@ -23,6 +23,6 @@ jobs:
       - name: Login Dockerhub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build dataverk image
-        run: docker build -t ${IMAGE}:${IMAGE_TAG} -f cronjob/Dockerfile .
+        run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyter/Dockerfile .
       - name: Push dataverk image
         run: docker push ${IMAGE}:${IMAGE_TAG}
