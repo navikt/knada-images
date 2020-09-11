@@ -53,7 +53,7 @@ COPY ca_bundles/ca-bundle.crt /usr/local/lib/python3.7/site-packages/certifi/cac
 COPY fonts/xkcd-script.ttf /home/xkcd-script.ttf
 
 # Install base python requirements
-COPY jupyter/requirements_base.txt /requirements_base.txt
+COPY jupyterhub/requirements_base.txt /requirements_base.txt
 RUN pip install -r /requirements_base.txt
 
 # Install jupyterlab extensions
