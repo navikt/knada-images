@@ -86,7 +86,7 @@ ENV VKS_SECRET_DEST_PATH /var/run/secrets/nais.io/vault
 ENV K8S_SERVICEACCOUNT_PATH /var/run/secrets/kubernetes.io/serviceaccount
 
 # Install python packages
-COPY jupyter/requirements.txt /requirements.txt
+COPY jupyterhub/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 # Install spacy models
