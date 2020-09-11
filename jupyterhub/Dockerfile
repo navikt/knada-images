@@ -1,24 +1,25 @@
-FROM navikt/python:3.7
+FROM jupyter/base-notebook:python-3.7.4
 
 USER root
 
 RUN apt-get update && apt-get install -yq --no-install-recommends \
     build-essential \
     curl \
-    sudo \
-    wget \
     alien \
     libaio1 \
     libaio-dev \
     libpq-dev \
+    wget \
+    bzip2 \
+    ca-certificates \
+    sudo \
+    locales \
     fonts-humor-sans \
     cmake \
-    bzip2 \
     ca-certificates \
     git \
     gnupg \
     graphviz \
-    locales \
     lsb-release \
     unzip \
     vim \
@@ -26,17 +27,14 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     zip \
     emacs \
     locales-all \
-    && apt-get clean && \
+    unixodbc-dev \
+    libarchive-tools \
+    ssh-client \
+    connect-proxy && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 RUN dpkg-reconfigure locales
-
-# Install Tini - used as entrypoint for container
-RUN cd /tmp && \
-    wget --quiet https://github.com/krallin/tini/releases/download/v0.18.0/tini && \
-    echo "12d20136605531b09a2c2dac02ccee85e1b874eb322ef6baf7561cd93f93c855 *tini" | sha256sum -c - && \
-    mv tini /usr/local/bin/tini && \
-    chmod +x /usr/local/bin/tini
 
 # Install oracle client
 ADD oracle_client/oracle-instantclient18.3-basic-18.3.0.0.0-1.x86_64.rpm /tmp/
@@ -51,15 +49,27 @@ ENV PATH=$PATH:/usr/lib/oracle/18.3/client64/bin
 # Copy ca-bundle and font
 COPY ca_bundles/ca-bundle.crt /etc/pki/tls/certs/ca-bundle.crt
 COPY ca_bundles/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
+COPY ca_bundles/ca-bundle.crt /usr/local/lib/python3.7/site-packages/certifi/cacert.pem
 COPY fonts/xkcd-script.ttf /home/xkcd-script.ttf
 
-# Install jupyter
-RUN pip3 install jupyter==1.0.0
+# Install base python requirements
+COPY jupyter/requirements_base.txt /requirements_base.txt
+RUN pip install -r /requirements_base.txt
 
-RUN pip3 install ipyleaflet && \
-    jupyter nbextension enable --py --sys-prefix ipyleaflet
+# Install jupyterlab extensions
+RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
+    jupyter labextension install jupyter-leaflet --no-build && \
+    jupyter labextension install plotlywidget --no-build && \
+    jupyter labextension install jupyterlab-plotly --no-build && \
+    jupyter labextension install jupyterlab-jupytext --no-build && \
+    jupyter labextension install @aquirdturtle/collapsible_headings --no-build && \
+    jupyter labextension install @jupyterlab/toc --no-build && \
+    jupyter labextension install dask-labextension --no-build
 
-RUN pip3 install keplergl
+RUN jupyter lab build --dev-build=False --minimize=False
+
+RUN jupyter nbextension enable --py --sys-prefix ipyleaflet && \
+    jupyter serverextension enable --sys-prefix dask_labextension
 
 # Set system envs
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
@@ -75,22 +85,13 @@ ENV VKS_KV_PATH kv/prod/kubeflow
 ENV VKS_SECRET_DEST_PATH /var/run/secrets/nais.io/vault
 ENV K8S_SERVICEACCOUNT_PATH /var/run/secrets/kubernetes.io/serviceaccount
 
-ENV NB_USER jovyan
-ENV NB_UID 1000
-ENV HOME /home/$NB_USER
-ENV NB_PREFIX /
+# Install python packages
+COPY jupyter/requirements.txt /requirements.txt
+RUN pip install -r /requirements.txt
 
-# Create NB_USER user with UID=1000 and in the 'users' group
-# but allow for non-initial launches of the notebook to have
-# $HOME provided by the contents of a PV
-RUN useradd -M -s /bin/bash -N -u $NB_UID $NB_USER && \
-    chown -R ${NB_USER}:users /usr/local/bin && \
-    mkdir -p $HOME && \
-    chown -R jovyan:users /home/*
+# Install spacy models
+RUN python -m spacy download en_core_web_sm && \
+    python -m spacy download nb_core_news_sm
 
-COPY jupyterhub/docker-entrypoint.sh /home/entrypoint.sh
-RUN chmod +x /home/entrypoint.sh
-
-EXPOSE 8888
-USER ${NB_USER}
-ENTRYPOINT ["tini", "--", "/home/entrypoint.sh"]
+# Switch back to jovyan
+USER ${NB_UID}

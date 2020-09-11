@@ -5,15 +5,15 @@ on:
     branches:
       - master
     paths:
-      - 'jupyter/**'
+      - 'jupyterhub/**'
       - '.github/workflows/on_push.yml'
 
 env:
   IMAGE: navikt/jupyterlab
 
 jobs:
-  build-jupyter-image:
-    name: Build standalone jupyter image
+  build-jupyterhub-image:
+    name: Build standalone jupyterhub image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,6 +24,6 @@ jobs:
       - name: Login Dockerhub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build dataverk image
-        run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyter/Dockerfile .
+        run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub/Dockerfile .
       - name: Push dataverk image
         run: docker push ${IMAGE}:${IMAGE_TAG}

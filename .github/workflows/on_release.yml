@@ -9,8 +9,8 @@ env:
   KUBEFLOW_REPO: https://api.github.com/repos/navikt/kubeflow-yaml/dispatches
 
 jobs:
-  build-naisflow-jupyterlab:
-    name: Build naisflow jupyterlab image
+  build-naisflow-kubeflow-lab:
+    name: Build naisflow kubeflow-lab image
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/jupyterlab-')
     steps:
@@ -21,9 +21,9 @@ jobs:
           echo ::set-env name=IMAGE_TAG::$(echo ${{ github.ref }} | sed "s~refs/tags/~~")
       - name: Login Dockerhub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build naisflow jupyterlab image
-        run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterlab/Dockerfile .
-      - name: Push naisflow jupyterlab image
+      - name: Build naisflow kubeflow-lab image
+        run: docker build -t ${IMAGE}:${IMAGE_TAG} -f kubeflow-lab/Dockerfile .
+      - name: Push naisflow kubeflow-lab image
         run: docker push ${IMAGE}:${IMAGE_TAG}
       - name: Notify navikt/kubeflow-yaml of image tag update
         run: |
@@ -32,8 +32,8 @@ jobs:
           -u ${{ secrets.NAV_REPO_ACCESS_TOKEN }} \
           --data '{"event_type": "kubeflow-image-tag", "client_payload": { "image": "'"${IMAGE}"'", "tag": "'"${IMAGE_TAG}"'" }}'
 
-  build-naisflow-jupyterhub:
-    name: Build naisflow jupyterhub image
+  build-naisflow-kubeflow-hub:
+    name: Build naisflow kubeflow-hub image
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/jupyterhub-')
     steps:
@@ -45,7 +45,7 @@ jobs:
     - name: Login Dockerhub
       run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Build kubeflow base docker image
-      run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub/Dockerfile .
+      run: docker build -t ${IMAGE}:${IMAGE_TAG} -f kubeflow-hub/Dockerfile .
     - name: Push kubeflow base docker image
       run: docker push ${IMAGE}:${IMAGE_TAG}
     - name: Notify navikt/kubeflow-yaml of image tag update

@@ -26,10 +26,6 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     zip \
     emacs \
     locales-all \
-    unixodbc-dev \
-    bsdtar \
-    ssh-client \
-    connect-proxy \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -57,47 +53,13 @@ COPY ca_bundles/ca-bundle.crt /etc/pki/tls/certs/ca-bundle.crt
 COPY ca_bundles/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
 COPY fonts/xkcd-script.ttf /home/xkcd-script.ttf
 
-# Install nodejs + npm
-RUN curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-RUN apt-get update && \
-    apt-get install -y nodejs
-
-# Install jupyter lab
-RUN pip3 install \
-    jupyter \
-    jupyterlab \
-    pydeck \
-    keplergl \
-    dask_labextension \
-    jupyter-server-proxy \
-    jupyter-vscode-proxy \
-    bleach==3.1.4
+# Install jupyter
+RUN pip3 install jupyter==1.0.0
 
 RUN pip3 install ipyleaflet && \
     jupyter nbextension enable --py --sys-prefix ipyleaflet
 
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
-    jupyter labextension install jupyter-leaflet --no-build && \
-    jupyter labextension install plotlywidget --no-build && \
-    jupyter labextension install jupyterlab-plotly --no-build && \
-    jupyter labextension install jupyterlab-jupytext --no-build && \
-    jupyter labextension install keplergl-jupyter --no-build && \
-    jupyter labextension install @aquirdturtle/collapsible_headings --no-build && \
-    jupyter labextension install @jupyterlab/toc --no-build && \
-    jupyter labextension install dask-labextension --no-build && \
-    jupyter labextension install @jupyterlab/server-proxy --no-build
-
-RUN jupyter lab build --dev-build=False --minimize=False
-
-RUN DECKGL_SEMVER=`python3 -c "import pydeck; print(pydeck.frontend_semver.DECKGL_SEMVER)"` && \
-    jupyter labextension install @deck.gl/jupyter-widget@$DECKGL_SEMVER --dev-build=False --minimize=False
-    
-RUN jupyter serverextension enable dask_labextension && \
-    jupyter serverextension enable --sys-prefix jupyter_server_proxy
-
-RUN curl -fsSL https://code-server.dev/install.sh | sh && \
-    curl -JL https://extensions.coder.com/api/publishers/ms-python/vsextensions/python/2020.5.86806/vspackage | bsdtar -xvf - extension && \
-    mv extension /home/ms-python.python
+RUN pip3 install keplergl
 
 # Set system envs
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
@@ -126,7 +88,7 @@ RUN useradd -M -s /bin/bash -N -u $NB_UID $NB_USER && \
     mkdir -p $HOME && \
     chown -R jovyan:users /home/*
 
-COPY jupyterlab/docker-entrypoint.sh /home/entrypoint.sh
+COPY kubeflow-hub/docker-entrypoint.sh /home/entrypoint.sh
 RUN chmod +x /home/entrypoint.sh
 
 EXPOSE 8888
