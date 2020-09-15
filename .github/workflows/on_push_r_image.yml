@@ -1,19 +1,19 @@
-name: build-jupyterlab-image
+name: build-jupyterlab-image-R
 
 on:
   push:
     branches:
       - master
     paths:
-      - 'jupyterhub/**'
-      - '.github/workflows/on_push.yml'
+      - 'jupyterhub-r/**'
+      - '.github/workflows/on_push_r_image.yml'
 
 env:
-  IMAGE: navikt/jupyterlab
+  IMAGE: navikt/jupyterlab-r
 
 jobs:
-  build-jupyterhub-image:
-    name: Build standalone jupyterhub image
+  build-jupyterhub-image-R:
+    name: Build standalone jupyterhub image for R
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,6 +24,6 @@ jobs:
       - name: Login Dockerhub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build dataverk image
-        run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub/Dockerfile .
+        run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub-r/Dockerfile .
       - name: Push dataverk image
         run: docker push ${IMAGE}:${IMAGE_TAG}

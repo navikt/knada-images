@@ -1,0 +1,29 @@
+name: build-jupyterlab-image-python
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'jupyterhub/**'
+      - '.github/workflows/on_push_python_image.yml'
+
+env:
+  IMAGE: navikt/jupyterlab
+
+jobs:
+  build-jupyterhub-image-python:
+    name: Build standalone jupyterhub image for python
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Set image tag
+        run: |
+          echo ::set-env name=IMAGE_TAG::$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)
+      - name: Login Dockerhub
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build dataverk image
+        run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub/Dockerfile .
+      - name: Push dataverk image
+        run: docker push ${IMAGE}:${IMAGE_TAG}

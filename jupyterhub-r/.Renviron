@@ -1,0 +1,4 @@
+REQUESTS_CA_BUNDLE=/etc/pki/tls/certs/ca-bundle.crt
+SSL_CERT_FILE=/etc/pki/tls/certs/ca-bundle.crt
+DATAVERK_BUCKET_ENDPOINT=https://dv-resource-rw-api.nais.preprod.local/storage
+DATAVERK_API_ENDPOINT=https://data.nais.preprod.local/api
