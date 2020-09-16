@@ -88,7 +88,8 @@ RUN conda install --quiet --yes \
 
 # Install Rstudio
 RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.1335-amd64.deb
-RUN apt-get update -yq && apt-get install -y ./rstudio-server-1.2.1335-amd64.deb
+RUN apt-get update -yq && apt-get install -y ./rstudio-server-1.2.1335-amd64.deb && \
+    rm rstudio-server-1.2.1335-amd64.deb
 
 # Install Jupyterlab R extension
 RUN pip install jupyter-server-proxy jupyter-rsession-proxy
@@ -98,7 +99,6 @@ RUN jupyter labextension install @jupyterlab/server-proxy && \
 # Install Python packages
 COPY jupyterhub-r/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
-
 
 # Clone dataverkr library
 RUN git clone https://github.com/navikt/dataverkr
@@ -112,6 +112,10 @@ ENV REQUESTS_CA_BUNDLE /etc/pki/tls/certs/ca-bundle.crt
 ENV SSL_CERT_FILE /etc/pki/tls/certs/ca-bundle.crt
 ENV DATAVERK_BUCKET_ENDPOINT https://dv-resource-rw-api.nais.preprod.local/storage
 ENV DATAVERK_API_ENDPOINT https://data.nais.preprod.local/api
-COPY jupyterhub-r/.Renviron ${HOME}/.Renviron
+
+# Set Rstudio environment variables
+COPY jupyterhub-r/envs /home/envs
+RUN cat /home/envs >> /opt/conda/lib/R/etc/Renviron && \
+    rm /home/envs
 
 USER ${NB_UID}
