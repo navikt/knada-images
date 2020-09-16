@@ -65,22 +65,17 @@ COPY fonts/xkcd-script.ttf /home/xkcd-script.ttf
 
 # Install basic R packages
 RUN conda install --quiet --yes \
-    'r-base=4.0.0' \
-    'r-crayon=1.3*' \
     'r-devtools=2.3*' \
     'r-hexbin=1.28*' \
     'r-htmltools=0.4*' \
     'r-htmlwidgets=1.5*' \
     'r-irkernel=1.1*' \
-    'r-rcurl=1.98*' \
     'r-rmarkdown=2.2*' \
     'r-rodbc=1.3*' \
     'r-rsqlite=2.2*' \
     'r-shiny=1.4*' \
     'unixodbc=2.3.*' \
-    'r-reticulate' \
     'r-essentials' \
-    'r-recommended' \
     'r-reticulate' \
     && \
     conda clean --all -f -y && \
