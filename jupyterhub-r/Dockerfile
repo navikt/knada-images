@@ -106,7 +106,7 @@ RUN Rscript /install_packages.R
 ENV REQUESTS_CA_BUNDLE /etc/pki/tls/certs/ca-bundle.crt
 ENV SSL_CERT_FILE /etc/pki/tls/certs/ca-bundle.crt
 ENV DATAVERK_BUCKET_ENDPOINT https://dv-resource-rw-api.nais.adeo.no/storage
-ENV DATAVERK_API_ENDPOINT https://data.nais.adeo.no/api
+ENV DATAVERK_API_ENDPOINT https://data.adeo.no/api
 ENV DATAVERK_ES_HOST=https://dv-resource-rw-api.nais.adeo.no/index/write/dcat
 
 # Set Rstudio environment variables
