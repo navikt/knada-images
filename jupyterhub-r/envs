@@ -2,5 +2,5 @@ CONDA_DIR=/opt/conda
 REQUESTS_CA_BUNDLE=/etc/pki/tls/certs/ca-bundle.crt
 SSL_CERT_FILE=/etc/pki/tls/certs/ca-bundle.crt
 DATAVERK_BUCKET_ENDPOINT=https://dv-resource-rw-api.nais.adeo.no/storage
-DATAVERK_API_ENDPOINT=https://data.nais.adeo.no/api
+DATAVERK_API_ENDPOINT=https://data.adeo.no/api
 DATAVERK_ES_HOST=https://dv-resource-rw-api.nais.adeo.no/index/write/dcat
