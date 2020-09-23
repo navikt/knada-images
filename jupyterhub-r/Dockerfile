@@ -77,6 +77,7 @@ RUN conda install --quiet --yes \
     'unixodbc=2.3.*' \
     'r-essentials' \
     'r-reticulate' \
+    'r-tidyverse' \
     && \
     conda clean --all -f -y && \
     fix-permissions "${CONDA_DIR}"
