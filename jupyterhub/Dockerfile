@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     nano \
     zip \
     emacs \
+    tzdata \
     locales-all \
     unixodbc-dev \
     libarchive-tools \
