@@ -58,7 +58,7 @@ COPY jupyterhub/requirements_base.txt /requirements_base.txt
 RUN pip install -r /requirements_base.txt
 
 # Install jupyterlab extensions
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
+RUN jupyter labextension install jupyter-widgets/jupyterlab-manager --no-build --debug && \
     jupyter labextension install jupyter-leaflet --no-build && \
     jupyter labextension install plotlywidget --no-build && \
     jupyter labextension install jupyterlab-plotly --no-build && \

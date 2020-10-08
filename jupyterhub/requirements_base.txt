@@ -1,5 +1,6 @@
 dask_labextension
 ipyleaflet
+jupyterlab
 jupyter-server-proxy
 jupyter-vscode-proxy
 pydeck
