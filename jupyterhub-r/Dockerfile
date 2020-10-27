@@ -6,6 +6,7 @@ RUN apt-get update -y && apt-get install -yq --no-install-recommends \
     fonts-dejavu \
     unixodbc \
     unixodbc-dev \
+    gdebi \
     r-cran-rodbc \
     r-base \
     gfortran \
@@ -53,6 +54,7 @@ RUN alien -i /tmp/oracle-instantclient18.3-basic-18.3.0.0.0-1.x86_64.rpm && \
     rm -rf /var/cache/yum && \
     rm -f /mp/oracle-instantclient18.3-basic-18.3.0.0.0-1.x86_64.rpm && \
     echo /usr/lib/oracle/18.3/client64/lib > /etc/ld.so.conf.d/oracle-instantclient18.3.conf && \
+    ln -s /usr/lib/oracle/12.2/client64/lib/* /opt/rstudio-drivers/oracle/bin/lib/ && \
     ldconfig
 
 ENV PATH=$PATH:/usr/lib/oracle/18.3/client64/bin
