@@ -54,7 +54,6 @@ RUN alien -i /tmp/oracle-instantclient18.3-basic-18.3.0.0.0-1.x86_64.rpm && \
     rm -rf /var/cache/yum && \
     rm -f /mp/oracle-instantclient18.3-basic-18.3.0.0.0-1.x86_64.rpm && \
     echo /usr/lib/oracle/18.3/client64/lib > /etc/ld.so.conf.d/oracle-instantclient18.3.conf && \
-    ln -s /usr/lib/oracle/12.2/client64/lib/* /opt/rstudio-drivers/oracle/bin/lib/ && \
     ldconfig
 
 ENV PATH=$PATH:/usr/lib/oracle/18.3/client64/bin
@@ -116,5 +115,7 @@ ENV DATAVERK_ES_HOST=https://dv-resource-rw-api.nais.adeo.no/index/write/dcat
 COPY jupyterhub-r/envs /home/envs
 RUN cat /home/envs >> /opt/conda/lib/R/etc/Renviron && \
     rm /home/envs
+
+RUN echo "rsession-ld-library-path=/usr/lib/oracle/12.2/client64/lib" >> /etc/rstudio/rserver.conf
 
 USER ${NB_UID}
