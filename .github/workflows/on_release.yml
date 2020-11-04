@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@master
       - name: Set image tag
         run: |
-          echo ::set-env name=IMAGE_TAG::$(echo ${{ github.ref }} | sed "s~refs/tags/~~")
+          echo "IMAGE_TAG=$(echo ${{ github.ref }} | sed "s~refs/tags/~~")" >> $GITHUB_ENV
       - name: Login Dockerhub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build naisflow kubeflow-lab image
@@ -41,7 +41,7 @@ jobs:
       uses: actions/checkout@master
     - name: Set image tag
       run: |
-        echo ::set-env name=IMAGE_TAG::$(echo ${{ github.ref }} | sed "s~refs/tags/~~")
+        echo "IMAGE_TAG=$(echo ${{ github.ref }} | sed "s~refs/tags/~~")" >> $GITHUB_ENV
     - name: Login Dockerhub
       run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Build kubeflow base docker image
