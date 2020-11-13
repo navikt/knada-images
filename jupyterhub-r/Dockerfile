@@ -49,14 +49,14 @@ RUN apt-get update -y && apt-get install -yq --no-install-recommends \
 RUN ln -s /bin/tar /bin/gtar
 
 # Install oracle client
-ADD oracle_client/oracle-instantclient18.3-basic-18.3.0.0.0-1.x86_64.rpm /tmp/
-RUN alien -i /tmp/oracle-instantclient18.3-basic-18.3.0.0.0-1.x86_64.rpm && \
+ADD jupyterhub-r/oracle_client/oracle-instantclient* /tmp/
+RUN alien -i /tmp/oracle-instantclient* && \
     rm -rf /var/cache/yum && \
-    rm -f /mp/oracle-instantclient18.3-basic-18.3.0.0.0-1.x86_64.rpm && \
-    echo /usr/lib/oracle/18.3/client64/lib > /etc/ld.so.conf.d/oracle-instantclient18.3.conf && \
+    rm -f /mp/oracle-instantclient* && \
+    echo /usr/lib/oracle/19.9/client64/lib > /etc/ld.so.conf.d/oracle-instantclient19.9.conf && \
     ldconfig
 
-ENV PATH=$PATH:/usr/lib/oracle/18.3/client64/bin
+ENV PATH=$PATH:/usr/lib/oracle/19.9/client64/bin
 
 # Copy ca-bundle and font
 COPY ca_bundles/ca-bundle.crt /etc/pki/tls/certs/ca-bundle.crt
@@ -116,6 +116,6 @@ COPY jupyterhub-r/envs /home/envs
 RUN cat /home/envs >> /opt/conda/lib/R/etc/Renviron && \
     rm /home/envs
 
-RUN echo "rsession-ld-library-path=/usr/lib/oracle/12.2/client64/lib" >> /etc/rstudio/rserver.conf
+RUN echo "rsession-ld-library-path=/usr/lib/oracle/19.9/client64/lib" >> /etc/rstudio/rserver.conf
 
 USER ${NB_UID}
