@@ -119,3 +119,7 @@ RUN cat /home/envs >> /opt/conda/lib/R/etc/Renviron && \
 RUN echo "rsession-ld-library-path=/usr/lib/oracle/19.9/client64/lib" >> /etc/rstudio/rserver.conf
 
 USER ${NB_UID}
+
+COPY jupyterhub-r/entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
