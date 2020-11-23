@@ -59,7 +59,7 @@ openpyxl==3.0.1
 dvc==0.83.0
 pandas-profiling==2.5.0
 tensorflow-data-validation==0.21.1
-protobuf==3.11.3
+protobuf==3.14.0
 xmlschema==1.1.2
 dbt==0.18.1
 google-cloud-bigquery==2.1.0
