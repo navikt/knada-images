@@ -90,6 +90,8 @@ ENV K8S_SERVICEACCOUNT_PATH /var/run/secrets/kubernetes.io/serviceaccount
 COPY jupyterhub/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
+RUN pip install great-expectations
+
 # Install spacy models
 RUN python -m spacy download en_core_web_sm && \
     python -m spacy download nb_core_news_sm
