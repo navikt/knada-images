@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     unixodbc-dev \
     libarchive-tools \
     ssh-client \
+    unrar \
     connect-proxy && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
