@@ -57,19 +57,17 @@ COPY fonts/xkcd-script.ttf /home/xkcd-script.ttf
 # Install base python requirements
 COPY jupyterhub/requirements_base.txt /requirements_base.txt
 RUN pip install -r /requirements_base.txt
-RUN pip install jupyterlab
-
-RUN jupyter lab clean
+RUN pip install jupyterlab==2.2.8 && \
+    pip install jupytext
 
 # Install jupyterlab extensions
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build --debug && \
-    jupyter labextension install jupyter-leaflet --no-build && \
-    jupyter labextension install plotlywidget --no-build && \
-    jupyter labextension install jupyterlab-plotly --no-build && \
-    jupyter labextension install jupyterlab-jupytext --no-build && \
-    jupyter labextension install @aquirdturtle/collapsible_headings --no-build && \
-    jupyter labextension install @jupyterlab/toc --no-build && \
-    jupyter labextension install dask-labextension --no-build
+RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager@2.0.0 --no-build --debug && \
+    jupyter labextension install jupyter-leaflet@0.13.2 --no-build && \
+    jupyter labextension install plotlywidget@4.13.0 --no-build && \
+    jupyter labextension install jupyterlab-plotly@4.13.0 --no-build && \
+    jupyter labextension install @aquirdturtle/collapsible_headings@2.2.0 --no-build && \
+    jupyter labextension install @jupyterlab/toc@4.0.0 --no-build && \
+    jupyter labextension install dask-labextension@3.0.0 --no-build
 
 RUN jupyter lab build --dev-build=False --minimize=False
 
