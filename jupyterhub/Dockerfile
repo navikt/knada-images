@@ -57,6 +57,9 @@ COPY fonts/xkcd-script.ttf /home/xkcd-script.ttf
 # Install base python requirements
 COPY jupyterhub/requirements_base.txt /requirements_base.txt
 RUN pip install -r /requirements_base.txt
+RUN pip install jupyterlab
+
+RUN jupyter lab clean
 
 # Install jupyterlab extensions
 RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build --debug && \

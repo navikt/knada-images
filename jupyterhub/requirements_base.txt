@@ -4,4 +4,3 @@ jupyter-server-proxy
 jupyter-vscode-proxy
 pydeck
 bleach==3.1.4
-jupyterlab==2.2.8
