@@ -68,4 +68,5 @@ witwidget>=1.8.0
 rsa>=4.1 # not directly required, pinned by Snyk to avoid a vulnerability
 pillow>=6.2.3 # not directly required, pinned by Snyk to avoid a vulnerability
 pandas>=1.1.0
+notebook>=6.1.5 # not directly required, pinned by Snyk to avoid a vulnerability
 pyyaml>=5.4 # not directly required, pinned by Snyk to avoid a vulnerability
