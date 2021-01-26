@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     unixodbc-dev \
     libarchive-tools \
     ssh-client \
+    unrar \
     connect-proxy && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -56,16 +57,17 @@ COPY fonts/xkcd-script.ttf /home/xkcd-script.ttf
 # Install base python requirements
 COPY jupyterhub/requirements_base.txt /requirements_base.txt
 RUN pip install -r /requirements_base.txt
+RUN pip install jupyterlab==2.2.8 && \
+    pip install jupytext
 
 # Install jupyterlab extensions
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build --debug && \
-    jupyter labextension install jupyter-leaflet --no-build && \
-    jupyter labextension install plotlywidget --no-build && \
-    jupyter labextension install jupyterlab-plotly --no-build && \
-    jupyter labextension install jupyterlab-jupytext --no-build && \
-    jupyter labextension install @aquirdturtle/collapsible_headings --no-build && \
-    jupyter labextension install @jupyterlab/toc --no-build && \
-    jupyter labextension install dask-labextension --no-build
+RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager@2.0.0 --no-build --debug && \
+    jupyter labextension install jupyter-leaflet@0.13.2 --no-build && \
+    jupyter labextension install plotlywidget@4.13.0 --no-build && \
+    jupyter labextension install jupyterlab-plotly@4.13.0 --no-build && \
+    jupyter labextension install @aquirdturtle/collapsible_headings@2.2.0 --no-build && \
+    jupyter labextension install @jupyterlab/toc@4.0.0 --no-build && \
+    jupyter labextension install dask-labextension@3.0.0 --no-build
 
 RUN jupyter lab build --dev-build=False --minimize=False
 
@@ -90,9 +92,22 @@ ENV K8S_SERVICEACCOUNT_PATH /var/run/secrets/kubernetes.io/serviceaccount
 COPY jupyterhub/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
+RUN pip install great-expectations
+
 # Install spacy models
 RUN python -m spacy download en_core_web_sm && \
     python -m spacy download nb_core_news_sm
+
+# Downloading gcloud package
+RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
+
+# Installing the package
+RUN mkdir -p /usr/local/gcloud \
+  && tar -C /usr/local/gcloud -xvf /tmp/google-cloud-sdk.tar.gz \
+  && /usr/local/gcloud/google-cloud-sdk/install.sh
+
+# Adding the package path to local
+ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
 
 # Switch back to jovyan
 USER ${NB_UID}
