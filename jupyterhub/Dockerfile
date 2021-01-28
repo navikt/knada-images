@@ -61,7 +61,8 @@ RUN pip install jupyterlab==2.2.8 && \
     pip install jupytext
 
 # Install jupyterlab extensions
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager@2.0.0 --no-build --debug && \
+RUN jupyter labextension install wit-widget --no-build && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager@2.0.0 --no-build --debug && \
     jupyter labextension install jupyter-leaflet@0.13.2 --no-build && \
     jupyter labextension install plotlywidget@4.13.0 --no-build && \
     jupyter labextension install jupyterlab-plotly@4.13.0 --no-build && \
