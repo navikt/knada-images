@@ -2,7 +2,10 @@ FROM jupyter/base-notebook:python-3.7.4
 
 USER root
 
-RUN apt-get update -y && apt-get install -yq --no-install-recommends \
+RUN apt-get update -y && apt-get install -y software-properties-common && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
+    add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/' && \
+    apt-get install -yq --no-install-recommends \
     fonts-dejavu \
     unixodbc \
     unixodbc-dev \
@@ -14,6 +17,9 @@ RUN apt-get update -y && apt-get install -yq --no-install-recommends \
     build-essential \
     curl \
     alien \
+    libcurl4-gnutls-dev \
+    libxml2-dev \
+    libssl-dev \
     libaio1 \
     libaio-dev \
     libpq-dev \
@@ -42,7 +48,10 @@ RUN apt-get update -y && apt-get install -yq --no-install-recommends \
     make \
     fonts-dejavu \
     gfortran \
-    connect-proxy && \
+    connect-proxy \
+    libblas-dev \
+    libudunits2-dev \
+    libgdal-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -58,65 +67,39 @@ RUN alien -i /tmp/oracle-instantclient* && \
 
 ENV PATH=$PATH:/usr/lib/oracle/19.9/client64/bin
 
-# Copy ca-bundle and font
-COPY ca_bundles/ca-bundle.crt /etc/pki/tls/certs/ca-bundle.crt
-COPY ca_bundles/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
-COPY ca_bundles/ca-bundle.crt /usr/local/lib/python3.7/site-packages/certifi/cacert.pem
-COPY fonts/xkcd-script.ttf /home/xkcd-script.ttf
-
-# Install basic R packages
-RUN conda install --quiet --yes \
-    'r-devtools=2.3*' \
-    'r-hexbin=1.28*' \
-    'r-htmltools=0.4*' \
-    'r-htmlwidgets=1.5*' \
-    'r-irkernel=1.1*' \
-    'r-rmarkdown=2.2*' \
-    'r-rodbc=1.3*' \
-    'r-rsqlite=2.2*' \
-    'r-shiny=1.4*' \
-    'unixodbc=2.3.*' \
-    'r-essentials' \
-    'r-reticulate' \
-    'r-tidyverse' \
-    && \
-    conda clean --all -f -y && \
-    fix-permissions "${CONDA_DIR}"
+## Copy ca-bundle and font
+#COPY ca_bundles/ca-bundle.crt /etc/pki/tls/certs/ca-bundle.crt
+#COPY ca_bundles/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
+#COPY ca_bundles/ca-bundle.crt /usr/local/lib/python3.7/site-packages/certifi/cacert.pem
 
 # Install Rstudio
 RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.1335-amd64.deb
 RUN apt-get update -yq && apt-get install -y ./rstudio-server-1.2.1335-amd64.deb && \
     rm rstudio-server-1.2.1335-amd64.deb
-
+#
 # Install Jupyterlab R extension
 RUN pip install jupyter-server-proxy jupyter-rsession-proxy
 RUN jupyter labextension install @jupyterlab/server-proxy && \
     jupyter serverextension enable --sys-prefix jupyter_server_proxy
 
-# Install Python packages
 COPY jupyterhub-r/requirements.txt /requirements.txt
+COPY jupyterhub-r/install_packages.R /install_packages.R
+COPY jupyterhub-r/install_nav_packages.R /install_nav_packages.R
+
+# Install Python packages
 RUN pip install -r /requirements.txt
 
-# Clone dataverkr library
-RUN git clone https://github.com/navikt/dataverkr
-
-# Install custom R packages
-COPY jupyterhub-r/install_packages.R /install_packages.R
+# Install packages from cran
 RUN Rscript /install_packages.R
 
-# Set dataverk and python environment variables
-ENV REQUESTS_CA_BUNDLE /etc/pki/tls/certs/ca-bundle.crt
-ENV SSL_CERT_FILE /etc/pki/tls/certs/ca-bundle.crt
-ENV DATAVERK_BUCKET_ENDPOINT https://dv-resource-rw-api.nais.adeo.no/storage
-ENV DATAVERK_API_ENDPOINT https://data.adeo.no/api
-ENV DATAVERK_ES_HOST=https://dv-resource-rw-api.nais.adeo.no/index/write/dcat
+# Install NAV packages
+RUN git clone https://github.com/navikt/dataverkr
+RUN Rscript /install_nav_packages.R
 
-# Set Rstudio environment variables
+## Set Rstudio environment variables
 COPY jupyterhub-r/envs /home/envs
-RUN cat /home/envs >> /opt/conda/lib/R/etc/Renviron && \
+RUN cat /home/envs >> /usr/lib/R/etc/Renviron && \
     rm /home/envs
-
-RUN echo "rsession-ld-library-path=/usr/lib/oracle/19.9/client64/lib" >> /etc/rstudio/rserver.conf
 
 USER ${NB_UID}
 
