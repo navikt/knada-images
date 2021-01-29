@@ -73,7 +73,9 @@ RUN jupyter labextension install wit-widget --no-build && \
 RUN jupyter lab build --dev-build=False --minimize=False
 
 RUN jupyter nbextension enable --py --sys-prefix ipyleaflet && \
-    jupyter serverextension enable --sys-prefix dask_labextension
+    jupyter serverextension enable --sys-prefix dask_labextension && \
+    jupyter nbextension install --py --symlink --sys-prefix witwidget
+    jupyter nbextension enable --py --sys-prefix witwidget
 
 # Set system envs
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
