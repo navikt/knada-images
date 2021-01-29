@@ -63,7 +63,6 @@ protobuf>=3.14.0
 xmlschema>=1.1.2
 dbt>=0.18.1
 google-cloud-bigquery>=2.1.0
-witwidget>=1.8.0
 
 rsa>=4.1 # not directly required, pinned by Snyk to avoid a vulnerability
 pillow>=6.2.3 # not directly required, pinned by Snyk to avoid a vulnerability
