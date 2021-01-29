@@ -74,7 +74,7 @@ RUN jupyter lab build --dev-build=False --minimize=False
 
 RUN jupyter nbextension enable --py --sys-prefix ipyleaflet && \
     jupyter serverextension enable --sys-prefix dask_labextension && \
-    jupyter nbextension install --py --symlink --sys-prefix witwidget
+    jupyter nbextension install --py --symlink --sys-prefix witwidget && \
     jupyter nbextension enable --py --sys-prefix witwidget
 
 # Set system envs
