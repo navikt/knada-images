@@ -51,7 +51,8 @@ RUN apt-get update -y && apt-get install -y software-properties-common && \
     connect-proxy \
     libblas-dev \
     libudunits2-dev \
-    libgdal-dev && \
+    libgdal-dev \
+    libv8-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
