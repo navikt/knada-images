@@ -101,7 +101,9 @@ RUN pip install great-expectations
 
 # Install spacy models
 RUN python -m spacy download en_core_web_sm && \
-    python -m spacy download nb_core_news_sm
+    python -m spacy download nb_core_news_sm && \
+    python -m spacy download nb_core_news_md && \
+    python -m spacy download nb_core_news_lg
 
 # Downloading gcloud package
 RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
