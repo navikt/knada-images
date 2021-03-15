@@ -62,6 +62,7 @@ COPY jupyterhub/requirements_base.txt /requirements_base.txt
 RUN pip install -r /requirements_base.txt
 RUN pip install jupytext
 RUN pip install nbresuse
+RUN pip install jupyter-resource-usage
 
 
 # Install jupyterlab extensions

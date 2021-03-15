@@ -69,7 +69,6 @@ google-cloud-bigquery>=2.1.0
 lxml>=4.6.2
 shap>=0.38.1
 aequitas>=0.42.0
-jupyter-resource-usage>=0.5.1
 
 rsa>=4.1 # not directly required, pinned by Snyk to avoid a vulnerability
 pillow>=6.2.3 # not directly required, pinned by Snyk to avoid a vulnerability
