@@ -61,6 +61,8 @@ COPY fonts/xkcd-script.ttf /home/xkcd-script.ttf
 COPY jupyterhub/requirements_base.txt /requirements_base.txt
 RUN pip install -r /requirements_base.txt
 RUN pip install jupytext
+RUN pip install nbresuse
+
 
 # Install jupyterlab extensions
 RUN jupyter labextension install wit-widget --no-build && \
@@ -70,7 +72,9 @@ RUN jupyter labextension install wit-widget --no-build && \
     jupyter labextension install jupyterlab-plotly --no-build && \
     jupyter labextension install @aquirdturtle/collapsible_headings --no-build && \
     jupyter labextension install @jupyterlab/toc --no-build && \
-    jupyter labextension install dask-labextension --no-build
+    jupyter labextension install dask-labextension --no-build && \
+    jupyter labextension install jupyterlab-topbar-extension --no-build && \
+    jupyter labextension install jupyterlab-system-monitor --no-build
 
 RUN jupyter lab build --dev-build=False --minimize=False --debug
 
