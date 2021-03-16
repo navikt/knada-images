@@ -61,8 +61,7 @@ COPY fonts/xkcd-script.ttf /home/xkcd-script.ttf
 COPY jupyterhub/requirements_base.txt /requirements_base.txt
 RUN pip install -r /requirements_base.txt
 RUN pip install jupytext
-RUN pip install jupyterlab==3.0.10
-# RUN pip install nbresuse
+RUN pip install nbresuse==0.3.3
 RUN pip install jupyter-resource-usage
 
 
