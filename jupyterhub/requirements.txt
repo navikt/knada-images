@@ -74,3 +74,4 @@ rsa>=4.1 # not directly required, pinned by Snyk to avoid a vulnerability
 pillow>=6.2.3 # not directly required, pinned by Snyk to avoid a vulnerability
 pandas>=1.1.0
 pyyaml>=5.4 # not directly required, pinned by Snyk to avoid a vulnerability
+pygments>=2.7.4 # not directly required, pinned by Snyk to avoid a vulnerability
