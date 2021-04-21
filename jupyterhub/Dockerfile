@@ -63,7 +63,7 @@ RUN pip install -r /requirements_base.txt
 RUN pip install jupytext
 RUN pip install nbresuse==0.3.3
 RUN pip install jupyter-resource-usage
-RUN pip install pip install jupyter-kite<2.0.0
+RUN pip install jupyter-kite<2.0.0
 
 
 # Install jupyterlab extensions
