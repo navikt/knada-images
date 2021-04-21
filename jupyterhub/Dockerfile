@@ -76,7 +76,7 @@ RUN jupyter labextension install wit-widget --no-build && \
     jupyter labextension install @jupyterlab/toc --no-build && \
     jupyter labextension install dask-labextension --no-build && \
     jupyter labextension install jupyterlab-topbar-extension --no-build && \
-    jupyter labextension install jupyterlab-system-monitor --no-build &&
+    jupyter labextension install jupyterlab-system-monitor --no-build && \
     jupyter labextension install @kiteco/jupyterlab-kite --no-build 
 
 RUN jupyter lab build --dev-build=False --minimize=False --debug
