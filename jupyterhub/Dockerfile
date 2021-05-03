@@ -63,7 +63,7 @@ RUN pip install -r /requirements_base.txt
 RUN pip install jupytext
 RUN pip install nbresuse==0.3.3
 RUN pip install jupyter-resource-usage
-RUN pip install jupyter-kite==1.2.0
+#RUN pip install jupyter-kite==1.2.0
 
 
 # Install jupyterlab extensions
@@ -76,8 +76,8 @@ RUN jupyter labextension install wit-widget --no-build && \
     jupyter labextension install @jupyterlab/toc --no-build && \
     jupyter labextension install dask-labextension --no-build && \
     jupyter labextension install jupyterlab-topbar-extension --no-build && \
-    jupyter labextension install jupyterlab-system-monitor --no-build && \
-    jupyter labextension install @kiteco/jupyterlab-kite --no-build 
+    jupyter labextension install jupyterlab-system-monitor --no-build
+#    jupyter labextension install @kiteco/jupyterlab-kite --no-build 
 
 RUN jupyter lab build --dev-build=False --minimize=False --debug
 
