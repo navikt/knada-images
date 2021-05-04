@@ -9,7 +9,7 @@ on:
       - '.github/workflows/on_push_r_image.yml'
 
 env:
-  IMAGE: navikt/jupyterlab-r
+  IMAGE: ghcr.io/navikt/jupyterlab-r
   JUPYTER_IAC_REPO: https://api.github.com/repos/navikt/knada-jupyterhub/dispatches
 
 jobs:
@@ -22,12 +22,14 @@ jobs:
       - name: Set image tag
         run: |
           echo "IMAGE_TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
-      - name: Login Dockerhub
-        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build dataverk image
-        run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub-r/Dockerfile .
-      - name: Push dataverk image
-        run: docker push ${IMAGE}:${IMAGE_TAG}
+      - name: Build and push docker image
+        env:
+          GH_USER: ${{ secrets.GH_USER }}
+          GH_TOKEN: ${{ secrets.NAV_REPO_ACCESS_TOKEN }}
+        run: |
+          echo ${GH_TOKEN} | docker login ghcr.io --username ${GH_USER} --password-stdin
+          docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub-r/Dockerfile .
+          docker push ${IMAGE}:${IMAGE_TAG}
       - name: Notify navikt/knada-jupyterhub of image tag update
         run: |
           curl -X POST "${JUPYTER_IAC_REPO}" \
