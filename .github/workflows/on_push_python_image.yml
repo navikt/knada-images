@@ -24,9 +24,10 @@ jobs:
           echo "IMAGE_TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
       - name: Build and push docker image
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_USER: ${{ secrets.GH_USER }}
+          GH_TOKEN: ${{ secrets.NAV_REPO_ACCESS_TOKEN }}
         run: |
-          echo ${GITHUB_TOKEN} | docker login ghcr.io --username ${GITHUB_REPOSITORY} --password-stdin
+          echo ${GH_TOKEN} | docker login ghcr.io --username ${GH_USER} --password-stdin
           docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub/Dockerfile .
           docker push ${IMAGE}:${IMAGE_TAG}
       #- name: Notify navikt/knada-jupyterhub of image tag update
