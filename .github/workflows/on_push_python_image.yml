@@ -23,17 +23,12 @@ jobs:
         run: |
           echo "IMAGE_TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
       - name: Build and push docker image
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          echo ${GITHUB_TOKEN} | docker login ghcr.io --username ${GITHUB_REPOSITORY} --password-stdin
           docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub/Dockerfile .
-          echo "$GITHUB_TOKEN" | docker login --username "$GITHUB_REPOSITORY" --password-stdin ghcr.io
           docker push ${IMAGE}:${IMAGE_TAG}
-
-      #- name: Login Dockerhub
-      #  run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-      #- name: Build dataverk image
-      #  run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub/Dockerfile .
-      #- name: Push dataverk image
-      #  run: docker push ${IMAGE}:${IMAGE_TAG}
       #- name: Notify navikt/knada-jupyterhub of image tag update
       #  run: |
       #    curl -X POST "${JUPYTER_IAC_REPO}" \
