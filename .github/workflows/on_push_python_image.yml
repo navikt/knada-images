@@ -9,7 +9,7 @@ on:
       - '.github/workflows/on_push_python_image.yml'
 
 env:
-  IMAGE: navikt/jupyterlab
+  IMAGE: ghcr.io/navikt/jupyterlab
   JUPYTER_IAC_REPO: https://api.github.com/repos/navikt/knada-jupyterhub/dispatches
 
 jobs:
@@ -22,15 +22,21 @@ jobs:
       - name: Set image tag
         run: |
           echo "IMAGE_TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
-      - name: Login Dockerhub
-        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build dataverk image
-        run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub/Dockerfile .
-      - name: Push dataverk image
-        run: docker push ${IMAGE}:${IMAGE_TAG}
-      - name: Notify navikt/knada-jupyterhub of image tag update
+      - name: Build and push docker image
         run: |
-          curl -X POST "${JUPYTER_IAC_REPO}" \
-          -H 'Accept: application/vnd.github.everest-preview+json' \
-          -u ${{ secrets.NAV_REPO_ACCESS_TOKEN }} \
-          --data '{"event_type": "update-template-image-tag", "client_payload": { "image": "'"${IMAGE}"'", "tag": "'"${IMAGE_TAG}"'" }}'
+          docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub/Dockerfile .
+          echo "$GITHUB_TOKEN" | docker login --username "$GITHUB_REPOSITORY" --password-stdin ghcr.io
+          docker push ${IMAGE}:${IMAGE_TAG}
+
+      #- name: Login Dockerhub
+      #  run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+      #- name: Build dataverk image
+      #  run: docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub/Dockerfile .
+      #- name: Push dataverk image
+      #  run: docker push ${IMAGE}:${IMAGE_TAG}
+      #- name: Notify navikt/knada-jupyterhub of image tag update
+      #  run: |
+      #    curl -X POST "${JUPYTER_IAC_REPO}" \
+      #    -H 'Accept: application/vnd.github.everest-preview+json' \
+      #    -u ${{ secrets.NAV_REPO_ACCESS_TOKEN }} \
+      #    --data '{"event_type": "update-template-image-tag", "client_payload": { "image": "'"${IMAGE}"'", "tag": "'"${IMAGE_TAG}"'" }}'
