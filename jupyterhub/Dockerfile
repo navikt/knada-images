@@ -124,9 +124,9 @@ RUN mkdir -p /usr/local/gcloud \
 ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
 
 # Add TDV ODBC driver and set env
-COPY TDV/driver/libcomposite84_x64.so /opt/TDV/driver/libcomposite84_x64.so
+COPY TDV/driver/libcomposite82_x64.so /opt/TDV/driver/libcomposite82_x64.so
 RUN chown -R jovyan:users  /opt/TDV
-ENV TDV_ODBC_DRIVER /opt/TDV/driver/libcomposite84_x64.so
+ENV TDV_ODBC_DRIVER /opt/TDV/driver/libcomposite82_x64.so
 
 # Switch back to jovyan
 USER ${NB_UID}
