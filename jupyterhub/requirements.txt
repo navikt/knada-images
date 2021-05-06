@@ -10,6 +10,7 @@ Faker>=4.1.1
 fasttext>=0.9.1
 flashtext>=2.7.0
 fuzzywuzzy>=0.18.0
+gcsfs>=2021.4.0
 geopandas>=0.8.1
 gremlinpython>=3.4.6
 google-api-python-client>=1.8.2
