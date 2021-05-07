@@ -46,6 +46,7 @@ poetry>=1.0.10
 presidio-analyzer>=0.3.9237rc0
 psycopg2>=2.8.3
 pyarrow>=1.0.1
+pybigquery>=0.6.1
 pydeck>=0.2.1
 pyLDAvis>=2.1.2
 pyodbc>=4.0.30
