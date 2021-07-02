@@ -5,3 +5,4 @@ jupyter-vscode-proxy==0.1
 pydeck==0.2.1
 bleach==3.1.4
 witwidget>=1.8.0
+tensorflow>=2.1.4 # not directly required, pinned by Snyk to avoid a vulnerability
