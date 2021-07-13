@@ -31,6 +31,7 @@ laundromat>=1.1.5
 matplotlib>=3.3.4
 matplotlib-venn>=0.11.6
 MIDIUtil>=1.2.1
+modin[all]
 nbconvert>=5.5.0
 nbdev>=1.1.14
 nbstripout>=0.3.6
@@ -51,6 +52,7 @@ pydeck>=0.2.1
 pyLDAvis>=2.1.2
 pyodbc>=4.0.30
 pysftp>=0.2.9
+ray<=1.4.1
 s3-prd-crypt>=0.0.2
 salesforce-api>=0.1.45
 scattertext>=0.1.4
