@@ -52,7 +52,7 @@ pydeck>=0.2.1
 pyLDAvis>=2.1.2
 pyodbc>=4.0.30
 pysftp>=0.2.9
-ray<=1.4.1
+ray[default]
 s3-prd-crypt>=0.0.2
 salesforce-api>=0.1.45
 scattertext>=0.1.4
