@@ -3,8 +3,7 @@ awscli>=1.18.23
 backoff>=1.10.0
 brreg>=1.0.0a1
 dask[complete]
-dataverk>=0.4.4
-dataverk-publisher>=0.0.3
+dataverk>=0.4.7
 dataverk-tools>=0.1.1
 data-catalog-doccano-api>=0.0.1
 Faker>=4.1.1
