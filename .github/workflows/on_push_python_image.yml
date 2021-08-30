@@ -30,9 +30,9 @@ jobs:
           echo ${GH_TOKEN} | docker login ghcr.io --username ${GH_USER} --password-stdin
           docker build -t ${IMAGE}:${IMAGE_TAG} -f jupyterhub/Dockerfile .
           docker push ${IMAGE}:${IMAGE_TAG}
-      - name: Notify navikt/knada-jupyterhub of image tag update
-        run: |
-          curl -X POST "${JUPYTER_IAC_REPO}" \
-          -H 'Accept: application/vnd.github.everest-preview+json' \
-          -u ${{ secrets.NAV_REPO_ACCESS_TOKEN }} \
-          --data '{"event_type": "update-template-image-tag", "client_payload": { "image": "'"${IMAGE}"'", "tag": "'"${IMAGE_TAG}"'" }}'
+#      - name: Notify navikt/knada-jupyterhub of image tag update
+#        run: |
+#          curl -X POST "${JUPYTER_IAC_REPO}" \
+#          -H 'Accept: application/vnd.github.everest-preview+json' \
+#          -u ${{ secrets.NAV_REPO_ACCESS_TOKEN }} \
+#          --data '{"event_type": "update-template-image-tag", "client_payload": { "image": "'"${IMAGE}"'", "tag": "'"${IMAGE_TAG}"'" }}'
