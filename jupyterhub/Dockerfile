@@ -88,7 +88,7 @@ RUN jupyter lab build --dev-build=False --minimize=False --debug
 RUN jupyter nbextension enable --py --sys-prefix ipyleaflet && \
     jupyter serverextension enable --sys-prefix dask_labextension && \
     jupyter nbextension install --py --symlink --sys-prefix witwidget && \
-    jupyter nbextension enable --py --sys-prefix witwidget
+    jupyter nbextension enable --py --sys-prefix witwidget && \
     jupyter serverextension enable --sys-prefix jupyter_server_proxy
 
 RUN curl -fsSL https://code-server.dev/install.sh | sh && \
