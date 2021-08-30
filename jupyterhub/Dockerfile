@@ -63,6 +63,9 @@ RUN pip install -r /requirements_base.txt
 RUN pip install jupytext
 RUN pip install nbresuse==0.3.3
 RUN pip install jupyter-resource-usage
+RUN pip install jupyter-server-proxy
+RUN pip install jupyter-vscode-proxy
+RUN pip install bleach==3.1.4
 #RUN pip install jupyter-kite==1.2.0
 
 
@@ -76,7 +79,8 @@ RUN jupyter labextension install wit-widget --no-build && \
     jupyter labextension install @jupyterlab/toc --no-build && \
     jupyter labextension install dask-labextension --no-build && \
     jupyter labextension install jupyterlab-topbar-extension --no-build && \
-    jupyter labextension install jupyterlab-system-monitor --no-build
+    jupyter labextension install jupyterlab-system-monitor --no-build && \
+    jupyter labextension install @jupyterlab/server-proxy --no-build
 #    jupyter labextension install @kiteco/jupyterlab-kite --no-build 
 
 RUN jupyter lab build --dev-build=False --minimize=False --debug
@@ -85,6 +89,11 @@ RUN jupyter nbextension enable --py --sys-prefix ipyleaflet && \
     jupyter serverextension enable --sys-prefix dask_labextension && \
     jupyter nbextension install --py --symlink --sys-prefix witwidget && \
     jupyter nbextension enable --py --sys-prefix witwidget
+    jupyter serverextension enable --sys-prefix jupyter_server_proxy
+
+RUN curl -fsSL https://code-server.dev/install.sh | sh && \
+    curl -JL https://extensions.coder.com/api/publishers/ms-python/vsextensions/python/2020.5.86806/vspackage | bsdtar -xvf - extension && \
+    mv extension /home/ms-python.python
 
 # Set system envs
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
