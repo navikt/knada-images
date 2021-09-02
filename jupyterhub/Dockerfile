@@ -92,7 +92,7 @@ RUN jupyter nbextension enable --py --sys-prefix ipyleaflet && \
     jupyter serverextension enable --sys-prefix jupyter_server_proxy
 
 RUN curl -fsSL https://code-server.dev/install.sh | sh && \
-    curl -JL https://extensions.coder.com/api/publishers/ms-python/vsextensions/python/2020.5.86806/vspackage | bsdtar -xvf - extension && \
+    curl -JL https://extensions.coder.com/api/publishers/ms-python/vsextensions/python/2021.8.1159798656/vspackage | bsdtar -xvf - extension && \
     mv extension /home/ms-python.python
 
 # Set system envs
