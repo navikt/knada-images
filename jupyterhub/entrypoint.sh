@@ -1,9 +1,12 @@
 #!/bin/bash
+# Copyright (c) Jupyter Development Team.
+# Distributed under the terms of the Modified BSD License.
 
 set -e
 
-mkdir -p /home/jovyan/.local/share/code-server/extensions/ms-python.python
-cp -r ../ms-python.python/* /home/${NB_USER}/.local/share/code-server/extensions/ms-python.python
+bsdtar -xvf vspackage - extension
+mkdir -p /home/jovyan/.local/share/code-server/extensions/
+mv extension /home/jovyan/.local/share/code-server/extensions/ms-python.python
 
 wrapper=""
 if [[ "${RESTARTABLE}" == "yes" ]]; then
