@@ -136,9 +136,11 @@ COPY TDV/driver/libcomposite82_x64.so /opt/TDV/driver/libcomposite82_x64.so
 RUN chown -R jovyan:users  /opt/TDV
 ENV TDV_ODBC_DRIVER /opt/TDV/driver/libcomposite82_x64.so
 
-COPY jupyterhub/entrypoint.sh /usr/local/bin/start-notebook.sh
+COPY jupyterhub/nav-entrypoint.sh /usr/local/bin/nav-entrypoint.sh
 
-RUN chmod +x /usr/local/bin/start-notebook.sh
+RUN chmod +x /usr/local/bin/nav-entrypoint.sh
+
+ENTRYPOINT ["tini", "-g", "--", "/usr/local/bin/nav-entrypoint.sh"]
 
 # Switch back to jovyan
 USER ${NB_UID}
