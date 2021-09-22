@@ -54,6 +54,7 @@ pyLDAvis>=2.1.2
 pyodbc>=4.0.30
 pysftp>=0.2.9
 ray[default]
+researchpy==0.3.2
 s3-prd-crypt>=0.0.2
 salesforce-api>=0.1.45
 scattertext>=0.1.4
