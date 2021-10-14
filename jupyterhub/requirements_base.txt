@@ -3,5 +3,6 @@ ipyleaflet==0.13.3
 jupyter-server-proxy==1.5.0
 jupyter-vscode-proxy==0.1
 pydeck==0.2.1
-bleach==3.1.4
+bleach==3.3.0
 witwidget>=1.8.0
+tensorflow>=1.15.4 # not directly required, pinned by Snyk to avoid a vulnerability
