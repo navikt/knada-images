@@ -6,3 +6,5 @@ pydeck==0.2.1
 bleach==3.3.0
 witwidget>=1.8.0
 tensorflow>=1.15.4 # not directly required, pinned by Snyk to avoid a vulnerability
+notebook>=6.1.5 # not directly required, pinned by Snyk to avoid a vulnerability
+pygments>=2.7.4 # not directly required, pinned by Snyk to avoid a vulnerability
