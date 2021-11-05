@@ -72,13 +72,15 @@ ENV PATH=$PATH:/usr/lib/oracle/19.9/client64/bin
 RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.1335-amd64.deb
 RUN apt-get update -yq && apt-get install -y ./rstudio-server-1.2.1335-amd64.deb && \
     rm rstudio-server-1.2.1335-amd64.deb
-#
+
 # Install Jupyterlab R extension
 RUN pip install jupyter-server-proxy jupyter-rsession-proxy
 RUN jupyter labextension install @jupyterlab/server-proxy && \
     jupyter serverextension enable --sys-prefix jupyter_server_proxy
 
 ENV TZ="Europe/Oslo"
+
+COPY ca_bundles/ca-bundle.crt /etc/pki/tls/certs/ca-bundle.crt
 
 COPY jupyterhub-r/requirements.txt /requirements.txt
 COPY jupyterhub-r/install_packages.R /install_packages.R
