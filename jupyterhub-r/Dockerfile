@@ -69,9 +69,9 @@ RUN alien -i /tmp/oracle-instantclient* && \
 ENV PATH=$PATH:/usr/lib/oracle/19.9/client64/bin
 
 # Install Rstudio
-RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2021.09.0-351-amd64.deb
-RUN apt-get update -yq && apt-get install -y ./rstudio-server-2021.09.0-351-amd64.deb && \
-    rm rstudio-server-2021.09.0-351-amd64.deb
+RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.1335-amd64.deb
+RUN apt-get update -yq && apt-get install -y ./rstudio-server-1.2.1335-amd64.deb && \
+    rm rstudio-server-1.2.1335-amd64.deb
 #
 # Install Jupyterlab R extension
 RUN pip install jupyter-server-proxy jupyter-rsession-proxy
@@ -98,6 +98,9 @@ RUN Rscript /install_nav_packages.R
 COPY jupyterhub-r/envs /home/envs
 RUN cat /home/envs >> /usr/lib/R/etc/Renviron && \
     rm /home/envs
+
+RUN chown -R ${NB_UID}:${NB_UID} /usr/lib/R/etc
+RUN chmod 777 /usr/lib/R/etc/Renviron
 
 USER ${NB_UID}
 
