@@ -99,6 +99,9 @@ COPY jupyterhub-r/envs /home/envs
 RUN cat /home/envs >> /usr/lib/R/etc/Renviron && \
     rm /home/envs
 
+RUN chown -R ${NB_UID}:${NB_UID} /usr/lib/R/etc
+RUN chmod 777 /usr/lib/R/etc/Renviron
+
 USER ${NB_UID}
 
 COPY jupyterhub-r/entrypoint.sh /entrypoint.sh
