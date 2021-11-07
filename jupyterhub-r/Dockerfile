@@ -23,7 +23,6 @@ RUN apt-get update -y && apt-get install -y software-properties-common && \
     libaio1 \
     libaio-dev \
     libpq-dev \
-    libxml2-dev \
     wget \
     bzip2 \
     ca-certificates \
@@ -48,6 +47,7 @@ RUN apt-get update -y && apt-get install -y software-properties-common && \
     make \
     fonts-dejavu \
     gfortran \
+    gdebi-core \
     connect-proxy \
     libblas-dev \
     libudunits2-dev \
@@ -69,10 +69,10 @@ RUN alien -i /tmp/oracle-instantclient* && \
 ENV PATH=$PATH:/usr/lib/oracle/19.9/client64/bin
 
 # Install Rstudio
-RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2021.09.0-351-amd64.deb
-RUN apt-get update -yq && apt-get install -y ./rstudio-server-2021.09.0-351-amd64.deb && \
+RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2021.09.0-351-amd64.deb && \
+    gdebi -n rstudio-server-2021.09.0-351-amd64.deb && \
     rm rstudio-server-2021.09.0-351-amd64.deb
-#
+
 # Install Jupyterlab R extension
 RUN pip install jupyter-server-proxy jupyter-rsession-proxy
 RUN jupyter labextension install @jupyterlab/server-proxy && \
@@ -98,6 +98,26 @@ RUN Rscript /install_nav_packages.R
 COPY jupyterhub-r/envs /home/envs
 RUN cat /home/envs >> /usr/lib/R/etc/Renviron && \
     rm /home/envs
+
+# Give joyvan rights to write to Renviron
+RUN chown -R ${NB_UID}:${NB_UID} /usr/lib/R/etc
+RUN chmod 666 /usr/lib/R/etc/Renviron
+
+# Using rstudio>1.4
+ENV RSESSION_PROXY_RSTUDIO_1_4 true
+
+# Set jovyan as rstudio user
+RUN echo 'server-user=jovyan' >> /etc/rstudio/rserver.conf
+RUN rm -rf /var/log/rstudio-server
+RUN rm -rf /var/lib/rstudio-server
+RUN rm -rf /tmp/rstudio-rsession
+RUN rm -rf /tmp/rstudio-rserver
+
+RUN mkdir /var/log/rstudio-server
+RUN mkdir /var/lib/rstudio-server
+
+RUN chown -R ${NB_UID}:${NB_UID} /var/log/rstudio-server
+RUN chown -R ${NB_UID}:${NB_UID} /var/lib/rstudio-server
 
 USER ${NB_UID}
 
