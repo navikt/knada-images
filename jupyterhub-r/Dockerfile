@@ -48,6 +48,7 @@ RUN apt-get update -y && apt-get install -y software-properties-common && \
     fonts-dejavu \
     gfortran \
     gdebi-core \
+    psmisc \
     connect-proxy \
     libblas-dev \
     libudunits2-dev \
