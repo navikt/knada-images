@@ -71,9 +71,9 @@ RUN alien -i /tmp/oracle-instantclient* && \
 ENV PATH=$PATH:/usr/lib/oracle/19.9/client64/bin
 
 # Install Rstudio
-RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2021.09.0-351-amd64.deb && \
-    gdebi -n rstudio-server-2021.09.0-351-amd64.deb && \
-    rm rstudio-server-2021.09.0-351-amd64.deb
+RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.1335-amd64.deb
+RUN apt-get update -yq && apt-get install -y ./rstudio-server-1.2.1335-amd64.deb && \
+    rm rstudio-server-1.2.1335-amd64.deb
 
 # Install Jupyterlab R extension
 RUN pip install jupyter-server-proxy jupyter-rsession-proxy
@@ -108,20 +108,20 @@ RUN chown -R ${NB_UID}:${NB_UID} /usr/lib/R/etc
 RUN chmod 666 /usr/lib/R/etc/Renviron
 
 # Using rstudio>1.4
-ENV RSESSION_PROXY_RSTUDIO_1_4 true
+# ENV RSESSION_PROXY_RSTUDIO_1_4 true
 
 # Set jovyan as rstudio user
-RUN echo 'server-user=jovyan' >> /etc/rstudio/rserver.conf
-RUN rm -rf /var/log/rstudio-server
-RUN rm -rf /var/lib/rstudio-server
-RUN rm -rf /tmp/rstudio-rsession
-RUN rm -rf /tmp/rstudio-rserver
+# RUN echo 'server-user=jovyan' >> /etc/rstudio/rserver.conf
+# RUN rm -rf /var/log/rstudio-server
+# RUN rm -rf /var/lib/rstudio-server
+# RUN rm -rf /tmp/rstudio-rsession
+# RUN rm -rf /tmp/rstudio-rserver
 
-RUN mkdir /var/log/rstudio-server
-RUN mkdir /var/lib/rstudio-server
+# RUN mkdir /var/log/rstudio-server
+# RUN mkdir /var/lib/rstudio-server
 
-RUN chown -R ${NB_UID}:${NB_UID} /var/log/rstudio-server
-RUN chown -R ${NB_UID}:${NB_UID} /var/lib/rstudio-server
+# RUN chown -R ${NB_UID}:${NB_UID} /var/log/rstudio-server
+# RUN chown -R ${NB_UID}:${NB_UID} /var/lib/rstudio-server
 
 USER ${NB_UID}
 
