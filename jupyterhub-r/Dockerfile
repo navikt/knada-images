@@ -97,8 +97,7 @@ RUN pip install -r /requirements.txt
 RUN Rscript /install_packages.R
 
 # Install NAV packages
-RUN git clone https://github.com/navikt/dataverkr && \
-    cd dataverkr && git checkout reticulate
+RUN git clone https://github.com/navikt/dataverkr
 RUN Rscript /install_nav_packages.R
 
 ## Set Rstudio environment variables
