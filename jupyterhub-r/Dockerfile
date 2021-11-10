@@ -83,6 +83,8 @@ RUN jupyter labextension install @jupyterlab/server-proxy && \
 ENV TZ="Europe/Oslo"
 
 COPY ca_bundles/ca-bundle.crt /etc/pki/tls/certs/ca-bundle.crt
+COPY ca_bundles/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
+COPY ca_bundles/ca-bundle.crt /usr/local/lib/python3.7/site-packages/certifi/cacert.pem
 
 COPY jupyterhub-r/requirements.txt /requirements.txt
 COPY jupyterhub-r/install_packages.R /install_packages.R
