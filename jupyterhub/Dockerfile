@@ -122,6 +122,7 @@ COPY jupyterhub/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 RUN pip install great-expectations
+RUN pip install spacy
 
 # Install spacy models
 RUN python -m spacy download en_core_web_sm && \
