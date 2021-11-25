@@ -39,7 +39,6 @@ nbstripout>=0.3.6
 networkx>=2.4
 nlp-architect>=0.4.post3
 oauth2client>=4.1.3
-Office365-REST-Python-Client>=2.3.9
 opendp-smartnoise-core>=0.2.2
 prefect>=0.13.9
 pigeonXT-jupyter>=0.3.0
