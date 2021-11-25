@@ -38,6 +38,13 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
 
 RUN dpkg-reconfigure locales
 
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
+RUN mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600 && sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub
+RUN apt-get update && apt-get install -y software-properties-common
+RUN add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
+RUN apt-get update && apt-get install -y nvidia-kernel-source-460
+RUN apt-get update && apt-get -y install cuda
+
 # Several of the jupyterlab extensions require newer version of nodejs
 RUN conda install -c conda-forge nodejs=15.3.0
 
@@ -115,7 +122,6 @@ COPY jupyterhub/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 RUN pip install great-expectations
-RUN pip install "tensorflow>=2.2.0,<2.6.0"
 
 # Install spacy models
 RUN python -m spacy download en_core_web_sm && \
