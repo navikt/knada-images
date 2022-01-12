@@ -71,6 +71,7 @@ torch>=1.6.0
 transformers>=3.0.2
 vega>=2.6.0
 vega-datasets>=0.7.0
+wordcloud>=1.8.1
 igviz>=0.4.0
 xlrd>=1.1.0
 openpyxl>=3.0.1
