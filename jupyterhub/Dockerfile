@@ -76,6 +76,7 @@ RUN pip install jupyter-resource-usage
 RUN pip install jupyter-server-proxy
 RUN pip install jupyter-vscode-proxy
 RUN pip install bleach==3.1.4
+RUN pip install MarkupSafe<2.1.0
 #RUN pip install jupyter-kite==1.2.0
 
 
