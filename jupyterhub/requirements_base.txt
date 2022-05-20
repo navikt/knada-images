@@ -1,13 +1,33 @@
-dask_labextension==3.0.0
-ipyleaflet==0.13.3
-jupyter-server-proxy==1.5.0
-jupyter-vscode-proxy==0.1
-pydeck==0.2.1
-bleach==3.3.0
-witwidget>=1.8.0
-notebook>=6.1.5 # not directly required, pinned by Snyk to avoid a vulnerability
-pygments>=2.7.4 # not directly required, pinned by Snyk to avoid a vulnerability
-tensorflow>=1.15.4 # not directly required, pinned by Snyk to avoid a vulnerability
-notebook>=6.1.5 # not directly required, pinned by Snyk to avoid a vulnerability
-pygments>=2.7.4 # not directly required, pinned by Snyk to avoid a vulnerability
-mistune>=2.0.1 # not directly required, pinned by Snyk to avoid a vulnerability
+Faker==4.1.1
+altair==3.2.0
+backoff==1.10.0
+datastory>=0.1.12
+geopandas>=0.8.1
+google-cloud-bigquery==3.1.0
+igviz>=0.4.0
+influxdb>=5.3.0
+ipyleaflet==0.16.0
+ipywidgets==7.7.0
+jupytext==1.13.8
+matplotlib-venn>=0.11.6
+matplotlib>=3.3.4
+nbconvert>=5.5.0
+nbstripout>=0.3.6
+pandas-gbq==0.17.4
+pipdeptree>=1.0.0
+plotly-express>=0.4.1
+plotly>=4.6.0
+poetry>=1.0.10
+psycopg2>=2.8.3
+pybigquery>=0.6.1
+pysftp>=0.2.9
+request==2.23.0
+scikit-learn>=0.21.2
+scipy==1.8.1
+snowflake-sqlalchemy>=1.2.4
+vega-datasets>=0.7.0
+vega>=2.6.0
+wordcloud>=1.8.1
+jupyterlab-widgets==1.1.0
+aquirdturtle-collapsible-headings==3.1.0
+great-expectations==0.15.5
