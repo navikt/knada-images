@@ -6,7 +6,7 @@ on:
       - master
     paths:
       - Dockerfile
-      - requirement.txt
+      - requirements.txt
       - .github/workflows/on_push_python_image.yml
 
 env:
