@@ -38,3 +38,10 @@ jobs:
           -H 'Accept: application/vnd.github.everest-preview+json' \
           -H 'Authorization: token ${{ steps.get-token.outputs.token }}' \
           --data '{"event_type": "update-template-image-tag", "client_payload": { "image": "'"${IMAGE}"'", "tag": "'"${TAG}"'" }}'
+      - name: Update secondary images
+        run: |
+          sed -i "s~FROM.*~FROM $IMAGE:$TAG~g" Dockerfile.jkbl
+          git config --global user.name "$GITHUB_ACTOR"
+          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git commit -am "feat: nytt base image"
+          git push
