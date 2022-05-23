@@ -13,6 +13,7 @@ jobs:
         id: get-token
         with:
           private-key: ${{ secrets.PRIVATE_KEY }}
+          app-id: ${{ secrets.APP_ID }}
       - uses: actions/checkout@v3
       - env:
           IMAGE: ${{ github.event.client_payload.image }}
