@@ -4,6 +4,7 @@ on:
   repository_dispatch:
     types:
       - new-base-image
+
 jobs:
   build:
     name: Build image
