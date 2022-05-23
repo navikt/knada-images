@@ -7,7 +7,7 @@ on:
     paths:
       - Dockerfile.jkbl
       - requirements.jkbl.txt
-      - .github/workflows/jupyter-jkbl.yml
+      - .github/workflows/jupyter-jkbl.yaml
 
 env:
   IMAGE: ghcr.io/navikt/jupyterlab-jkbl
