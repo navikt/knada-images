@@ -1,0 +1,40 @@
+name: Build JKBL image
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - Dockerfile.jkbl
+      - requirements.jkbl.txt
+      - .github/workflows/on_push_jkbl_image.yml
+
+env:
+  IMAGE: ghcr.io/navikt/jupyterlab
+  JUPYTER_IAC_REPO: https://api.github.com/repos/navikt/knada-jupyterhub/dispatches
+
+jobs:
+  build:
+    name: Build image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: navikt/github-app-token-generator@v1
+        id: get-token
+        with:
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          app-id: ${{ secrets.APP_ID }}
+      - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
+      - run: docker build -t $IMAGE:$TAG -f Dockerfile.jkbl .
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker push $IMAGE:$TAG
+      - name: Notify navikt/knada-jupyterhub of update
+        run: |
+          curl -X POST "${JUPYTER_IAC_REPO}" \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u ${{ steps.get-token.outputs.token }} \
+          --data '{"event_type": "update-template-image-tag", "client_payload": { "image": "'"${IMAGE}"'", "tag": "'"${TAG}"'" }}'
