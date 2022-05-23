@@ -10,7 +10,7 @@ on:
       - .github/workflows/jupyter-jkbl.yml
 
 env:
-  IMAGE: ghcr.io/navikt/jupyterlab
+  IMAGE: ghcr.io/navikt/jupyterlab-jkbl
   JUPYTER_IAC_REPO: https://api.github.com/repos/navikt/knada-jupyterhub/dispatches
 
 jobs:
