@@ -8,6 +8,10 @@ on:
       - Dockerfile.jkbl
       - requirements.jkbl.txt
       - .github/workflows/jupyter-jkbl.yaml
+  workflow_run:
+    workflows: ["Update secondary images"]
+    types:
+      - completed
 
 env:
   IMAGE: ghcr.io/navikt/jupyterlab-jkbl
