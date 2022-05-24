@@ -1,4 +1,4 @@
-name: Update secondary images
+name: Jupyterhub: Update secondary images
 
 on:
   repository_dispatch:
@@ -14,7 +14,7 @@ jobs:
       - env:
           IMAGE: ${{ github.event.client_payload.image }}
           TAG: ${{ github.event.client_payload.tag }}
-        run: sed -i "s~FROM.*~FROM $IMAGE:$TAG~" Dockerfile.jkbl
+        run: sed -i "s~FROM.*~FROM $IMAGE:$TAG~" jupyterhub/jkbl/Dockerfile
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMIT_MSG: "Base image updated to ${{ github.event.client_payload.tag }}"

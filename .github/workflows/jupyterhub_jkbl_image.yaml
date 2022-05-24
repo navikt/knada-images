@@ -1,15 +1,15 @@
-name: Build JKBL image
+name: Jupterhub: Build JKBL image
 
 on:
   push:
     branches:
       - master
     paths:
-      - Dockerfile.jkbl
-      - requirements.jkbl.txt
-      - .github/workflows/jupyter-jkbl.yaml
+      - jupyterhub/jkbl/Dockerfile
+      - jupyterhub/jkbl/requirements.txt
+      - .github/workflows/jupyterhub_jkbl_image.yaml
   workflow_run:
-    workflows: ["Update secondary images"]
+    workflows: ["Jupyterhub: Update secondary images"]
     types:
       - completed
 
@@ -29,7 +29,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
-      - run: docker build -t $IMAGE:$TAG -f Dockerfile.jkbl .
+      - run: docker build -t $IMAGE:$TAG -f jupyterhub/jkbl/Dockerfile .
       - run: docker push $IMAGE:$TAG
       - uses: navikt/github-app-token-generator@v1
         id: get-token
