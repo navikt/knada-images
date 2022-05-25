@@ -29,7 +29,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
-      - run: docker build -t $IMAGE:$TAG -f jupyterhub/jkbl/Dockerfile .
+      - run: docker build -t $IMAGE:$TAG jupyterhub/jkbl
       - run: docker push $IMAGE:$TAG
       - uses: navikt/github-app-token-generator@v1
         id: get-token

@@ -24,7 +24,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker build -t ${IMAGE}:${TAG} -f jupyterhub/r/Dockerfile .
+      - run: docker build -t ${IMAGE}:${TAG} jupyterhub/r
       - run: docker push ${IMAGE}:${TAG}
       - name: Notify navikt/knada-jupyterhub of image tag update
         run: |

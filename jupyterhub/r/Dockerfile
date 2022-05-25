@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:python-3.7.4
+FROM jupyter/base-notebook:python-3.9.12
 
 USER root
 
@@ -9,7 +9,7 @@ RUN apt-get update -y && apt-get install -y software-properties-common && \
     fonts-dejavu \
     unixodbc \
     unixodbc-dev \
-    gdebi \
+    gdebi-core \
     r-cran-rodbc \
     r-base \
     gfortran \
@@ -61,34 +61,28 @@ RUN apt-get update -y && apt-get install -y software-properties-common && \
 RUN ln -s /bin/tar /bin/gtar
 
 # Install oracle client
-ADD jupyterhub-r/oracle_client/oracle-instantclient* /tmp/
-RUN alien -i /tmp/oracle-instantclient* && \
+RUN curl https://download.oracle.com/otn_software/linux/instantclient/1915000/oracle-instantclient19.15-basic-19.15.0.0.0-1.x86_64.rpm -o /tmp/oracle-instantclient.rpm
+RUN alien -i /tmp/oracle-instantclient.rpm && \
     rm -rf /var/cache/yum && \
-    rm -f /mp/oracle-instantclient* && \
-    echo /usr/lib/oracle/19.9/client64/lib > /etc/ld.so.conf.d/oracle-instantclient19.9.conf && \
+    rm -f /mp/oracle-instantclient.rpm && \
+    echo /usr/lib/oracle/19.15/client64/lib > /etc/ld.so.conf.d/oracle-instantclient19.15.conf && \
     ldconfig
-
-ENV PATH=$PATH:/usr/lib/oracle/19.9/client64/bin
+ENV PATH=$PATH:/usr/lib/oracle/19.15/client64/bin
 
 # Install Rstudio
 RUN wget https://download2.rstudio.org/server/xenial/amd64/rstudio-server-1.4.1106-amd64.deb
 RUN apt-get update -yq && apt-get install -y ./rstudio-server-1.4.1106-amd64.deb && \
     rm rstudio-server-1.4.1106-amd64.deb
+# Siste image nedenfor
+#RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2022.02.2-485-amd64.deb && \
+#    sudo gdebi rstudio-server-2022.02.2-485-amd64.deb
 
-# Install Jupyterlab R extension
-RUN pip install jupyter-server-proxy jupyter-rsession-proxy
-RUN jupyter labextension install @jupyterlab/server-proxy && \
-    jupyter serverextension enable --sys-prefix jupyter_server_proxy
 
 ENV TZ="Europe/Oslo"
 
-COPY ca_bundles/ca-bundle.crt /etc/pki/tls/certs/ca-bundle.crt
-COPY ca_bundles/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
-COPY ca_bundles/ca-bundle.crt /usr/local/lib/python3.7/site-packages/certifi/cacert.pem
-
-COPY jupyterhub-r/requirements.txt /requirements.txt
-COPY jupyterhub-r/install_packages.R /install_packages.R
-COPY jupyterhub-r/install_nav_packages.R /install_nav_packages.R
+COPY requirements.txt /requirements.txt
+COPY install_packages.R /install_packages.R
+COPY install_nav_packages.R /install_nav_packages.R
 
 # Install Python packages
 RUN pip install -r /requirements.txt
@@ -101,7 +95,7 @@ RUN git clone https://github.com/navikt/dataverkr
 RUN Rscript /install_nav_packages.R
 
 ## Set Rstudio environment variables
-COPY jupyterhub-r/envs /home/envs
+COPY envs /home/envs
 RUN cat /home/envs >> /usr/lib/R/etc/Renviron && \
     rm /home/envs
 
@@ -111,6 +105,6 @@ RUN chmod 666 /usr/lib/R/etc/Renviron
 
 USER ${NB_UID}
 
-COPY jupyterhub-r/entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
