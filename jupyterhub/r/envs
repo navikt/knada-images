@@ -1,3 +1,0 @@
-REQUESTS_CA_BUNDLE=/etc/pki/tls/certs/ca-bundle.crt
-SSL_CERT_FILE=/etc/pki/tls/certs/ca-bundle.crt
-RETICULATE_PYTHON=/opt/conda/bin/python
