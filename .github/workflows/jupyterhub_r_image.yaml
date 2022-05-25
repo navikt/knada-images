@@ -1,4 +1,4 @@
-name: Jupyterhub: Build R image
+name: "Jupyterhub: Build R image"
 
 on:
   push:

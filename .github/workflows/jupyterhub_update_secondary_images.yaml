@@ -1,4 +1,4 @@
-name: Jupyterhub: Update secondary images
+name: "Jupyterhub: Update secondary images"
 
 on:
   repository_dispatch:

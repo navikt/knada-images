@@ -1,4 +1,4 @@
-name: Jupterhub: Build JKBL image
+name: "Jupterhub: Build JKBL image"
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Airflow: Build base image
+name: "Airflow: Build base image"
 
 on:
   push:
