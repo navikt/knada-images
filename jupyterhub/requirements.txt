@@ -3,6 +3,7 @@ altair==4.2.0
 aquirdturtle-collapsible-headings==3.1.0
 backoff==2.0.1
 cx_Oracle==8.3.0
+dask[complete]==2022.5.2
 datastory==0.1.12
 geopandas==0.10.2
 google-cloud-bigquery==3.1.0
