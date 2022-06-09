@@ -5,6 +5,7 @@ backoff==2.0.1
 cx_Oracle==8.3.0
 dask[complete]==2022.5.2
 datastory==0.1.12
+dataverk-vault==0.1.10
 geopandas==0.10.2
 google-cloud-bigquery==3.1.0
 great-expectations==0.15.5
