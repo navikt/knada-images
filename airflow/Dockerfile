@@ -36,10 +36,15 @@ RUN alien -i /tmp/oracle-instantclient.rpm && \
     echo /usr/lib/oracle/19.15/client64/lib > /etc/ld.so.conf.d/oracle-instantclient19.15.conf && \
     ldconfig
 
-COPY requirements.txt /requirements.txt
+# Add TDV ODBC driver and set env
+COPY TDV/driver/libcomposite82_x64.so /opt/TDV/driver/libcomposite82_x64.so
+RUN chown -R jovyan:users  /opt/TDV
+ENV TDV_ODBC_DRIVER /opt/TDV/driver/libcomposite82_x64.so
+
+COPY airflow/requirements.txt /requirements.txt
 RUN pip3 install -r /requirements.txt
 
-COPY scripts/. .
+COPY airflow/scripts/. .
 
 CMD ["/bin/bash", "/execute_python.sh"]
 
