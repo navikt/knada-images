@@ -1,4 +1,4 @@
-FROM ghcr.io/navikt/knada-airflow:2022-06-24-e4f2ea4
+FROM ghcr.io/navikt/jupyterlab:2022-06-24-fc16ee3
 
 USER root
 
