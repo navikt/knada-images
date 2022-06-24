@@ -7,6 +7,7 @@ dbt-oracle==1.0.1
 geopandas==0.10.2
 google-api-core==2.8.0
 google-auth==2.6.6
+google-cloud-bigquery==3.2.0
 google-cloud-storage==2.3.0
 google-api-python-client==2.48.0
 great-expectations==0.15.6
