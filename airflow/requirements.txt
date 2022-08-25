@@ -2,8 +2,7 @@ boto3==1.23.6
 cryptography==36.0.2
 datastory==0.1.12
 dataverk-vault==0.1.10
-dbt-core==1.0.6
-dbt-oracle==1.0.1
+dbt-oracle==1.1.2
 geopandas==0.10.2
 google-api-core==2.8.0
 google-auth==2.6.6
