@@ -55,16 +55,19 @@ ENV SHELL /bin/bash
 RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
 
 # Installing gcloud package
-RUN mkdir -p /usr/local/gcloud \
-    && tar -C /usr/local/gcloud -xvf /tmp/google-cloud-sdk.tar.gz \
-    && /usr/local/gcloud/google-cloud-sdk/install.sh
-
+#RUN mkdir -p /usr/local/gcloud \
+#    && tar -C /usr/local/gcloud -xvf /tmp/google-cloud-sdk.tar.gz \
+#    && /usr/local/gcloud/google-cloud-sdk/install.sh
+#
 # Adding the package path to local
-ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
+#ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
 
 # Add TDV ODBC driver and set env
 COPY TDV/driver/libcomposite82_x64.so /opt/TDV/driver/libcomposite82_x64.so
 RUN chown -R jovyan:users  /opt/TDV
 ENV TDV_ODBC_DRIVER /opt/TDV/driver/libcomposite82_x64.so
+
+# Install knada packages
+RUN pip install knada-gsm
 
 USER $NB_USER
