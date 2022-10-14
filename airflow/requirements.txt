@@ -12,6 +12,7 @@ google-api-python-client==2.48.0
 great-expectations==0.15.6
 influxdb==5.3.1
 jira-commonmark==0.1.8
+knada-gsm==0.1.2
 laundromat==1.1.5
 nltk==3.7
 openpyxl==3.0.10
