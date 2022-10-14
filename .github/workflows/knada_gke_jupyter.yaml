@@ -6,6 +6,7 @@ on:
       - master
     paths:
       - .github/workflows/knada_gke_jupyter.yaml
+      - knada-gke/jupyterhub/Dockerfile
 
 env:
   IMAGE: ghcr.io/navikt/knada-jupyterhub
