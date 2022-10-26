@@ -3,7 +3,7 @@ cloud-sql-python-connector[pg8000]==0.9.0
 cryptography==36.0.2
 datastory==0.1.12
 dataverk-vault==0.1.10
-dbt-oracle==1.1.2
+dbt-oracle==1.3.0
 geopandas==0.10.2
 google-api-core==2.8.0
 google-auth==2.6.6
