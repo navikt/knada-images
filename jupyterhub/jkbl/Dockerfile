@@ -1,4 +1,4 @@
-FROM ghcr.io/navikt/jupyterlab:2022-11-23-c1c7ee2
+FROM ghcr.io/navikt/jupyterlab:2022-11-23-cd5e421
 
 USER root
 
