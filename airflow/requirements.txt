@@ -31,3 +31,4 @@ vega==3.6.0
 wordcloud==1.8.1
 xlrd==2.0.1
 xmlschema==1.11.1
+icecream==2.1.3
