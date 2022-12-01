@@ -57,4 +57,6 @@ RUN chown -R jovyan:users  /opt/TDV
 ENV TDV_ODBC_DRIVER /opt/TDV/driver/libcomposite82_x64.so
 ENV PATH $PATH:/home/jovyan/.local/bin
 
+RUN pip config set global.target /home/jovyan/.local/lib/python3.10/site-packages --global
+
 USER $NB_USER
