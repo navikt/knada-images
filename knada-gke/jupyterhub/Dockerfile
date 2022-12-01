@@ -51,23 +51,12 @@ ENV PATH=$PATH:/usr/lib/oracle/19.15/client64/bin
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
 ENV SHELL /bin/bash
 
-# Downloading gcloud package
-RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
-
-# Installing gcloud package
-#RUN mkdir -p /usr/local/gcloud \
-#    && tar -C /usr/local/gcloud -xvf /tmp/google-cloud-sdk.tar.gz \
-#    && /usr/local/gcloud/google-cloud-sdk/install.sh
-#
-# Adding the package path to local
-#ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
-
 # Add TDV ODBC driver and set env
 COPY TDV/driver/libcomposite82_x64.so /opt/TDV/driver/libcomposite82_x64.so
 RUN chown -R jovyan:users  /opt/TDV
 ENV TDV_ODBC_DRIVER /opt/TDV/driver/libcomposite82_x64.so
+ENV PATH $PATH:/home/jovyan/.local/bin
 
-# Install knada packages
-RUN pip install knada-gsm
+RUN pip config set global.target /home/jovyan/.local/lib/python3.10/site-packages --global
 
 USER $NB_USER
