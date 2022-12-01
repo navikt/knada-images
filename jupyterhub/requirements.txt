@@ -23,7 +23,7 @@ jupytext==1.13.8
 matplotlib-venn==0.11.7
 matplotlib==3.5.2
 nbconvert==6.5.0
-nbstripout==0.5.0
+nbstripout==0.6.1
 nltk==3.7
 pandas-gbq==0.17.4
 pandas==1.5.2
