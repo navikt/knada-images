@@ -1,4 +1,4 @@
-FROM apache/airflow:2.3.0
+FROM apache/airflow:2.4.3
 LABEL org.opencontainers.image.source https://github.com/navikt/knada-images
 
 USER root
@@ -17,5 +17,8 @@ RUN alien -i /tmp/oracle-instantclient.rpm && \
 ENV PATH=$PATH:/usr/lib/oracle/19.15/client64/bin
 
 USER ${AIRFLOW_UID}
+
+COPY ./knada-gke/airflow/requirements.txt requirements.txt
+RUN pip install -r requirements.txt --user
 
 RUN pip install dataverk-airflow -U --user
