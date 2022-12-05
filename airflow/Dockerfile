@@ -37,8 +37,8 @@ RUN alien -i /tmp/oracle-instantclient.rpm && \
     ldconfig
 
 # Add TDV ODBC driver and set env
-COPY TDV/driver/libcomposite82_x64.so /opt/TDV/driver/libcomposite82_x64.so
-ENV TDV_ODBC_DRIVER /opt/TDV/driver/libcomposite82_x64.so
+COPY TDV/driver/libcomposite86_x64.so /opt/TDV/driver/libcomposite86_x64.so
+ENV TDV_ODBC_DRIVER /opt/TDV/driver/libcomposite86_x64.so
 
 COPY airflow/requirements.txt /requirements.txt
 RUN pip3 install -r /requirements.txt
