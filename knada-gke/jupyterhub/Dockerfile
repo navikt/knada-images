@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     graphviz \
     lsb-release \
     unzip \
+    jq \
     vim \
     nano \
     zip \
