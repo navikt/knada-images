@@ -1,4 +1,5 @@
 FROM ghcr.io/navikt/knada-jupyterhub:2022-12-06-88bbcf9
+LABEL org.opencontainers.image.source https://github.com/navikt/knada-images
 
 USER root
 
