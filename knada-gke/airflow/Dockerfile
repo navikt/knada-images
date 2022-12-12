@@ -16,8 +16,6 @@ RUN alien -i /tmp/oracle-instantclient.rpm && \
 
 ENV PATH=$PATH:/usr/lib/oracle/19.15/client64/bin
 
-RUN mkdir /dags && chown airflow:root /dags
-
 USER ${AIRFLOW_UID}
 
 COPY ./knada-gke/airflow/requirements.txt requirements.txt
