@@ -1,4 +1,4 @@
-FROM apache/airflow:slim-2.4.3-python3.10
+FROM apache/airflow:2.4.3-python3.10
 LABEL org.opencontainers.image.source https://github.com/navikt/knada-images
 
 USER root
