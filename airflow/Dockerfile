@@ -45,6 +45,8 @@ RUN pip3 install -r /requirements.txt
 
 COPY airflow/scripts/. .
 
+ENV PYTHONPATH "/workspace"
+
 CMD ["/bin/bash", "/execute_python.sh"]
 
 USER ${NB_USER}

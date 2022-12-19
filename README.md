@@ -10,6 +10,8 @@ Samling av images til tjenester vi tilbyr i Knada.
 
 [![Knada GKE: Build jupyterhub image](https://github.com/navikt/knada-images/actions/workflows/knada_gke_jupyter.yaml/badge.svg)](https://github.com/navikt/knada-images/actions/workflows/knada_gke_jupyter.yaml)
 
+[![Knada GKE: Build nks-statistikk jupyterhub image](https://github.com/navikt/knada-images/actions/workflows/knada_gke_nks_statistikk.yaml/badge.svg)](https://github.com/navikt/knada-images/actions/workflows/knada_gke_nks_statistikk.yaml)
+
 #### Airflow
 
 [![Knada GKE: Build airflow image](https://github.com/navikt/knada-images/actions/workflows/knada_gke_airflow.yaml/badge.svg)](https://github.com/navikt/knada-images/actions/workflows/knada_gke_airflow.yaml)
