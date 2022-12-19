@@ -26,7 +26,7 @@ pyodbc==4.0.32
 pysftp==0.2.9
 python-google-places==1.4.2
 scikit-learn==1.1.3
-sqlalchemy==1.4.36
+sqlalchemy==1.4.45
 vega==3.6.0
 wordcloud==1.8.2.2
 xlrd==2.0.1
