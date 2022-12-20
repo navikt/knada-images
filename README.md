@@ -6,6 +6,8 @@ Samling av images til tjenester vi tilbyr i Knada.
 
 ### GCP
 
+Vi følger [Python Release Cycle](https://devguide.python.org/versions/) for Jupyterhub, det betyr at vi lager et image per Python-versjon som ikke har status end-of-life. Dessverre kan vi ikke tilby det nyeste da vi må følge det [Jupyterhub tilbyr](https://hub.docker.com/r/jupyter/base-notebook/tags).
+
 #### Jupyterhub
 
 [![Knada GKE: Build jupyterhub image](https://github.com/navikt/knada-images/actions/workflows/knada_gke_jupyter.yaml/badge.svg)](https://github.com/navikt/knada-images/actions/workflows/knada_gke_jupyter.yaml)
