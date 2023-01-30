@@ -21,4 +21,4 @@ USER ${AIRFLOW_UID}
 COPY ./knada-gke/airflow/requirements.txt requirements.txt
 RUN pip install -r requirements.txt --user
 
-RUN pip install dataverk-airflow==0.4.15 --user
+RUN pip install dataverk-airflow==0.4.16 --user
