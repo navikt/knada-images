@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:python-3.10.8
+FROM jupyter/base-notebook:python-3.10.9
 LABEL org.opencontainers.image.source = &quot;https://github.com/navikt/knada-images&quot;
 
 USER root
