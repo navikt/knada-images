@@ -18,3 +18,7 @@ Dessverre kan vi ikke tilby det nyeste da vi må følge det [Jupyter notebooks t
 ### Airflow run notebooks
 
 [![Build Airflow notebooks image](https://github.com/navikt/knada-images/actions/workflows/airflow_notebooks.yaml/badge.svg)](https://github.com/navikt/knada-images/actions/workflows/airflow_notebooks.yaml)
+
+## Internal repo
+
+Dette repoet er lukket da vi har lagret TDV-driveren som vi ikke kan dele offentlig.
