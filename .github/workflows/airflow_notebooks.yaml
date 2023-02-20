@@ -1,20 +1,20 @@
-name: "Airflow: Build base image"
+name: "Airflow: Run notebooks"
 
 on:
   push:
     branches:
       - master
     paths:
-      - airflow/Dockerfile
-      - airflow/requirements.txt
-      - .github/workflows/airflow_base_image.yaml
+      - airflow/run-notebooks/Dockerfile
+      - airflow/run-notebooks/requirements.txt
+      - .github/workflows/airflow_notebooks.yaml
 
 env:
   IMAGE: ghcr.io/navikt/knada-airflow
 
 jobs:
   build:
-    name: Build standalone jupyterlab image for python
+    name: Build Airflow Run notebooks image
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -24,16 +24,10 @@ jobs:
           private-key: ${{ secrets.PRIVATE_KEY }}
           app-id: ${{ secrets.APP_ID }}
       - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
-      - run: docker build -t $IMAGE:$TAG -f airflow/Dockerfile .
+      - run: docker build -t $IMAGE:$TAG -f airflow/run-notebooks/Dockerfile .
       - uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - run: docker push $IMAGE:$TAG
-      - name: Notify navikt/knada-airflow of update
-        run: |
-          curl -X POST https://api.github.com/repos/navikt/knada-airflow/dispatches \
-          -H 'Accept: application/vnd.github.everest-preview+json' \
-          -H 'Authorization: token ${{ steps.get-token.outputs.token }}' \
-          --data '{"event_type": "update-template-image-tag", "client_payload": { "image": "'"${IMAGE}"'", "tag": "'"${TAG}"'" }}'
