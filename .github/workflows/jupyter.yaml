@@ -1,20 +1,22 @@
-name: "Jupyterhub: Build base image 3.9"
+name: "Build Jupyter image"
 
 on:
   push:
     branches:
       - master
     paths:
-      - jupyterhub/Dockerfile_39
-      - jupyterhub/requirements.txt
-      - .github/workflows/python_39_onprem.yaml
+      - .github/workflows/jupyter.yaml
+      - jupyter/Dockerfile
 
 env:
-  IMAGE: ghcr.io/navikt/jupyterlab-39
+  IMAGE: ghcr.io/navikt/knada-jupyterhub
 
 jobs:
   build:
-    name: Build standalone jupyterlab image for python
+    name: Build standalone Jupyter image for Python
+    strategy:
+      matrix:
+        version: ["3.7", "3.8", "3.9", "3.10"]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -24,10 +26,10 @@ jobs:
           private-key: ${{ secrets.PRIVATE_KEY }}
           app-id: ${{ secrets.APP_ID }}
       - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
-      - run: docker build -t $IMAGE:$TAG -f jupyterhub/Dockerfile_39 jupyterhub/.
+      - run: docker build -t $IMAGE:$TAG-${{ matrix.version }} -f jupyter/Dockerfile --build-arg python_version=${{ matrix.version }} .
       - uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker push $IMAGE:$TAG
+      - run: docker push $IMAGE:$TAG-${{ matrix.version }}
