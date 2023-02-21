@@ -9,39 +9,30 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+
   - package-ecosystem: "pip"
-    directory: "/jupyterhub"
+    directory: "/jupyter"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/jupyter"
+    schedule:
+      interval: "weekly"
+
   - package-ecosystem: "pip"
-    directory: "/jupyterhub/jkbl"
+    directory: "/airflow/base"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/airflow/base"
+    schedule:
+      interval: "weekly"
+
   - package-ecosystem: "pip"
-    directory: "/airflow"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "pip"
-    directory: "/knada-gke/airflow"
+    directory: "/airflow/run-notebooks"
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/knada-gke/jupyterhub"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
-    directory: "/knada-gke/airflow"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
-    directory: "/jupyterhub"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
-    directory: "/jupyterhub/jkbl"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "docker"
-    directory: "/airflow"
+    directory: "/airflow/run-notebooks"
     schedule:
       interval: "weekly"
