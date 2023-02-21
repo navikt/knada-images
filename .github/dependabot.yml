@@ -10,10 +10,6 @@ updates:
     schedule:
       interval: "weekly"
 
-  - package-ecosystem: "pip"
-    directory: "/jupyter"
-    schedule:
-      interval: "weekly"
   - package-ecosystem: "docker"
     directory: "/jupyter"
     schedule:
