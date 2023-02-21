@@ -11,7 +11,7 @@ google-auth==2.16.1
 google-cloud-bigquery==3.5.0
 google-cloud-storage==2.6.0
 google-api-python-client==2.78.0
-great-expectations==0.15.28
+great-expectations==0.15.49
 influxdb==5.3.1
 jira-commonmark==0.1.8
 knada-gsm==0.1.2
