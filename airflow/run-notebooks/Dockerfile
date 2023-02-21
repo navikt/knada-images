@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.10-slim
 
 USER root
 
@@ -43,7 +43,7 @@ ENV TDV_ODBC_DRIVER /opt/TDV/driver/libcomposite86_x64.so
 COPY airflow/requirements.txt /requirements.txt
 RUN pip3 install -r /requirements.txt
 
-COPY airflow/scripts/. .
+COPY airflow/run-notebooks/scripts/. .
 
 ENV PYTHONPATH "/workspace"
 

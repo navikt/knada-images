@@ -18,7 +18,7 @@ ENV PATH=$PATH:/usr/lib/oracle/19.15/client64/bin
 
 USER ${AIRFLOW_UID}
 
-COPY ./knada-gke/airflow/requirements.txt requirements.txt
+COPY airflow/base/requirements.txt requirements.txt
 RUN pip install -r requirements.txt --user
 
 RUN pip install dataverk-airflow==0.4.16 --user
