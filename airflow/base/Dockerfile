@@ -21,4 +21,4 @@ USER ${AIRFLOW_UID}
 COPY airflow/base/requirements.txt requirements.txt
 RUN pip install -r requirements.txt --user
 
-RUN pip install dataverk-airflow==0.4.16 --user
+RUN pip install dataverk-airflow==0.4.17 --user
