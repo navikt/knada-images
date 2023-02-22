@@ -1,4 +1,4 @@
-FROM apache/airflow:2.5.1-python3.9
+FROM apache/airflow:2.5.1-python3.10
 LABEL org.opencontainers.image.source https://github.com/navikt/knada-images
 
 USER root
@@ -20,5 +20,3 @@ USER ${AIRFLOW_UID}
 
 COPY airflow/base/requirements.txt requirements.txt
 RUN pip install -r requirements.txt --user
-
-RUN pip install dataverk-airflow==0.4.17 --user
