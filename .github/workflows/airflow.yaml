@@ -10,7 +10,7 @@ on:
       - airflow/base/requirements.txt
 
 env:
-  IMAGE: ghcr.io/navikt/knada-airflow-base
+  IMAGE: europe-west1-docker.pkg.dev/knada-gcp/airflow/knada-airflow-base
 
 jobs:
   build:
@@ -18,11 +18,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - id: auth
+        name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          token_format: access_token
+          workload_identity_provider: projects/193123067890/locations/global/workloadIdentityPools/ci-knada-images/providers/ci-knada-images
+          service_account: ci-knada-images@knada-gcp.iam.gserviceaccount.com
+      - name: Login to Artifact Registry
+        uses: docker/login-action@v1
+        with:
+          registry: europe-west1-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
       - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
       - run: docker build -t $IMAGE:$TAG -f airflow/base/Dockerfile .
-      - uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
       - run: docker push $IMAGE:$TAG
