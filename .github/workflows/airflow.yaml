@@ -30,7 +30,7 @@ jobs:
           workload_identity_provider: projects/193123067890/locations/global/workloadIdentityPools/ci-knada-images/providers/ci-knada-images
           service_account: ci-knada-images@knada-gcp.iam.gserviceaccount.com
       - name: Login to Artifact Registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: europe-west1-docker.pkg.dev
           username: oauth2accesstoken
