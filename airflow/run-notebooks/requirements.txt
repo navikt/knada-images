@@ -4,7 +4,7 @@ cryptography==36.0.2
 datastory==0.1.13
 dataverk-vault==0.1.10
 db-dtypes==1.0.5
-dbt-oracle==1.3.0
+dbt-oracle==1.4.0
 geopandas==0.12.2
 google-api-core==2.10.2
 google-auth==2.16.1
