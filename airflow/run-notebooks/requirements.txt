@@ -31,5 +31,5 @@ sqlalchemy==1.4.36
 vega==3.6.0
 wordcloud==1.8.2.2
 xlrd==2.0.1
-xmlschema==1.11.1
+xmlschema==2.2.2
 icecream==2.1.3
