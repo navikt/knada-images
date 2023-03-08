@@ -45,4 +45,3 @@ jobs:
           push: true
           tags: "europe-west1-docker.pkg.dev/knada-gcp/knada/${{ env.IMAGE }}:${{ env.TAG }}-${{ matrix.version }}"
           build-args: python_version=${{ matrix.version }}
-n
