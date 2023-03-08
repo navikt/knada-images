@@ -3,14 +3,14 @@ name: "Build Jupyter image"
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - .github/workflows/jupyter.yaml
       - jupyter/Dockerfile
   workflow_dispatch:
 
 env:
-  IMAGE: europe-west1-docker.pkg.dev/knada-gcp/jupyterhub/knada-jupyterhub
+  IMAGE: jupyter
 
 jobs:
   build:
@@ -32,12 +32,17 @@ jobs:
           token_format: access_token
           workload_identity_provider: projects/193123067890/locations/global/workloadIdentityPools/ci-knada-images/providers/ci-knada-images
           service_account: ci-knada-images@knada-gcp.iam.gserviceaccount.com
-      - name: Login to Artifact Registry
-        uses: docker/login-action@v1
+      - uses: docker/login-action@v2
         with:
           registry: europe-west1-docker.pkg.dev
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
+      - uses: docker/setup-buildx-action@v2
       - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
-      - run: docker build -t $IMAGE:$TAG-${{ matrix.version }} -f jupyter/Dockerfile --build-arg python_version=${{ matrix.version }} .
-      - run: docker push $IMAGE:$TAG-${{ matrix.version }}
+      - uses: docker/build-push-action@v4
+        with:
+          context: "{{defaultContext}}:jupyter"
+          push: true
+          tags: "europe-west1-docker.pkg.dev/knada-gcp/knada/${{ env.IMAGE }}:${{ env.TAG }}-${{ matrix.version }}"
+          build-args: python_version=${{ matrix.version }}
+n
