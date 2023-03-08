@@ -38,6 +38,6 @@ jobs:
       - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
       - uses: docker/build-push-action@v4
         with:
-          file: airflow/base
+          file: airflow/base/Dockerfile
           push: true
           tags: "europe-west1-docker.pkg.dev/knada-gcp/knada/${{ env.IMAGE }}:${{ env.TAG }}"
