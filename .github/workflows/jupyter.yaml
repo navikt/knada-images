@@ -9,7 +9,7 @@ on:
       - jupyter/Dockerfile
   workflow_dispatch:
   schedule:
-    - cron: '12 13 * * *'
+    - cron: '15 13 * * *'
 
 env:
   IMAGE: europe-west1-docker.pkg.dev/knada-gcp/jupyterhub/knada-jupyterhub
