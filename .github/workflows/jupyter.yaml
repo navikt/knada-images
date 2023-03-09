@@ -9,7 +9,7 @@ on:
       - jupyter/Dockerfile
   workflow_dispatch:
   schedule:
-    - cron: '16 13 * * *'
+    - cron: '0 7 * * *'
 
 env:
   IMAGE: jupyter
