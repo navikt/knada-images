@@ -8,6 +8,8 @@ on:
       - .github/workflows/jupyter.yaml
       - jupyter/Dockerfile
   workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * *'
 
 env:
   IMAGE: jupyter
@@ -37,9 +39,30 @@ jobs:
           registry: europe-west1-docker.pkg.dev
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
+      - run: |
+          knada=$(gcloud artifacts docker images list europe-west1-docker.pkg.dev/knada-gcp/knada/jupyter --include-tags --filter TAGS:-${{ matrix.version }} --sort-by=~Update_Time --limit=1 --format=json)
+
+          compare_images() {
+            out=0
+            python3 compare_tags.py "$knada" "python-${{ matrix.version }}" || out=$?
+            if [ $out -eq 100 ]
+            then
+                echo "OUTDATED=true" >> $GITHUB_ENV
+                return 0
+            elif [ $out == 0 ]
+            then
+                return 0
+            else
+                return $out
+            fi
+          }
+
+          compare_images
       - uses: docker/setup-buildx-action@v2
-      - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
+      - if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
+        run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
       - uses: docker/build-push-action@v4
+        if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         with:
           file: jupyter/Dockerfile
           push: true
