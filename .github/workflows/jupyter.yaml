@@ -39,7 +39,10 @@ jobs:
           registry: europe-west1-docker.pkg.dev
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
-      - run: |
+      - name: Install dependency for compare_tags.py script
+        run: pip install backoff=2.2.1
+      - name: Check if jupyter/base-image has updated
+        run: |
           knada=$(gcloud artifacts docker images list europe-west1-docker.pkg.dev/knada-gcp/knada/jupyter --include-tags --filter TAGS:-${{ matrix.version }} --sort-by=~Update_Time --limit=1 --format=json)
 
           compare_images() {

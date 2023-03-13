@@ -1,6 +1,7 @@
 import sys
 import json
 import requests
+import backoff
 
 from datetime import date
 
@@ -18,11 +19,14 @@ def get_last_knada_image(last_knada: list) -> date:
 
     return date.fromisoformat(last_knada[0]["updateTime"][:10])
 
-def get_last_jupyter_image(image_tag: str) -> date:
-    res = requests.get(f"{JUPYTER_REPO_URL_PREFIX}/{image_tag}")
+@backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_tries=5)
+def get_request_with_retries(url: str) -> dict:
+    res = requests.get(url)
     res.raise_for_status()
+    return res.json
 
-    data = res.json()
+def get_last_jupyter_image(image_tag: str) -> date:
+    data = get_request_with_retries(f"{JUPYTER_REPO_URL_PREFIX}/{image_tag}")
     return date.fromisoformat(data["tag_last_pushed"][:10])
 
 if __name__ == "__main__":
