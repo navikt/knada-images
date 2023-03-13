@@ -23,7 +23,7 @@ def get_last_knada_image(last_knada: list) -> date:
 def get_request_with_retries(url: str) -> dict:
     res = requests.get(url)
     res.raise_for_status()
-    return res.json
+    return res.json()
 
 def get_last_jupyter_image(image_tag: str) -> date:
     data = get_request_with_retries(f"{JUPYTER_REPO_URL_PREFIX}/{image_tag}")
