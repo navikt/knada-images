@@ -18,7 +18,7 @@ knada-gsm==0.1.2
 laundromat==1.1.5
 nltk==3.8.1
 openpyxl==3.0.10
-papermill==2.3.4
+papermill==2.4.0
 plotly-express==0.4.1
 plotly==5.8.0
 pyarrow==8.0.0
