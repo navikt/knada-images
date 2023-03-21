@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM apache/airflow:2.5.1-python3.10
 
 USER root
 
@@ -45,8 +45,8 @@ RUN pip3 install -r /requirements.txt
 
 COPY airflow/run-notebooks/scripts/. .
 
+USER ${AIRFLOW_UID}
+
 ENV PYTHONPATH "/workspace"
 
 CMD ["/bin/bash", "/execute_python.sh"]
-
-USER ${NB_USER}
