@@ -40,10 +40,10 @@ RUN alien -i /tmp/oracle-instantclient.rpm && \
 COPY TDV/driver/libcomposite86_x64.so /opt/TDV/driver/libcomposite86_x64.so
 ENV TDV_ODBC_DRIVER /opt/TDV/driver/libcomposite86_x64.so
 
-COPY airflow/run-notebooks/requirements.txt /requirements.txt
-RUN pip3 install -r /requirements.txt --user
-
 USER ${AIRFLOW_UID}
+
+COPY airflow/run-notebooks/requirements.txt /requirements.txt
+RUN pip3 install -r /requirements.txt
 
 COPY airflow/run-notebooks/scripts/. .
 
