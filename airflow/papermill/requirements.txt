@@ -29,4 +29,3 @@ xmlschema>=1.11.1
 
 # pinned for Airflow
 protobuf==3.20.0
-virtualenv==20.21.0
