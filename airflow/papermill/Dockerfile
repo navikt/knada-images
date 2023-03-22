@@ -45,8 +45,6 @@ USER ${AIRFLOW_UID}
 COPY airflow/run-notebooks/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
-COPY airflow/run-notebooks/scripts/. .
-
 ENV PYTHONPATH "/workspace"
 
-CMD ["/bin/bash", "/execute_python.sh"]
+ENTRYPOINT ["papermill"]

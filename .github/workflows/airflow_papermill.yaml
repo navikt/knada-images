@@ -1,20 +1,20 @@
-name: "Airflow: Run notebooks"
+name: "Airflow: Papermill"
 
 on:
   push:
     branches:
       - main
     paths:
-      - airflow/run-notebooks/Dockerfile
-      - airflow/run-notebooks/requirements.txt
-      - .github/workflows/airflow_notebooks.yaml
+      - airflow/papermill/Dockerfile
+      - airflow/papermill/requirements.txt
+      - .github/workflows/airflow_papermill.yaml
 
 env:
-  IMAGE: airflow-notebooks
+  IMAGE: airflow-papermill
 
 jobs:
   build:
-    name: Build Airflow Run notebooks image
+    name: Build Airflow papermill image
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -38,6 +38,6 @@ jobs:
       - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
       - uses: docker/build-push-action@v4
         with:
-          file: airflow/run-notebooks/Dockerfile
+          file: airflow/papermill/Dockerfile
           push: true
           tags: "europe-west1-docker.pkg.dev/knada-gcp/knada/${{ env.IMAGE }}:${{ env.TAG }}"
