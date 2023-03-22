@@ -16,7 +16,7 @@ Dessverre kan vi ikke tilby det nyeste da vi må følge det [Jupyter notebooks t
 
 [![Build Airflow image](https://github.com/navikt/knada-images/actions/workflows/airflow.yaml/badge.svg)](https://github.com/navikt/knada-images/actions/workflows/airflow.yaml)
 
-[![Build Airflow notebooks image](https://github.com/navikt/knada-images/actions/workflows/airflow_notebooks.yaml/badge.svg)](https://github.com/navikt/knada-images/actions/workflows/airflow_notebooks.yaml)
+[![Build Airflow Papermill image](https://github.com/navikt/knada-images/actions/workflows/airflow_papermill.yaml/badge.svg)](https://github.com/navikt/knada-images/actions/workflows/airflow_papermill.yaml)
 
 ## Internal repo
 
