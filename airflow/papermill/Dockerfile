@@ -46,5 +46,3 @@ COPY airflow/papermill/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 ENV PYTHONPATH "/workspace"
-
-ENTRYPOINT ["papermill"]
