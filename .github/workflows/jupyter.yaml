@@ -22,9 +22,9 @@ jobs:
       matrix:
         version: ["3.7", "3.8", "3.9", "3.10"]
     runs-on: ubuntu-latest
-    permissions:
-      contents: 'read'
-      id-token: write
+    # permissions:
+    #   contents: 'read'
+    #   id-token: write
 
     steps:
       - uses: actions/checkout@v3
