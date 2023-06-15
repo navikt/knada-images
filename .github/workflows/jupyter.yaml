@@ -28,18 +28,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - id: auth
-        name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v0
-        with:
-          token_format: access_token
-          workload_identity_provider: projects/193123067890/locations/global/workloadIdentityPools/ci-knada-images/providers/ci-knada-images
-          service_account: ci-knada-images@knada-gcp.iam.gserviceaccount.com
-      - uses: docker/login-action@v2
-        with:
-          registry: europe-west1-docker.pkg.dev
-          username: oauth2accesstoken
-          password: ${{ steps.auth.outputs.access_token }}
+      # - id: auth
+      #   name: Authenticate with Google Cloud
+      #   uses: google-github-actions/auth@v0
+      #   with:
+      #     token_format: access_token
+      #     workload_identity_provider: projects/193123067890/locations/global/workloadIdentityPools/ci-knada-images/providers/ci-knada-images
+      #     service_account: ci-knada-images@knada-gcp.iam.gserviceaccount.com
+      # - uses: docker/login-action@v2
+      #   with:
+      #     registry: europe-west1-docker.pkg.dev
+      #     username: oauth2accesstoken
+      #     password: ${{ steps.auth.outputs.access_token }}
       - uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
         with:
           registry: ghcr.io
@@ -75,5 +75,5 @@ jobs:
         with:
           file: jupyter/Dockerfile
           push: true
-          tags: europe-west1-docker.pkg.dev/knada-gcp/knada/${{ env.IMAGE }}:${{ env.TAG }}-${{ matrix.version }},ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}-${{ matrix.version }}
+          tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}-${{ matrix.version }}
           build-args: python_version=${{ matrix.version }}
