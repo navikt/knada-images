@@ -43,7 +43,7 @@ jobs:
       - uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       # - name: Install dependency for compare_tags.py script
       #   run: pip install backoff==2.2.1
@@ -69,7 +69,7 @@ jobs:
       #     compare_images
       # - uses: docker/setup-buildx-action@v2
       # - if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
-      #   run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
+      - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
       - uses: docker/build-push-action@v4
         # if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         with:
