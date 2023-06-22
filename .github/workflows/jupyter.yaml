@@ -54,7 +54,7 @@ jobs:
 
           compare_images() {
             out=0
-            python3 compare_tags.py "$knada" "python-${{ matrix.version }}" || out=$?
+            python3 compare_tags.py jupyterhub "$knada" "python-${{ matrix.version }}" || out=$?
             if [ $out -eq 100 ]
             then
                 echo "OUTDATED=true" >> $GITHUB_ENV

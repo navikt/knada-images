@@ -6,6 +6,7 @@ import backoff
 from datetime import date
 
 JUPYTER_REPO_URL_PREFIX = "https://hub.docker.com/v2/namespaces/jupyter/repositories/base-notebook/tags"
+AIRFLOW_REPO_URL_PREFIX = "https://hub.docker.com/v2/namespaces/apache/repositories/airflow/tags"
 
 # Return values from script
 STATUS_IMAGE_UP_TO_DATE_WITH_PARENT = 0
@@ -25,15 +26,20 @@ def get_request_with_retries(url: str) -> dict:
     res.raise_for_status()
     return res.json()
 
-def get_last_jupyter_image(image_tag: str) -> date:
-    data = get_request_with_retries(f"{JUPYTER_REPO_URL_PREFIX}/{image_tag}")
+def get_last_dockerhub_image(url: str) -> date:
+    data = get_request_with_retries(url)
     return date.fromisoformat(data["tag_last_pushed"][:10])
 
 if __name__ == "__main__":
-    date_knada = get_last_knada_image(json.loads(sys.argv[1]))
-    date_jupyter = get_last_jupyter_image(sys.argv[2])
+    date_knada = get_last_knada_image(json.loads(sys.argv[2]))
 
-    if date_knada < date_jupyter:
+    if sys.argv[1] == "jupyterhub":
+        url = JUPYTER_REPO_URL_PREFIX + "/" + sys.argv[3]
+    else:
+        url = AIRFLOW_REPO_URL_PREFIX + "/" + sys.argv[3]
+    date_dockerhub = get_last_dockerhub_image(url)
+
+    if date_knada < date_dockerhub:
         print("Knada image is outdated")
         exit(STATUS_IMAGE_OUTDATED)
 
