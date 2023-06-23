@@ -1,4 +1,5 @@
 cloud-sql-python-connector[pg8000]>=0.9.0
+dataverk-airflow>=0.4.37
 datastory>=0.1.13
 db-dtypes>=1.0.5
 dbt-oracle>=1.3.0
