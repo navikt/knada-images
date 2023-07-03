@@ -1,6 +1,6 @@
 SQLAlchemy==1.4.44
 cx-Oracle==8.3.0
-google-cloud-bigquery==3.4.0
+google-cloud-bigquery==3.11.3
 google-cloud-storage==2.6.0
 pandas==1.5.3
 psycopg2==2.9.5
