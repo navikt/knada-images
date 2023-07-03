@@ -3,7 +3,7 @@ LABEL org.opencontainers.image.source https://github.com/navikt/knada-images
 
 USER root
 
-RUN apt-get update -yq && apt-get install -yq libpq-dev
+RUN apt-get update -yq && apt-get install -yq build-essential libpq-dev
 
 USER ${AIRFLOW_UID}
 
