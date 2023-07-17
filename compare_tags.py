@@ -14,6 +14,10 @@ STATUS_ERROR = 1
 STATUS_IMAGE_OUTDATED = 100
 
 def get_last_knada_image(last_knada: list) -> date:
+    if len(last_knada) == 0:
+        print("new python version")
+        exit(STATUS_IMAGE_OUTDATED)
+
     if not len(last_knada) == 1:
         print("list of last knada images should only contain one element")
         exit(STATUS_ERROR)
