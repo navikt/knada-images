@@ -1,4 +1,4 @@
-name: "Airflow base image"
+name: "Airflow"
 
 on:
   push:
@@ -7,17 +7,18 @@ on:
     paths:
       - .github/workflows/airflow.yaml
       - airflow/base/Dockerfile
-      - airflow/base/requirements.txt
+      - airflow/papermill/Dockerfile
+      - airflow/papermill/requirements.txt
   workflow_dispatch:
   schedule:
     - cron: '0 9 * * *'
 
-env:
-  IMAGE: airflow
-
 jobs:
   build:
     name: Build Airflow image
+    strategy:
+      matrix:
+        image: ['base', 'papermill']
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -38,33 +39,32 @@ jobs:
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
       - name: Install dependency for compare_tags.py script
-        run: pip install backoff==2.2.1
+        run: pip install -r .github/scripts/requirements.txt
       - name: Check if apache/airflow has updated
         run: |
           knada=$(gcloud artifacts docker images list europe-west1-docker.pkg.dev/knada-gcp/knada/${{ env.IMAGE }} --include-tags --sort-by=~Update_Time --limit=1 --format=json)
 
-          compare_images() {
-            out=0
-            python3 compare_tags.py airflow "$knada" "2.5.1-python3.10" || out=$?
-            if [ $out -eq 100 ]
-            then
-                echo "OUTDATED=true" >> $GITHUB_ENV
-                return 0
-            elif [ $out == 0 ]
-            then
-                return 0
-            else
-                return $out
-            fi
-          }
-
-          compare_images
+          python3 compare_tags.py airflow "$knada" "2.6.3-python3.10"
+          if [ $? -eq 100 ]
+          then
+            echo "OUTDATED=true" >> $GITHUB_ENV
+            exit(0)
+          fi
       - uses: docker/setup-buildx-action@v2
+
+      - if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
+        run: |
+          if [ $matrix.image == "base"]
+          then
+            "IMAGE=airflow" >> $GITHUB_ENV
+          else
+            "IMAGE=airflow-${{ matrix.image }}" >> $GITHUB_ENV
+          fi
       - if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
       - uses: docker/build-push-action@v4
         if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         with:
-          file: airflow/base/Dockerfile
+          file: "airflow/${{ matrix.image }}/Dockerfile"
           push: true
           tags: "europe-west1-docker.pkg.dev/knada-gcp/knada/${{ env.IMAGE }}:${{ env.TAG }}"

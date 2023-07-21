@@ -1,7 +1,7 @@
-import sys
+import backoff
 import json
 import requests
-import backoff
+import sys
 
 from datetime import date
 
@@ -10,17 +10,12 @@ AIRFLOW_REPO_URL_PREFIX = "https://hub.docker.com/v2/namespaces/apache/repositor
 
 # Return values from script
 STATUS_IMAGE_UP_TO_DATE_WITH_PARENT = 0
-STATUS_ERROR = 1
 STATUS_IMAGE_OUTDATED = 100
 
 def get_last_knada_image(last_knada: list) -> date:
     if len(last_knada) == 0:
-        print("new python version")
+        print("No image exists from before")
         exit(STATUS_IMAGE_OUTDATED)
-
-    if not len(last_knada) == 1:
-        print("list of last knada images should only contain one element")
-        exit(STATUS_ERROR)
 
     return date.fromisoformat(last_knada[0]["updateTime"][:10])
 
@@ -35,17 +30,25 @@ def get_last_dockerhub_image(url: str) -> date:
     return date.fromisoformat(data["tag_last_pushed"][:10])
 
 if __name__ == "__main__":
-    date_knada = get_last_knada_image(json.loads(sys.argv[2]))
+    image_name = sys.argv[1]
+    latest_gar_image = json.loads(sys.argv[2])
+    image_tag = sys.argv[3]
 
-    if sys.argv[1] == "jupyterhub":
-        url = JUPYTER_REPO_URL_PREFIX + "/" + sys.argv[3]
+    date_knada = get_last_knada_image(latest_gar_image)
+
+    if image_name == "jupyterhub":
+        url = JUPYTER_REPO_URL_PREFIX + "/" + image_tag
+    elif image_name == "airflow":
+        url = AIRFLOW_REPO_URL_PREFIX + "/" + image_tag
     else:
-        url = AIRFLOW_REPO_URL_PREFIX + "/" + sys.argv[3]
+        print(f"Unknown image: {image_name}")
+        exit(1)
+
     date_dockerhub = get_last_dockerhub_image(url)
 
     if date_knada < date_dockerhub:
-        print("Knada image is outdated")
+        print("Image is outdated")
         exit(STATUS_IMAGE_OUTDATED)
 
-    print("Knada image is up to date with parent")
+    print("Image is up to date with parent")
     exit(STATUS_IMAGE_UP_TO_DATE_WITH_PARENT) 
