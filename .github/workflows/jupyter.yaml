@@ -57,7 +57,7 @@ jobs:
         run: |
           knada=$(gcloud artifacts docker images list europe-west1-docker.pkg.dev/knada-gcp/knada/jupyter --include-tags --filter TAGS:-${{ matrix.version }} --sort-by=~Update_Time --limit=1 --format=json)
 
-          python3 compare_tags.py jupyterhub "$knada" "python-${{ matrix.version }}" || out=$?
+          python3 .github/scripts/compare_tags.py jupyterhub "$knada" "python-${{ matrix.version }}" || out=$?
           if [ $out -eq 100 ]
           then
             echo "OUTDATED=true" >> $GITHUB_ENV
