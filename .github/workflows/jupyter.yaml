@@ -64,8 +64,8 @@ jobs:
             exit 0
           fi
 
-      - uses: docker/setup-buildx-action@v2
-
+      - if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
+        uses: docker/setup-buildx-action@v2
       - if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
 
