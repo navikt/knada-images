@@ -2,13 +2,12 @@ name: "Airflow"
 
 on:
   push:
-    branches:
-      - main
     paths:
       - .github/workflows/airflow.yaml
       - airflow/base/Dockerfile
       - airflow/papermill/Dockerfile
       - airflow/papermill/requirements.txt
+      - compare_tags.py
   workflow_dispatch:
   schedule:
     - cron: '0 9 * * *'
@@ -26,6 +25,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - uses: docker/setup-buildx-action@v2
+
+      - uses: docker/build-push-action@v4
+        with:
+          file: "airflow/${{ matrix.image }}/Dockerfile"
+          load: true
+
       - id: auth
         name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
@@ -33,13 +40,10 @@ jobs:
           token_format: access_token
           workload_identity_provider: projects/193123067890/locations/global/workloadIdentityPools/ci-knada-images/providers/ci-knada-images
           service_account: ci-knada-images@knada-gcp.iam.gserviceaccount.com
-      - uses: docker/login-action@v2
-        with:
-          registry: europe-west1-docker.pkg.dev
-          username: oauth2accesstoken
-          password: ${{ steps.auth.outputs.access_token }}
+
       - name: Install dependency for compare_tags.py script
         run: pip install -r .github/scripts/requirements.txt
+
       - name: Check if apache/airflow has updated
         run: |
           knada=$(gcloud artifacts docker images list europe-west1-docker.pkg.dev/knada-gcp/knada/${{ env.IMAGE }} --include-tags --sort-by=~Update_Time --limit=1 --format=json)
@@ -51,18 +55,22 @@ jobs:
             exit 0
           fi
 
-      - if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
-        uses: docker/setup-buildx-action@v2
-      - if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
-        run: |
+      - uses: docker/login-action@v2
+        with:
+          registry: europe-west1-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - run: |
           if [ $matrix.image == "base"]
           then
             echo "IMAGE=airflow" >> $GITHUB_ENV
           else
             echo "IMAGE=airflow-${{ matrix.image }}" >> $GITHUB_ENV
           fi
-      - if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
-        run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
+
+      - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
+
       - uses: docker/build-push-action@v4
         if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         with:

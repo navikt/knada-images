@@ -2,8 +2,6 @@ name: "Jupyter"
 
 on:
   push:
-    branches:
-      - main
     paths:
       - .github/workflows/jupyter.yaml
       - jupyter/Dockerfile
@@ -30,6 +28,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: docker/setup-buildx-action@v2
+
+      - name: Check if we can build Dockerfile
+        uses: docker/build-push-action@v4
+        with:
+          file: jupyter/Dockerfile
+          load: true
+          build-args: python_version=${{ matrix.version }}
+
       - id: auth
         name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
@@ -37,18 +44,6 @@ jobs:
           token_format: access_token
           workload_identity_provider: projects/193123067890/locations/global/workloadIdentityPools/ci-knada-images/providers/ci-knada-images
           service_account: ci-knada-images@knada-gcp.iam.gserviceaccount.com
-
-      - uses: docker/login-action@v2
-        with:
-          registry: europe-west1-docker.pkg.dev
-          username: oauth2accesstoken
-          password: ${{ steps.auth.outputs.access_token }}
-
-      - uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install dependency for compare_tags.py script
         run: pip install -r .github/scripts/requirements.txt
@@ -64,15 +59,26 @@ jobs:
             exit 0
           fi
 
-      - if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
-        uses: docker/setup-buildx-action@v2
-      - if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
-        run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
+      - uses: docker/login-action@v2
+        with:
+          registry: europe-west1-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
 
       - uses: docker/build-push-action@v4
         if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         with:
           file: jupyter/Dockerfile
           push: true
-          tags: europe-west1-docker.pkg.dev/knada-gcp/knada/${{ env.IMAGE }}:${{ env.TAG }}-${{ matrix.version }},ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}-${{ matrix.version }}
           build-args: python_version=${{ matrix.version }}
+          tags: |
+            europe-west1-docker.pkg.dev/knada-gcp/knada/${{ env.IMAGE }}:${{ env.TAG }}-${{ matrix.version }}
+            ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}-${{ matrix.version }}
