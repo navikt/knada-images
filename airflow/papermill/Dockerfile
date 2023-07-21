@@ -3,28 +3,27 @@ FROM apache/airflow:2.5.1-python3.10
 USER root
 
 RUN apt-get update && apt-get install -yq --no-install-recommends \
-    build-essential \
-    curl \
     alien \
-    libaio1 \
-    libaio-dev \
-    libpq-dev \
-    wget \
+    build-essential \
     bzip2 \
     ca-certificates \
-    locales \
-    fonts-humor-sans \
     cmake \
-    ca-certificates \
+    curl \
+    fonts-humor-sans \
     git \
     gnupg \
-    lsb-release \
-    unzip \
-    zip \
-    tzdata \
+    libaio-dev \
+    libaio1 \
+    libarchive-tools \
+    libpq-dev \
+    locales \
     locales-all \
+    lsb-release \
+    tzdata \
     unixodbc-dev \
-    libarchive-tools && \
+    unzip \
+    wget \
+    zip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

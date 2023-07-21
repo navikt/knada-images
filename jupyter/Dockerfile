@@ -1,42 +1,39 @@
 ARG python_version
 
 FROM jupyter/base-notebook:python-${python_version}
-LABEL org.opencontainers.image.source https://github.com/navikt/knada-images
 
 USER root
 
 RUN apt-get update && apt-get install -yq --no-install-recommends \
-    build-essential \
-    curl \
     alien \
-    libaio1 \
-    libaio-dev \
-    libpq-dev \
-    wget \
+    build-essential \
     bzip2 \
     ca-certificates \
-    sudo \
-    locales \
-    fonts-humor-sans \
     cmake \
-    ca-certificates \
+    connect-proxy \
+    emacs \
+    fonts-humor-sans \
     git \
     gnupg \
     graphviz \
-    lsb-release \
-    unzip \
     jq \
-    vim \
-    nano \
-    zip \
-    emacs \
-    tzdata \
-    locales-all \
-    unixodbc-dev \
+    libaio-dev \
+    libaio1 \
     libarchive-tools \
+    libpq-dev \
+    locales \
+    locales-all \
+    lsb-release \
+    nano \
     ssh-client \
+    sudo \
+    tzdata \
+    unixodbc-dev \
     unrar \
-    connect-proxy && \
+    unzip \
+    vim \
+    wget \
+    zip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
