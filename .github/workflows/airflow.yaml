@@ -44,7 +44,7 @@ jobs:
         run: |
           knada=$(gcloud artifacts docker images list europe-west1-docker.pkg.dev/knada-gcp/knada/${{ env.IMAGE }} --include-tags --sort-by=~Update_Time --limit=1 --format=json)
 
-          python3 .github/scripts/compare_tags.py airflow "$knada" "2.6.3-python3.10"
+          python3 .github/scripts/compare_tags.py airflow "$knada" "2.5.3-python3.10"
           if [ $? -eq 100 ]
           then
             echo "OUTDATED=true" >> $GITHUB_ENV
