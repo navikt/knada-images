@@ -1,5 +1,4 @@
 FROM apache/airflow:2.6.3-python3.10
 
-RUN pip install --user \
-    dataverk-airflow==0.4.37 \
-    cx-Oracle>=8.3.0
+COPY airflow/base/requirements.txt /requirements.txt
+RUN pip install -r /requirements.txt
