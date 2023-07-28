@@ -9,28 +9,52 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      gh:
+        pattern:
+        - '*'
 
   - package-ecosystem: "docker"
     directory: "/jupyter"
     schedule:
       interval: "weekly"
+    groups:
+      jupyter-docker:
+        pattern:
+        - '*'
 
 # Airflow - Base
   - package-ecosystem: "pip"
     directory: "/airflow/base"
     schedule:
       interval: "weekly"
+    groups:
+      airflow-pip:
+        pattern:
+        - '*'
   - package-ecosystem: "docker"
     directory: "/airflow/base"
     schedule:
       interval: "weekly"
+    groups:
+      airflow-docker:
+        pattern:
+        - '*'
 
 # Airflow - Papermill
   - package-ecosystem: "pip"
     directory: "/airflow/papermill"
     schedule:
       interval: "weekly"
+    groups:
+      papermill-pip:
+        pattern:
+        - '*'
   - package-ecosystem: "docker"
     directory: "/airflow/papermill"
     schedule:
       interval: "weekly"
+    groups:
+      papermill-docker:
+        pattern:
+        - '*'
