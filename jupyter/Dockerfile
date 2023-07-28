@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     ca-certificates \
     cmake \
     connect-proxy \
+    curl \
     emacs \
     fonts-humor-sans \
     git \
