@@ -11,7 +11,7 @@ updates:
       interval: "weekly"
     groups:
       gh:
-        pattern:
+        patterns:
         - '*'
 
   - package-ecosystem: "docker"
@@ -20,7 +20,7 @@ updates:
       interval: "weekly"
     groups:
       jupyter-docker:
-        pattern:
+        patterns:
         - '*'
 
 # Airflow - Base
@@ -30,7 +30,7 @@ updates:
       interval: "weekly"
     groups:
       airflow-pip:
-        pattern:
+        patterns:
         - '*'
   - package-ecosystem: "docker"
     directory: "/airflow/base"
@@ -38,7 +38,7 @@ updates:
       interval: "weekly"
     groups:
       airflow-docker:
-        pattern:
+        patterns:
         - '*'
 
 # Airflow - Papermill
@@ -48,7 +48,7 @@ updates:
       interval: "weekly"
     groups:
       papermill-pip:
-        pattern:
+        patterns:
         - '*'
   - package-ecosystem: "docker"
     directory: "/airflow/papermill"
@@ -56,5 +56,5 @@ updates:
       interval: "weekly"
     groups:
       papermill-docker:
-        pattern:
+        patterns:
         - '*'
