@@ -1,4 +1,4 @@
-FROM apache/airflow:2.5.3-python3.10
+FROM apache/airflow:2.6.3-python3.10
 
 USER root
 
@@ -45,4 +45,3 @@ COPY airflow/papermill/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 ENV PYTHONPATH "/workspace"
-
