@@ -1,4 +1,6 @@
-FROM apache/airflow:2.6.3-python3.10
+ARG base_image_tag
+
+FROM apache/airflow:base_image_tag
 
 COPY airflow/base/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt

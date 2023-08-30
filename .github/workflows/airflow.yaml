@@ -14,6 +14,9 @@ on:
   schedule:
     - cron: '0 9 * * *'
 
+env:
+  BASE_IMAGE_TAG: 2.6.3-python3.10
+
 jobs:
   build:
     name: Build Airflow image
@@ -48,9 +51,9 @@ jobs:
 
       - name: Check if apache/airflow has updated
         run: |
-          knada=$(gcloud artifacts docker images list europe-west1-docker.pkg.dev/knada-gcp/knada/${{ env.IMAGE }} --include-tags --sort-by=~Update_Time --limit=1 --format=json)
+          knada=$(gcloud artifacts docker images list europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }} --include-tags --sort-by=~Update_Time --limit=1 --format=json)
 
-          python3 .github/scripts/compare_tags.py airflow "$knada" "2.5.3-python3.10"
+          python3 .github/scripts/compare_tags.py airflow "$knada" "${{ env.BASE_IMAGE_TAG }}"
           if [ $? -eq 100 ]
           then
             echo "OUTDATED=true" >> $GITHUB_ENV
@@ -59,7 +62,7 @@ jobs:
 
       - uses: docker/login-action@v2
         with:
-          registry: europe-west1-docker.pkg.dev
+          registry: europe-north1-docker.pkg.dev
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
@@ -77,5 +80,6 @@ jobs:
         if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         with:
           file: "airflow/${{ matrix.image }}/Dockerfile"
+          build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
           push: true
-          tags: "europe-west1-docker.pkg.dev/knada-gcp/knada/${{ env.IMAGE }}:${{ env.TAG }}"
+          tags: "europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}"
