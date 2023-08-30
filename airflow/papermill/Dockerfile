@@ -1,6 +1,6 @@
 ARG base_image_tag
 
-FROM apache/airflow:base_image_tag
+FROM apache/airflow:${base_image_tag}
 
 USER root
 
