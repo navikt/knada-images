@@ -2,6 +2,8 @@ name: "Jupyter"
 
 on:
   push:
+  branches:
+    - main
     paths:
       - .github/workflows/jupyter.yaml
       - jupyter/Dockerfile
@@ -50,7 +52,7 @@ jobs:
 
       - name: Check if jupyter/base-image has updated
         run: |
-          knada=$(gcloud artifacts docker images list europe-west1-docker.pkg.dev/knada-gcp/knada/jupyter --include-tags --filter TAGS:-${{ matrix.version }} --sort-by=~Update_Time --limit=1 --format=json)
+          knada=$(gcloud artifacts docker images list europe-north1-docker.pkg.dev/knada-gcp/knada-north/jupyter --include-tags --filter TAGS:-${{ matrix.version }} --sort-by=~Update_Time --limit=1 --format=json)
 
           python3 .github/scripts/compare_tags.py jupyterhub "$knada" "python-${{ matrix.version }}" || out=$?
           if [ $out -eq 100 ]
@@ -61,7 +63,7 @@ jobs:
 
       - uses: docker/login-action@v2
         with:
-          registry: europe-west1-docker.pkg.dev
+          registry: europe-north1-docker.pkg.dev
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
@@ -80,5 +82,5 @@ jobs:
           push: true
           build-args: python_version=${{ matrix.version }}
           tags: |
-            europe-west1-docker.pkg.dev/knada-gcp/knada/${{ env.IMAGE }}:${{ env.TAG }}-${{ matrix.version }}
+            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}-${{ matrix.version }}
             ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}-${{ matrix.version }}

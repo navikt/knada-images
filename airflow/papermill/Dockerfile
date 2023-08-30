@@ -1,4 +1,6 @@
-FROM apache/airflow:2.6.3-python3.10
+ARG base_image_tag
+
+FROM apache/airflow:base_image_tag
 
 USER root
 
