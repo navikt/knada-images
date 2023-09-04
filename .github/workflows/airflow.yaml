@@ -7,8 +7,7 @@ on:
     paths:
       - .github/workflows/airflow.yaml
       - airflow/base/Dockerfile
-      - airflow/papermill/Dockerfile
-      - airflow/papermill/requirements.txt
+      - airflow/base/requirements.txt
       - compare_tags.py
   workflow_dispatch:
   schedule:
@@ -20,9 +19,6 @@ env:
 jobs:
   build:
     name: Build Airflow image
-    strategy:
-      matrix:
-        image: ['base', 'papermill']
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -35,7 +31,7 @@ jobs:
 
       - uses: docker/build-push-action@v4
         with:
-          file: "airflow/${{ matrix.image }}/Dockerfile"
+          file: "airflow/base/Dockerfile"
           load: true
           build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
 
@@ -72,7 +68,7 @@ jobs:
           then
             echo "IMAGE=airflow" >> $GITHUB_ENV
           else
-            echo "IMAGE=airflow-${{ matrix.image }}" >> $GITHUB_ENV
+            echo "IMAGE=airflow-base" >> $GITHUB_ENV
           fi
 
       - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
@@ -80,7 +76,7 @@ jobs:
       - uses: docker/build-push-action@v4
         if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         with:
-          file: "airflow/${{ matrix.image }}/Dockerfile"
+          file: "airflow/base/Dockerfile"
           build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
           push: true
           tags: "europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}"
