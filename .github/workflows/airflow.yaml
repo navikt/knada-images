@@ -6,12 +6,12 @@ on:
       - main
     paths:
       - .github/workflows/airflow.yaml
-      - airflow/base/Dockerfile
-      - airflow/base/requirements.txt
+      - airflow/Dockerfile
+      - airflow/requirements.txt
       - compare_tags.py
   workflow_dispatch:
   schedule:
-    - cron: '0 9 * * *'
+    - cron: "0 9 * * *"
 
 env:
   BASE_IMAGE_TAG: 2.6.3-python3.10
@@ -21,7 +21,7 @@ jobs:
     name: Build Airflow image
     runs-on: ubuntu-latest
     permissions:
-      contents: 'read'
+      contents: "read"
       id-token: write
 
     steps:
@@ -31,7 +31,7 @@ jobs:
 
       - uses: docker/build-push-action@v4
         with:
-          file: "airflow/base/Dockerfile"
+          file: "airflow/Dockerfile"
           load: true
           build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
 
@@ -76,7 +76,7 @@ jobs:
       - uses: docker/build-push-action@v4
         if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         with:
-          file: "airflow/base/Dockerfile"
+          file: "airflow/Dockerfile"
           build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
           push: true
           tags: "europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}"
