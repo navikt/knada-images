@@ -43,7 +43,7 @@ ENV TDV_ODBC_DRIVER /opt/TDV/driver/libcomposite86_x64.so
 
 USER ${AIRFLOW_UID}
 
-COPY airflow/base/requirements.txt /requirements.txt
+COPY airflow/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 ENV PYTHONPATH "/workspace"
