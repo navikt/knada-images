@@ -83,4 +83,4 @@ jobs:
           file: "airflow/Dockerfile"
           build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
           push: true
-          tags: "ghcr.io/${{ env.GITHUB_REPOSITORY }}/airflow:${{ env.TAG }}"
+          tags: "ghcr.io/${{ github.repository }}/airflow:${{ env.TAG }}"
