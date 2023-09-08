@@ -1,4 +1,4 @@
-name: "Airflow"
+name: Airflow
 
 on:
   push:
@@ -15,8 +15,10 @@ on:
 
 env:
   BASE_IMAGE_TAG: 2.6.3-python3.10
+  IMAGE: airflow
 
 permissions:
+  contents: read
   packages: write
   id-token: write
 
@@ -51,36 +53,28 @@ jobs:
             exit 0
           fi
 
-      - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
-
-      - name: Login to Google Artifact Registry
-        uses: docker/login-action@v2
+      - uses: docker/login-action@v2
+        name: Login to Google Artifact Registry
         with:
           registry: europe-north1-docker.pkg.dev
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
-      - name: Push to GAR
-        uses: docker/build-push-action@v4
-        if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
-        with:
-          file: "airflow/Dockerfile"
-          build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
-          push: true
-          tags: "europe-north1-docker.pkg.dev/knada-gcp/knada-north/airflow:${{ env.TAG }}"
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+      - uses: docker/login-action@v2
+        name: Login to GitHub Container Registry
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push to GHCR
-        uses: docker/build-push-action@v4
+      - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
+
+      - uses: docker/build-push-action@v4
         if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         with:
-          file: "airflow/Dockerfile"
-          build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
+          file: airflow/Dockerfile
           push: true
-          tags: "ghcr.io/navikt/knada-airflow:${{ env.TAG }}"
+          build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
+          tags: |
+            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}
+            ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}

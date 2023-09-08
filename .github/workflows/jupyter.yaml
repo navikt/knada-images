@@ -1,4 +1,4 @@
-name: "Jupyter"
+name: Jupyter
 
 on:
   push:
@@ -10,10 +10,15 @@ on:
       - compare_tags.py
   workflow_dispatch:
   schedule:
-    - cron: '0 8 * * *'
+    - cron: "0 8 * * *"
 
 env:
   IMAGE: jupyter
+
+permissions:
+  contents: read
+  id-token: write
+  packages: write
 
 jobs:
   build:
@@ -22,10 +27,6 @@ jobs:
       matrix:
         version: ["3.8", "3.9", "3.10", "3.11"]
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-      packages: write
 
     steps:
       - uses: actions/checkout@v4
@@ -62,12 +63,14 @@ jobs:
           fi
 
       - uses: docker/login-action@v2
+        name: Login to Google Artifact Registry
         with:
           registry: europe-north1-docker.pkg.dev
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
       - uses: docker/login-action@v2
+        name: Login to GitHub Container Registry
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
