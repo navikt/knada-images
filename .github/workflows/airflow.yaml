@@ -25,15 +25,9 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: docker/setup-buildx-action@v2
-
-      - uses: docker/build-push-action@v4
-        with:
-          file: "airflow/Dockerfile"
-          load: true
-          build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
 
       - id: auth
         name: Authenticate with Google Cloud
@@ -48,35 +42,45 @@ jobs:
 
       - name: Check if apache/airflow has updated
         run: |
-          knada=$(gcloud artifacts docker images list europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }} --include-tags --sort-by=~Update_Time --limit=1 --format=json)
+          latest_image=$(gcloud artifacts docker images list europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }} --include-tags --sort-by=~Update_Time --limit=1 --format=json)
 
-          python3 .github/scripts/compare_tags.py airflow "$knada" "${{ env.BASE_IMAGE_TAG }}"
+          python3 .github/scripts/compare_tags.py airflow "$latest_image" "${{ env.BASE_IMAGE_TAG }}"
           if [ $? -eq 100 ]
           then
             echo "OUTDATED=true" >> $GITHUB_ENV
             exit 0
           fi
 
-      - uses: docker/login-action@v2
+      - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
+
+      - name: Login to Google Artifact Registry
+        uses: docker/login-action@v2
         with:
           registry: europe-north1-docker.pkg.dev
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
-      - run: |
-          if [ $matrix.image == "base"]
-          then
-            echo "IMAGE=airflow" >> $GITHUB_ENV
-          else
-            echo "IMAGE=airflow-base" >> $GITHUB_ENV
-          fi
-
-      - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
-
-      - uses: docker/build-push-action@v4
+      - name: Push to GAR
+        uses: docker/build-push-action@v4
         if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         with:
           file: "airflow/Dockerfile"
           build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
           push: true
-          tags: "europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}"
+          tags: "europe-north1-docker.pkg.dev/knada-gcp/knada-north/airflow:${{ env.TAG }}"
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push to GHCR
+        uses: docker/build-push-action@v4
+        if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
+        with:
+          file: "airflow/Dockerfile"
+          build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
+          push: true
+          tags: "ghcr.io/${GITHUB_REPOSITORY}/airflow:${{ env.TAG }}"
