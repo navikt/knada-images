@@ -16,6 +16,9 @@ on:
 env:
   BASE_IMAGE_TAG: 2.6.3-python3.10
 
+permissions:
+  packages: write
+
 jobs:
   build:
     name: Build Airflow image
