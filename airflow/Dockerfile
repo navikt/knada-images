@@ -47,11 +47,12 @@ RUN cd /opt && \
     wget https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.tar.gz && \
     tar -zxvf quarto-${QUARTO_VERSION}-linux-amd64.tar.gz && \
     rm -rf quarto-${QUARTO_VERSION}-linux-amd64.tar.gz && \
-    echo "export PATH=${PATH}:/opt/quarto-${QUARTO_VERSION}/bin" >> /etc/profile
+    mv /opt/quarto-${QUARTO_VERSION} /opt/quarto
 
 USER ${AIRFLOW_UID}
 
 COPY airflow/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
+ENV PATH=${PATH}:/opt/quarto/bin
 ENV PYTHONPATH "/workspace"
