@@ -41,14 +41,14 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
 RUN dpkg-reconfigure locales
 
 # Install oracle client
-RUN curl https://download.oracle.com/otn_software/linux/instantclient/1915000/oracle-instantclient19.15-basic-19.15.0.0.0-1.x86_64.rpm -o /tmp/oracle-instantclient.rpm
+RUN curl https://download.oracle.com/otn_software/linux/instantclient/2111000/oracle-instantclient-basic-21.11.0.0.0-1.x86_64.rpm -o /tmp/oracle-instantclient.rpm
 RUN alien -i /tmp/oracle-instantclient.rpm && \
     rm -rf /var/cache/yum && \
     rm -f /tmp/oracle-instantclient.rpm && \
-    echo /usr/lib/oracle/19.15/client64/lib > /etc/ld.so.conf.d/oracle-instantclient19.15.conf && \
+    echo /usr/lib/oracle/21/client64/lib > /etc/ld.so.conf.d/oracle-instantclient21.conf && \
     ldconfig
 
-ENV PATH=$PATH:/usr/lib/oracle/19.15/client64/bin
+ENV PATH=$PATH:/usr/lib/oracle/21/client64/bin
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
 ENV SHELL /bin/bash
 
