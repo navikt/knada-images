@@ -37,9 +37,7 @@ RUN alien -i /tmp/oracle-instantclient.rpm && \
     rm -f /tmp/oracle-instantclient.rpm && \
     echo /usr/lib/oracle/21/client64/lib > /etc/ld.so.conf.d/oracle-instantclient21.conf && \
     ldconfig
-
 ENV PATH=$PATH:/usr/lib/oracle/21/client64/bin
-ENV TDV_ODBC_DRIVER /opt/TDV/driver/libcomposite86_x64.so
 
 # Install quarto cli
 RUN cd /opt && \
