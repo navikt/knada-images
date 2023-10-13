@@ -41,20 +41,20 @@ updates:
         patterns:
         - '*'
 
-# Airflow - Papermill
+# Airflow - Dataverk
   - package-ecosystem: "pip"
-    directory: "/airflow/papermill"
+    directory: "/airflow/dataverk"
     schedule:
       interval: "weekly"
     groups:
-      papermill-pip:
+      dataverk-pip:
         patterns:
         - '*'
   - package-ecosystem: "docker"
-    directory: "/airflow/papermill"
+    directory: "/airflow/dataverk"
     schedule:
       interval: "weekly"
     groups:
-      papermill-docker:
+      dataverk-docker:
         patterns:
         - '*'
