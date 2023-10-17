@@ -6,8 +6,8 @@ on:
       - main
     paths:
       - .github/workflows/dataverk-airflow.yaml
-      - airflow/dataverk-airflow/Dockerfile
-      - airflow/dataverk-airflow/requirements.txt
+      - airflow/dataverk/Dockerfile
+      - airflow/dataverk/requirements.txt
       - compare_tags.py
   workflow_dispatch:
   schedule:
