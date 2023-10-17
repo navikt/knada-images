@@ -1,7 +1,7 @@
 FROM python:3.11
 
 ARG AIRFLOW_USER=airflow
-ARG AIRFLOW_UID="1234"
+ARG AIRFLOW_UID="50000"
 ARG AIRFLOW_USER_HOME_DIR=/home/airflow
 
 RUN apt-get update && apt-get install -yq --no-install-recommends \
