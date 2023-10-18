@@ -55,5 +55,5 @@ ENV DENO_DIR="${AIRFLOW_USER_HOME_DIR}/deno"
 ENV XDG_CACHE_HOME="${AIRFLOW_USER_HOME_DIR}/cache"
 ENV XDG_DATA_HOME="${AIRFLOW_USER_HOME_DIR}/share"
 
-ENV PATH=${PATH}:/opt/quarto/bin
+ENV PATH=${PATH}:/opt/quarto/bin:"${AIRFLOW_USER_HOME_DIR}/.local/bin"
 ENV PYTHONPATH "/workspace"
