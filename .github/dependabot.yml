@@ -13,6 +13,14 @@ updates:
       gh:
         patterns:
         - '*'
+  - package-ecosystem: "pip"
+    directory: "/.github/scripts"
+    schedule:
+      interval: "weekly"
+    groups:
+      gh-pip:
+        patterns:
+        - '*'
 
   - package-ecosystem: "docker"
     directory: "/jupyter"
