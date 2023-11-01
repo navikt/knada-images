@@ -50,7 +50,7 @@ RUN cd /opt && \
 USER ${AIRFLOW_UID}
 
 COPY airflow/base/requirements.txt /requirements.txt
-RUN pip install -r /requirements.txt
+RUN pip install -r /requirements.txt --no-cache-dir
 
 RUN pip install apache-airflow-providers-slack==7.3.2
 

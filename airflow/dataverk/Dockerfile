@@ -45,7 +45,7 @@ RUN adduser --disabled-password --quiet "${AIRFLOW_USER}" --uid "${AIRFLOW_UID}"
     mkdir -p "${AIRFLOW_USER_HOME_DIR}" && chown -R "${AIRFLOW_USER}:0" "${AIRFLOW_USER_HOME_DIR}"
 
 COPY airflow/dataverk/requirements.txt /requirements.txt
-RUN pip install -r /requirements.txt
+RUN pip install -r /requirements.txt --no-cache-dir
 
 USER ${AIRFLOW_USER}
 WORKDIR ${AIRFLOW_USER_HOME_DIR}
