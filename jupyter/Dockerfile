@@ -52,12 +52,6 @@ ENV PATH=$PATH:/usr/lib/oracle/21/client64/bin
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
 ENV SHELL /bin/bash
 
-# Add TDV ODBC driver and set env
-COPY TDV/driver/libcomposite86_x64.so /opt/TDV/driver/libcomposite86_x64.so
-RUN chown -R jovyan:users  /opt/TDV
-ENV TDV_ODBC_DRIVER /opt/TDV/driver/libcomposite86_x64.so
-ENV PATH $PATH:/home/jovyan/.local/bin
-
 # Downloading gcloud package
 RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
 
