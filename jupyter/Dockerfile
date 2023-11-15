@@ -51,6 +51,7 @@ RUN alien -i /tmp/oracle-instantclient.rpm && \
 ENV PATH=$PATH:/usr/lib/oracle/21/client64/bin
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
 ENV SHELL /bin/bash
+ENV PATH $PATH:/home/jovyan/.local/bin
 
 # Downloading gcloud package
 RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
