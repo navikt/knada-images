@@ -13,6 +13,7 @@ updates:
       gh:
         patterns:
         - '*'
+
   - package-ecosystem: "pip"
     directory: "/.github/scripts"
     schedule:
@@ -21,17 +22,6 @@ updates:
       gh-pip:
         patterns:
         - '*'
-
-  - package-ecosystem: "docker"
-    directory: "/jupyter"
-    schedule:
-      interval: "weekly"
-    groups:
-      jupyter-docker:
-        patterns:
-        - '*'
-
-# Airflow - Base
   - package-ecosystem: "pip"
     directory: "/airflow/base"
     schedule:
@@ -40,16 +30,6 @@ updates:
       airflow-pip:
         patterns:
         - '*'
-  - package-ecosystem: "docker"
-    directory: "/airflow/base"
-    schedule:
-      interval: "weekly"
-    groups:
-      airflow-docker:
-        patterns:
-        - '*'
-
-# Airflow - Dataverk
   - package-ecosystem: "pip"
     directory: "/airflow/dataverk"
     schedule:
@@ -58,11 +38,20 @@ updates:
       dataverk-pip:
         patterns:
         - '*'
+
   - package-ecosystem: "docker"
     directory: "/airflow/dataverk"
     schedule:
       interval: "weekly"
     groups:
       dataverk-docker:
+        patterns:
+        - '*'
+  - package-ecosystem: "docker"
+    directory: "/jupyter"
+    schedule:
+      interval: "weekly"
+    groups:
+      jupyter-docker:
         patterns:
         - '*'
