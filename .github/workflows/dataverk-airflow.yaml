@@ -1,0 +1,64 @@
+name: Airflow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/dataverk-airflow.yaml
+      - airflow/dataverk/Dockerfile
+      - airflow/dataverk/requirements.txt
+      - compare_tags.py
+  workflow_dispatch:
+  schedule:
+    - cron: "0 9 * * *"
+
+env:
+  IMAGE: dataverk-airflow
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  build:
+    name: Build Dataverk Airflow image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - id: auth
+        name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          token_format: access_token
+          workload_identity_provider: projects/193123067890/locations/global/workloadIdentityPools/ci-knada-images/providers/ci-knada-images
+          service_account: ci-knada-images@knada-gcp.iam.gserviceaccount.com
+
+      - uses: docker/login-action@v3
+        name: Login to Google Artifact Registry
+        with:
+          registry: europe-north1-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - uses: docker/login-action@v3
+        name: Login to GitHub Container Registry
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
+
+      - uses: docker/build-push-action@v5
+        if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
+        with:
+          file: airflow/dataverk/Dockerfile
+          push: true
+          tags: |
+            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}
+            ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}

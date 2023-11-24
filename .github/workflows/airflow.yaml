@@ -1,0 +1,80 @@
+name: Airflow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/airflow.yaml
+      - airflow/base/Dockerfile
+      - airflow/base/requirements.txt
+      - compare_tags.py
+  workflow_dispatch:
+  schedule:
+    - cron: "0 9 * * *"
+
+env:
+  BASE_IMAGE_TAG: 2.7.1-python3.11
+  IMAGE: airflow
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  build:
+    name: Build Airflow image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - id: auth
+        name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          token_format: access_token
+          workload_identity_provider: projects/193123067890/locations/global/workloadIdentityPools/ci-knada-images/providers/ci-knada-images
+          service_account: ci-knada-images@knada-gcp.iam.gserviceaccount.com
+
+      - name: Install dependency for compare_tags.py script
+        run: pip install -r .github/scripts/requirements.txt
+
+      - name: Check if apache/airflow has updated
+        run: |
+          latest_image=$(gcloud artifacts docker images list europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }} --include-tags --sort-by=~Update_Time --limit=1 --format=json)
+
+          python3 .github/scripts/compare_tags.py airflow "$latest_image" "${{ env.BASE_IMAGE_TAG }}"
+          if [ $? -eq 100 ]
+          then
+            echo "OUTDATED=true" >> $GITHUB_ENV
+            exit 0
+          fi
+
+      - uses: docker/login-action@v3
+        name: Login to Google Artifact Registry
+        with:
+          registry: europe-north1-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - uses: docker/login-action@v3
+        name: Login to GitHub Container Registry
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
+
+      - uses: docker/build-push-action@v5
+        if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
+        with:
+          file: airflow/base/Dockerfile
+          push: true
+          build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
+          tags: |
+            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}
+            ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}
