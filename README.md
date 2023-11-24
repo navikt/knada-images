@@ -39,7 +39,3 @@ Vi tilbyr også et default image for airflow workers som er laget med [dataverk-
 - Image: [ghcr.io/navikt/knada-images/dataverk-airflow](https://github.com/navikt/knada-images/pkgs/container/knada-images%2Fdataverk-airflow)
 - [Dockerfile](https://github.com/navikt/knada-images/blob/main/airflow/dataverk/Dockerfile)
 - [requirements.txt](https://github.com/navikt/knada-images/blob/main/airflow/dataverk/requirements.txt)
-
-## Internal repo
-
-Dette repoet er lukket da vi har lagret TDV-driveren som vi ikke kan dele offentlig.
