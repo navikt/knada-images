@@ -44,6 +44,7 @@ jobs:
 
       - name: Check if apache/airflow has updated
         run: |
+          set +x
           latest_image=$(gcloud artifacts docker images list europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }} --include-tags --sort-by=~Update_Time --limit=1 --format=json)
 
           python3 .github/scripts/compare_tags.py airflow "$latest_image" "${{ env.BASE_IMAGE_TAG }}"
