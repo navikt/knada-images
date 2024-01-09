@@ -49,6 +49,7 @@ RUN cd /opt && \
 
 USER ${AIRFLOW_UID}
 
+# install requirements
 COPY airflow/base/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt --no-cache-dir
 
