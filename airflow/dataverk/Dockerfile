@@ -1,4 +1,6 @@
-FROM python:3.11
+ARG python_version
+
+FROM python:${python_version}
 
 ARG AIRFLOW_USER=airflow
 ARG AIRFLOW_UID="50000"
