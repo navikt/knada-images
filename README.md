@@ -34,8 +34,13 @@ Det vil også være default imaget som blir brukt for Airflow workers dersom man
 #### dataverk-airflow image
 [![Build Airflow image](https://github.com/navikt/knada-images/actions/workflows/dataverk-airflow.yaml/badge.svg)](https://github.com/navikt/knada-images/actions/workflows/dataverk-airflow.yaml)
 
-Vi tilbyr også et default image for airflow workers som er laget med [dataverk-airflow](https://github.com/navikt/dataverk-airflow). Dette imaget inneholder svært få python biblioteker og tanken er at de som bruker dette imaget selv skal installere pakkene de trenger for hver task ved å sende med sti til en requirementsfil som skal installeres som parameter til [dataverk-airflow](https://github.com/navikt/dataverk-airflow#felles-argumenter).
+Vi tilbyr også et default image for airflow workers som er laget med [dataverk-airflow](https://github.com/navikt/dataverk-airflow). Dette imaget inneholder svært få python biblioteker og tanken er at de som bruker dette imaget selv skal installere pakkene de trenger for hver task ved å sende med sti til en requirementsfil som skal installeres som parameter til [dataverk-airflow](https://github.com/navikt/dataverk-airflow#felles-argumenter). Det bygges et image for alle Python versjoner som ikke er end of life i henhold til [Python Release Cycle](https://devguide.python.org/versions/).
 
-- Image: [ghcr.io/navikt/knada-images/dataverk-airflow](https://github.com/navikt/knada-images/pkgs/container/knada-images%2Fdataverk-airflow)
+- Imager: 
+    - Python 3.8: [ghcr.io/navikt/knada-images/dataverk-airflow-python-3.8](https://github.com/navikt/knada-images/pkgs/container/knada-images%2Fdataverk-airflow-python-3.8)
+    - Python 3.9: [ghcr.io/navikt/knada-images/dataverk-airflow-python-3.9](https://github.com/navikt/knada-images/pkgs/container/knada-images%2Fdataverk-airflow-python-3.9)
+    - Python 3.10: [ghcr.io/navikt/knada-images/dataverk-airflow-python-3.10](https://github.com/navikt/knada-images/pkgs/container/knada-images%2Fdataverk-airflow-python-3.10)
+    - Python 3.11: [ghcr.io/navikt/knada-images/dataverk-airflow-python-3.11](https://github.com/navikt/knada-images/pkgs/container/knada-images%2Fdataverk-airflow-python-3.11)
+    - Python 3.12: [ghcr.io/navikt/knada-images/dataverk-airflow-python-3.12](https://github.com/navikt/knada-images/pkgs/container/knada-images%2Fdataverk-airflow-python-3.12)
 - [Dockerfile](https://github.com/navikt/knada-images/blob/main/airflow/dataverk/Dockerfile)
 - [requirements.txt](https://github.com/navikt/knada-images/blob/main/airflow/dataverk/requirements.txt)

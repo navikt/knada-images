@@ -7,6 +7,7 @@ from datetime import date
 
 JUPYTER_REPO_URL_PREFIX = "https://hub.docker.com/v2/namespaces/jupyter/repositories/base-notebook/tags"
 AIRFLOW_REPO_URL_PREFIX = "https://hub.docker.com/v2/namespaces/apache/repositories/airflow/tags"
+PYTHON_REPO_URL_PREFIX = "https://hub.docker.com/v2/repositories/library/python/tags"
 
 # Return values from script
 STATUS_IMAGE_UP_TO_DATE_WITH_PARENT = 0
@@ -40,6 +41,8 @@ if __name__ == "__main__":
         url = JUPYTER_REPO_URL_PREFIX + "/" + image_tag
     elif image_name == "airflow":
         url = AIRFLOW_REPO_URL_PREFIX + "/" + image_tag
+    elif image_name == "python":
+        url = PYTHON_REPO_URL_PREFIX + "/" + image_tag
     else:
         print(f"Unknown image: {image_name}")
         exit(1)

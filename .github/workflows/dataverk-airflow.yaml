@@ -41,6 +41,20 @@ jobs:
           workload_identity_provider: projects/193123067890/locations/global/workloadIdentityPools/ci-knada-images/providers/ci-knada-images
           service_account: ci-knada-images@knada-gcp.iam.gserviceaccount.com
 
+      - name: Install dependency for compare_tags.py script
+        run: pip install -r .github/scripts/requirements.txt
+
+      - name: Check if python base image has updated
+        run: |
+          knada=$(gcloud artifacts docker images list europe-north1-docker.pkg.dev/knada-gcp/knada-north/dataverk-airflow-python-${{ matrix.version }} --include-tags --sort-by=~Update_Time --limit=1 --format=json)
+
+          python3 .github/scripts/compare_tags.py python "$knada" "${{ matrix.version }}" || out=$?
+          if [ $out -eq 100 ]
+          then
+            echo "OUTDATED=true" >> $GITHUB_ENV
+            exit 0
+          fi
+
       - uses: docker/login-action@v3
         name: Login to Google Artifact Registry
         with:
