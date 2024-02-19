@@ -72,4 +72,5 @@ RUN cd /opt && \
     rm -rf quarto-${QUARTO_VERSION}-linux-amd64.tar.gz && \
     echo "export PATH=${PATH}:/opt/quarto-${QUARTO_VERSION}/bin" >> /etc/profile
 
+# set jovyan as user
 USER $NB_USER
