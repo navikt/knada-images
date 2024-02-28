@@ -30,7 +30,7 @@ jobs:
         version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
-
+      - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
 
       - id: auth
@@ -76,6 +76,7 @@ jobs:
         with:
           file: airflow/dataverk/Dockerfile
           build-args: python_version=${{ matrix.version }}
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: |
             europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
