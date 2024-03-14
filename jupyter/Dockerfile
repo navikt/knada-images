@@ -1,6 +1,6 @@
 ARG python_version
 
-FROM jupyter/base-notebook:python-${python_version}
+FROM quay.io/jupyter/base-notebook:python-${python_version}
 
 USER root
 
