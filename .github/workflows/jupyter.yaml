@@ -23,11 +23,7 @@ permissions:
 jobs:
   build:
     name: Python
-    strategy:
-      matrix:
-        version: ["3.8", "3.9", "3.10", "3.11"]
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -55,7 +51,7 @@ jobs:
         run: |
           knada=$(gcloud artifacts docker images list europe-north1-docker.pkg.dev/knada-gcp/knada-north/jupyter --include-tags --filter TAGS:-${{ matrix.version }} --sort-by=~Update_Time --limit=1 --format=json)
 
-          python3 .github/scripts/compare_tags.py jupyterhub "$knada" "python-${{ matrix.version }}" || out=$?
+          python3 .github/scripts/compare_tags.py jupyterhub "$knada" "python-3.11" || out=$?
           if [ $out -eq 100 ]
           then
             echo "OUTDATED=true" >> $GITHUB_ENV
