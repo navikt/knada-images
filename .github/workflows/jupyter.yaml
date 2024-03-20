@@ -79,5 +79,5 @@ jobs:
           file: jupyter/Dockerfile
           push: true
           tags: |
-            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}-python-3.11
-            ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}-python-3.11
+            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}-3.11
+            ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}-3.11
