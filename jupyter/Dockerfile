@@ -1,5 +1,3 @@
-ARG python_version
-
 FROM quay.io/jupyter/base-notebook:python-3.11
 
 USER root

@@ -34,7 +34,6 @@ jobs:
         with:
           file: jupyter/Dockerfile
           load: true
-          build-args: python_version=${{ matrix.version }}
 
       - id: auth
         name: Authenticate with Google Cloud
@@ -49,7 +48,7 @@ jobs:
 
       - name: Check if jupyter/base-image has updated
         run: |
-          knada=$(gcloud artifacts docker images list europe-north1-docker.pkg.dev/knada-gcp/knada-north/jupyter --include-tags --filter TAGS:-${{ matrix.version }} --sort-by=~Update_Time --limit=1 --format=json)
+          knada=$(gcloud artifacts docker images list europe-north1-docker.pkg.dev/knada-gcp/knada-north/jupyter --include-tags --filter TAGS:-python-3.11 --sort-by=~Update_Time --limit=1 --format=json)
 
           python3 .github/scripts/compare_tags.py jupyterhub "$knada" "python-3.11" || out=$?
           if [ $out -eq 100 ]
@@ -79,7 +78,6 @@ jobs:
         with:
           file: jupyter/Dockerfile
           push: true
-          build-args: python_version=${{ matrix.version }}
           tags: |
-            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}-${{ matrix.version }}
-            ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}-${{ matrix.version }}
+            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}-python-3.11
+            ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}-python-3.11
