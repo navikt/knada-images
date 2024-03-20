@@ -7,7 +7,6 @@ on:
     paths:
       - .github/workflows/jupyter.yaml
       - jupyter/Dockerfile
-      - compare_tags.py
   workflow_dispatch:
   schedule:
     - cron: "0 8 * * *"
@@ -43,20 +42,6 @@ jobs:
           workload_identity_provider: projects/193123067890/locations/global/workloadIdentityPools/ci-knada-images/providers/ci-knada-images
           service_account: ci-knada-images@knada-gcp.iam.gserviceaccount.com
 
-      - name: Install dependency for compare_tags.py script
-        run: pip install -r .github/scripts/requirements.txt
-
-      - name: Check if jupyter/base-image has updated
-        run: |
-          knada=$(gcloud artifacts docker images list europe-north1-docker.pkg.dev/knada-gcp/knada-north/jupyter --include-tags --filter TAGS:-python-3.11 --sort-by=~Update_Time --limit=1 --format=json)
-
-          python3 .github/scripts/compare_tags.py jupyterhub "$knada" "python-3.11" || out=$?
-          if [ $out -eq 100 ]
-          then
-            echo "OUTDATED=true" >> $GITHUB_ENV
-            exit 0
-          fi
-
       - uses: docker/login-action@v3
         name: Login to Google Artifact Registry
         with:
@@ -74,7 +59,6 @@ jobs:
       - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
 
       - uses: docker/build-push-action@v5
-        if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         with:
           file: jupyter/Dockerfile
           push: true
