@@ -30,6 +30,3 @@ wordcloud>=1.8.2.2
 xlrd>=2.0.1
 xmlschema>=1.11.1
 uv>=0.1.42
-
-# pinned temporarily as gcloud-aio-auth is incompatible with cryptography>=42
-cryptography>41.0.5,<43
