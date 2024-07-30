@@ -1,4 +1,4 @@
-ARG python_version
+ARG python_version=3.11
 
 FROM python:${python_version}
 
@@ -50,7 +50,7 @@ COPY airflow/dataverk/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt --no-cache-dir
 
 # Configure pypi proxy
-RUN echo $'[global]\nindex-url = https://europe-north1-python.pkg.dev/knada-dev/pypiproxy/simple/' > /opt/pip.conf
+RUN echo '[global]\nindex-url = https://europe-north1-python.pkg.dev/knada-dev/pypiproxy/simple/' > /opt/pip.conf
 ENV PIP_CONFIG_FILE=/opt/pip.conf
 
 USER ${AIRFLOW_USER}
