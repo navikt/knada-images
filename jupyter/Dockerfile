@@ -70,9 +70,11 @@ RUN cd /opt && \
     rm -rf quarto-${QUARTO_VERSION}-linux-amd64.tar.gz && \
     echo "export PATH=${PATH}:/opt/quarto-${QUARTO_VERSION}/bin" >> /etc/profile
 
-RUN pip install keyring && pip install keyrings.google-artifactregistry-auth
-
-RUN echo $'[global]\nindex-url = https://europe-north1-python.pkg.dev/knada-dev/pypiproxy/simple/' > /opt/pip.conf
+# Configure pypi proxy
+COPY jupyter/requirements.txt .
+RUN pip install -r requirements.txt && \
+    echo $'[global]\nindex-url = https://europe-north1-python.pkg.dev/knada-dev/pypiproxy/simple/' > /opt/pip.conf
+ENV PIP_CONFIG_FILE=/opt/pip.conf
 
 # set jovyan as user
 USER $NB_USER
