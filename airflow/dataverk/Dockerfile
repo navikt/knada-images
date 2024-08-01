@@ -49,10 +49,6 @@ RUN adduser --disabled-password --quiet "${AIRFLOW_USER}" --uid "${AIRFLOW_UID}"
 COPY airflow/dataverk/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt --no-cache-dir
 
-# Configure pypi proxy
-RUN echo '[global]\nindex-url = https://europe-north1-python.pkg.dev/knada-dev/pypiproxy/simple/' > /opt/pip.conf
-ENV PIP_CONFIG_FILE=/opt/pip.conf
-
 USER ${AIRFLOW_USER}
 WORKDIR ${AIRFLOW_USER_HOME_DIR}
 
