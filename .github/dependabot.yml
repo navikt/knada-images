@@ -38,6 +38,14 @@ updates:
       dataverk-pip:
         patterns:
         - '*'
+  - package-ecosystem: "pip"
+    directory: "/jupyter"
+    schedule:
+      interval: "weekly"
+    groups:
+      jupyter-pip:
+        patterns:
+        - '*'
 
   - package-ecosystem: "docker"
     directory: "/airflow/dataverk"
