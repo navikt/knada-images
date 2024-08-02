@@ -1,4 +1,4 @@
-ARG python_version=3.11
+ARG python_version
 
 FROM python:${python_version}
 

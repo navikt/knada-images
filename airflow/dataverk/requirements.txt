@@ -1,6 +1,4 @@
 papermill>=2.4.0
 ipykernel>=6.25.2
-keyring==25.2.1
-keyrings.google-artifactregistry-auth==1.1.2
 knatch>=1.0.1
 uv>=0.1.43
