@@ -72,6 +72,7 @@ RUN cd /opt && \
 
 # Configure pypi proxy
 COPY jupyter/requirements.txt .
+RUN pip install -r requirements.txt
 
 # set jovyan as user
 USER $NB_USER
