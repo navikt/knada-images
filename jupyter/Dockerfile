@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     graphviz \
     jq \
     libaio-dev \
-    libaio1 \
+    libaio1t64 \
     libarchive-tools \
     libpq-dev \
     locales \
@@ -48,8 +48,8 @@ RUN alien -i /tmp/oracle-instantclient.rpm && \
 
 ENV PATH=$PATH:/usr/lib/oracle/21/client64/bin
 ENV NLS_LANG=NORWEGIAN_NORWAY.AL32UTF8
-ENV SHELL /bin/bash
-ENV PATH $PATH:/home/jovyan/.local/bin
+ENV SHELL=/bin/bash
+ENV PATH=$PATH:/home/jovyan/.local/bin
 
 # Downloading gcloud package
 RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
@@ -60,7 +60,7 @@ RUN mkdir -p /usr/local/gcloud \
     && /usr/local/gcloud/google-cloud-sdk/install.sh
 
 # Adding the package path to local
-ENV PATH ${PATH}:/usr/local/gcloud/google-cloud-sdk/bin
+ENV PATH=${PATH}:/usr/local/gcloud/google-cloud-sdk/bin
 
 # Install quarto cli 
 RUN cd /opt && \
