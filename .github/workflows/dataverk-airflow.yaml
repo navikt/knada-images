@@ -71,7 +71,7 @@ jobs:
 
       - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y-%m-%d)-$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_ENV
 
-      - uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v6
         if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         with:
           file: airflow/dataverk/Dockerfile
