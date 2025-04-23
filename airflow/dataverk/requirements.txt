@@ -1,4 +1,4 @@
 papermill>=2.4.0
 ipykernel>=6.25.2
-knatch>=1.0.1
+knatch>=1.0.7
 uv>=0.1.43
