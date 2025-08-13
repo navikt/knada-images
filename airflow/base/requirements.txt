@@ -19,7 +19,7 @@ icecream==2.1.5
 influxdb==5.3.2
 laundromat==1.1.5
 nltk==3.9.1
-numpy==2.3.2
+numpy==1.26.4
 openpyxl==3.1.5
 papermill==2.6.0
 plotly-express==0.4.1
