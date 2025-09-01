@@ -8,6 +8,8 @@ on:
       - .github/workflows/airflow.yaml
       - airflow/base/Dockerfile
       - airflow/base/requirements.txt
+      - airflow/chaingard/base/Dockerfile
+      - airflow/chaingard/base/requirements.txt
       - compare_tags.py
   workflow_dispatch:
   schedule:
