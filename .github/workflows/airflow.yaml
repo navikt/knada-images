@@ -16,6 +16,7 @@ on:
 env:
   BASE_IMAGE_TAG: 2.10.5-python3.11
   IMAGE: airflow
+  CHAINGARD_IMAGE: airflow-cg
 
 permissions:
   contents: read
@@ -73,6 +74,16 @@ jobs:
         if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         with:
           file: airflow/base/Dockerfile
+          push: true
+          build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
+          tags: |
+            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}
+            ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}
+      
+            - uses: docker/build-push-action@v5
+      - if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
+        with:
+          file: airflow/chaingard/base/Dockerfile
           push: true
           build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
           tags: |
