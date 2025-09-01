@@ -80,12 +80,12 @@ jobs:
             europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}
             ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}
       
-            - uses: docker/build-push-action@v5
-      - if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
+      - uses: docker/build-push-action@v5
+        if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
         with:
           file: airflow/chaingard/base/Dockerfile
           push: true
           build-args: base_image_tag=${{ env.BASE_IMAGE_TAG }}
           tags: |
-            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}:${{ env.TAG }}
-            ghcr.io/${{ github.repository }}/${{ env.IMAGE }}:${{ env.TAG }}
+            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.CHAINGARD_IMAGE }}:${{ env.TAG }}
+            ghcr.io/${{ github.repository }}/${{ env.CHAINGARD_IMAGE }}:${{ env.TAG }}
