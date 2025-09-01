@@ -3,12 +3,6 @@ asyncpg==0.30.0
 authlib==1.6.3
 cloud-sql-python-connector[pg8000]==1.18.4
 dataverk-airflow==1.8.0
-dbt-adapters==1.4.1
-dbt-common==1.7.0
-dbt-core==1.8.5
-dbt-extractor==0.5.1
-dbt-oracle==1.8.1
-dbt-semantic-interfaces==0.5.1
 geopandas==1.1.1
 great-expectations==1.5.8
 icecream==2.1.5
@@ -23,7 +17,6 @@ plotly==6.3.0
 polars==1.32.2
 psycopg2-binary==2.9.10
 PyJWT==2.10.1
-pyodbc==5.2.0
 pysftp==0.2.9
 python-google-places==1.4.2
 scikit-learn==1.7.1
