@@ -72,15 +72,15 @@ jobs:
 
       - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y%m%d-%H%M%S)" >> $GITHUB_ENV
 
-      - uses: docker/build-push-action@v5
-        if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
-        with:
-          file: airflow/dataverk/Dockerfile
-          build-args: python_version=${{ matrix.version }}
-          push: true
-          tags: |
-            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
-            ghcr.io/${{ github.repository }}/${{ env.IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
+      # - uses: docker/build-push-action@v5
+      #   if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
+      #   with:
+      #     file: airflow/dataverk/Dockerfile
+      #     build-args: python_version=${{ matrix.version }}
+      #     push: true
+      #     tags: |
+      #       europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
+      #       ghcr.io/${{ github.repository }}/${{ env.IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
 
       - uses: docker/build-push-action@v5
         if: contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
