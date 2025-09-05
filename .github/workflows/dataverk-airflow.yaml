@@ -15,6 +15,7 @@ on:
 
 env:
   IMAGE: dataverk-airflow
+  CHAINGARD_IMAGE: dataverk-airflow-cg
 
 permissions:
   contents: read
@@ -80,3 +81,13 @@ jobs:
           tags: |
             europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
             ghcr.io/${{ github.repository }}/${{ env.IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
+
+      - uses: docker/build-push-action@v5
+        if: contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
+        with:
+          file: airflow/chaingard/dataverk/Dockerfile
+          push: true
+          build-args: PYTHON_VERSION=${{ matrix.version }}
+          tags: |
+            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.CHAINGARD_IMAGE }}:${{ env.TAG }}
+            ghcr.io/${{ github.repository }}/${{ env.CHAINGARD_IMAGE }}:${{ env.TAG }}
