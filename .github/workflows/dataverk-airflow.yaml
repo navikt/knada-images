@@ -89,5 +89,5 @@ jobs:
           push: true
           build-args: PYTHON_VERSION=${{ matrix.version }}
           tags: |
-            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.CHAINGARD_IMAGE }}:${{ env.TAG }}
-            ghcr.io/${{ github.repository }}/${{ env.CHAINGARD_IMAGE }}:${{ env.TAG }}
+            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.CHAINGARD_IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
+            ghcr.io/${{ github.repository }}/${{ env.CHAINGARD_IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
