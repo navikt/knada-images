@@ -6,15 +6,13 @@ on:
       - main
     paths:
       - .github/workflows/dataverk-airflow.yaml
-      - airflow/dataverk/Dockerfile
-      - airflow/dataverk/requirements.txt
-      - compare_tags.py
+      - airflow/chaingard/dataverk/Dockerfile
+      - airflow/chaingard/dataverk/requirements.txt
   workflow_dispatch:
   schedule:
-    - cron: "0 9 * * *"
+    - cron: "0 9 * * 1-5"
 
 env:
-  IMAGE: dataverk-airflow
   CHAINGARD_IMAGE: dataverk-airflow-cg
 
 permissions:
@@ -28,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+        version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
 
@@ -41,20 +39,6 @@ jobs:
           token_format: access_token
           workload_identity_provider: projects/193123067890/locations/global/workloadIdentityPools/ci-knada-images/providers/ci-knada-images
           service_account: ci-knada-images@knada-gcp.iam.gserviceaccount.com
-
-      - name: Install dependency for compare_tags.py script
-        run: pip install -r .github/scripts/requirements.txt
-
-      - name: Check if python base image has updated
-        run: |
-          knada=$(gcloud artifacts docker images list europe-north1-docker.pkg.dev/knada-gcp/knada-north/dataverk-airflow-python-${{ matrix.version }} --include-tags --sort-by=~Update_Time --limit=1 --format=json)
-
-          python3 .github/scripts/compare_tags.py python "$knada" "${{ matrix.version }}" || out=$?
-          if [ $out -eq 100 ]
-          then
-            echo "OUTDATED=true" >> $GITHUB_ENV
-            exit 0
-          fi
 
       - uses: docker/login-action@v3
         name: Login to Google Artifact Registry
@@ -73,21 +57,11 @@ jobs:
       - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y%m%d-%H%M%S)" >> $GITHUB_ENV
 
       - uses: docker/build-push-action@v5
-        if: env.OUTDATED == 'true' || contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
-        with:
-          file: airflow/dataverk/Dockerfile
-          build-args: python_version=${{ matrix.version }}
-          push: true
-          tags: |
-            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
-            ghcr.io/${{ github.repository }}/${{ env.IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
-
-      - uses: docker/build-push-action@v5
-        if: contains(fromJSON('["push", "workflow_dispatch"]'), github.event_name)
+        if: contains(fromJSON('["push", "workflow_dispatch", "schedule"]'), github.event_name)
         with:
           file: airflow/chaingard/dataverk/Dockerfile
           push: true
           build-args: PYTHON_VERSION=${{ matrix.version }}
           tags: |
-            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.CHAINGARD_IMAGE }}:${{ env.TAG }}
-            ghcr.io/${{ github.repository }}/${{ env.CHAINGARD_IMAGE }}:${{ env.TAG }}
+            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.CHAINGARD_IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
+            ghcr.io/${{ github.repository }}/${{ env.CHAINGARD_IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}

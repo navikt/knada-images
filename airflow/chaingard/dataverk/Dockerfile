@@ -28,7 +28,7 @@ RUN cd /opt && \
 RUN adduser --disabled-password "${AIRFLOW_USER}" --uid "${AIRFLOW_UID}" -g "0" --home "${AIRFLOW_USER_HOME_DIR}" && \
     mkdir -p "${AIRFLOW_USER_HOME_DIR}" && chown -R "${AIRFLOW_USER}:0" "${AIRFLOW_USER_HOME_DIR}"
 
-COPY airflow/dataverk/requirements.txt /requirements.txt
+COPY airflow/chaingard/dataverk/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt --no-cache-dir
 
 # Quarto envs
