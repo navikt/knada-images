@@ -13,10 +13,21 @@ RUN apk add --update \
       curl \
       jq \
       shadow \
+      libaio \
+      libnsl \
       "py${PYTHON_VERSION}-pip" \
       wget && \
       rm -rf /var/cache/apk/*
 
+# Install Oracle Instant Client
+RUN cd /tmp && \
+    curl https://download.oracle.com/otn_software/linux/instantclient/2119000/instantclient-basic-linux.x64-21.19.0.0.0dbru.zip -o instantclient-basic.zip -SL && \
+    unzip instantclient-basic.zip && \
+    mv instantclient*/ /opt/instantclient && \
+    rm instantclient-basic.zip
+
+ENV LD_LIBRARY_PATH="/opt/instantclient"
+  
 # Install latest quarto cli
 RUN cd /opt && \
     QUARTO_VERSION=$(curl https://api.github.com/repos/quarto-dev/quarto-cli/releases/latest | jq '.tag_name' | sed -e 's/[\"v]//g') && \
