@@ -27,7 +27,7 @@ RUN cd /tmp && \
     rm instantclient-basic.zip
 
 ENV LD_LIBRARY_PATH="/opt/instantclient"
-  
+
 # Install latest quarto cli
 RUN cd /opt && \
     QUARTO_VERSION=$(curl https://api.github.com/repos/quarto-dev/quarto-cli/releases/latest | jq '.tag_name' | sed -e 's/[\"v]//g') && \
@@ -39,7 +39,7 @@ RUN cd /opt && \
 RUN adduser --disabled-password "${AIRFLOW_USER}" --uid "${AIRFLOW_UID}" -g "0" --home "${AIRFLOW_USER_HOME_DIR}" && \
     mkdir -p "${AIRFLOW_USER_HOME_DIR}" && chown -R "${AIRFLOW_USER}:0" "${AIRFLOW_USER_HOME_DIR}"
 
-COPY airflow/chaingard/dataverk/requirements.txt /requirements.txt
+COPY airflow/chainguard/dataverk/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt --no-cache-dir
 
 # Quarto envs

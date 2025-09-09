@@ -6,14 +6,14 @@ on:
       - main
     paths:
       - .github/workflows/dataverk-airflow.yaml
-      - airflow/chaingard/dataverk/Dockerfile
-      - airflow/chaingard/dataverk/requirements.txt
+      - airflow/chainguard/dataverk/Dockerfile
+      - airflow/chainguard/dataverk/requirements.txt
   workflow_dispatch:
   schedule:
     - cron: "0 9 * * 1-5"
 
 env:
-  CHAINGARD_IMAGE: dataverk-airflow-cg
+  chainguard_IMAGE: dataverk-airflow-cg
 
 permissions:
   contents: read
@@ -58,9 +58,9 @@ jobs:
 
       - uses: docker/build-push-action@v5
         with:
-          file: airflow/chaingard/dataverk/Dockerfile
+          file: airflow/chainguard/dataverk/Dockerfile
           push: true
           build-args: PYTHON_VERSION=${{ matrix.version }}
           tags: |
-            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.CHAINGARD_IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
-            ghcr.io/${{ github.repository }}/${{ env.CHAINGARD_IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
+            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.chainguard_IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
+            ghcr.io/${{ github.repository }}/${{ env.chainguard_IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
