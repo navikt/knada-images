@@ -22,6 +22,9 @@ updates:
       airflow-cg-pip:
         patterns:
         - '*'
+    ignore:
+      - dependency-name: numpy
+      - dependency-name: apache-airflow
   - package-ecosystem: "pip"
     directory: "/airflow/chainguard/dataverk"
     schedule:
