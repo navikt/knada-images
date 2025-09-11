@@ -13,9 +13,20 @@ RUN apk add --update \
       curl \
       jq \
       shadow \
+      libaio \
+      libnsl \
       "py${PYTHON_VERSION}-pip" \
       wget && \
       rm -rf /var/cache/apk/*
+
+# Install Oracle Instant Client
+RUN cd /tmp && \
+    curl https://download.oracle.com/otn_software/linux/instantclient/2119000/instantclient-basic-linux.x64-21.19.0.0.0dbru.zip -o instantclient-basic.zip -SL && \
+    unzip instantclient-basic.zip && \
+    mv instantclient*/ /opt/instantclient && \
+    rm instantclient-basic.zip
+
+ENV LD_LIBRARY_PATH="/opt/instantclient"
 
 # Install latest quarto cli
 RUN cd /opt && \
@@ -28,7 +39,7 @@ RUN cd /opt && \
 RUN adduser --disabled-password "${AIRFLOW_USER}" --uid "${AIRFLOW_UID}" -g "0" --home "${AIRFLOW_USER_HOME_DIR}" && \
     mkdir -p "${AIRFLOW_USER_HOME_DIR}" && chown -R "${AIRFLOW_USER}:0" "${AIRFLOW_USER_HOME_DIR}"
 
-COPY airflow/chaingard/dataverk/requirements.txt /requirements.txt
+COPY airflow/chainguard/dataverk/requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt --no-cache-dir
 
 # Quarto envs

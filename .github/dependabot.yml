@@ -15,7 +15,7 @@ updates:
         - '*'
 
   - package-ecosystem: "pip"
-    directory: "/airflow/chaingard/base"
+    directory: "/airflow/chainguard/base"
     schedule:
       interval: "weekly"
     groups:
@@ -23,7 +23,7 @@ updates:
         patterns:
         - '*'
   - package-ecosystem: "pip"
-    directory: "/airflow/chaingard/dataverk"
+    directory: "/airflow/chainguard/dataverk"
     schedule:
       interval: "weekly"
     groups:

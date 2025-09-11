@@ -6,7 +6,7 @@ USER airflow
 
 ENV PIP_TARGET=/home/airflow/.local/lib/python3.12/site-packages
 ENV PYTHONPATH=$PIP_TARGET
-COPY airflow/chaingard/base/requirements.txt .
+COPY airflow/chainguard/base/requirements.txt .
 RUN pip install \ 
   --upgrade \
   -r requirements.txt
