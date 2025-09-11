@@ -13,7 +13,7 @@ on:
     - cron: "0 9 * * 1-5"
 
 env:
-  chainguard_IMAGE: dataverk-airflow-cg
+  CHAINGUARD_IMAGE: dataverk-airflow-cg
 
 permissions:
   contents: read
@@ -62,5 +62,5 @@ jobs:
           push: true
           build-args: PYTHON_VERSION=${{ matrix.version }}
           tags: |
-            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.chainguard_IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
-            ghcr.io/${{ github.repository }}/${{ env.chainguard_IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
+            europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.CHAINGUARD_IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
+            ghcr.io/${{ github.repository }}/${{ env.CHAINGUARD_IMAGE }}-python-${{ matrix.version }}:${{ env.TAG }}
