@@ -4,8 +4,8 @@ authlib==1.6.3
 cloud-sql-python-connector[pg8000]==1.18.4
 dataverk-airflow==1.8.1
 geopandas==1.1.1
-great-expectations==1.5.11
-icecream==2.1.7
+great-expectations==1.6.0
+icecream==2.1.8
 numpy==1.26.4
 openpyxl==3.1.5
 papermill==2.6.0
