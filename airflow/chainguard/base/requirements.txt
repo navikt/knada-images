@@ -1,25 +1,25 @@
 apache-airflow[cncf.kubernetes,google,slack,oracle,apache-kafka,smtp,ssh,sftp]==2.11.0
-apache-airflow-providers-snowflake==6.5.3
+apache-airflow-providers-snowflake==6.5.4
 asyncpg==0.30.0
-authlib==1.6.3
+authlib==1.6.5
 cloud-sql-python-connector[pg8000]==1.18.4
 dataverk-airflow==1.8.1
-Flask-Limiter==3.12 # må pinnes da nyere versjon er inkompatibel med Airflow 2.11
+Flask-Limiter==4.0.0 # må pinnes da nyere versjon er inkompatibel med Airflow 2.11
 geopandas==1.1.1
 great-expectations==1.5.11
-icecream==2.1.7
+icecream==2.1.8
 numpy==1.26.4
 openpyxl==3.1.5
 papermill==2.6.0
 plotly-express==0.4.1
-plotly==6.3.0
-polars==1.33.1
+plotly==6.3.1
+polars==1.34.0
 psycopg2-binary==2.9.10
 PyJWT==2.10.1
 pysftp==0.2.9
 python-google-places==1.4.2
-scikit-learn==1.7.1
-shapely==2.1.1
+scikit-learn==1.7.2
+shapely==2.1.2
 vega==4.1.0
 wordcloud==1.9.4
 xlrd==2.0.2
