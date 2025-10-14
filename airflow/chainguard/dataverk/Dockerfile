@@ -51,3 +51,5 @@ ENV PATH=${PATH}:/opt/quarto/bin:"${AIRFLOW_USER_HOME_DIR}/.local/bin"
 ENV PYTHONPATH "/workspace"
 
 USER airflow
+
+RUN quarto install tinytex
