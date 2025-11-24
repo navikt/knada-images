@@ -1,2 +1,2 @@
-keyring==25.6.0
+keyring==25.7.0
 keyrings.google-artifactregistry-auth==1.1.2
