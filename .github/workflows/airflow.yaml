@@ -3,14 +3,14 @@ name: Airflow
 on:
   push:
     branches:
-      - main
+      - no-exist
     paths:
       - .github/workflows/airflow.yaml
       - airflow/chainguard/base/Dockerfile
       - airflow/chainguard/base/requirements.txt
-  workflow_dispatch:
-  schedule:
-    - cron: "0 9 * * 1-5"
+#  workflow_dispatch:
+#  schedule:
+#    - cron: "0 9 * * 1-5"
 
 env:
   CHAINGUARD_IMAGE: airflow-cg

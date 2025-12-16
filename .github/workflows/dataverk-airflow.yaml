@@ -3,14 +3,14 @@ name: Airflow
 on:
   push:
     branches:
-      - main
+      - no-exist
     paths:
       - .github/workflows/dataverk-airflow.yaml
       - airflow/chainguard/dataverk/Dockerfile
       - airflow/chainguard/dataverk/requirements.txt
-  workflow_dispatch:
-  schedule:
-    - cron: "0 9 * * 1-5"
+#  workflow_dispatch:
+#  schedule:
+#    - cron: "0 9 * * 1-5"
 
 env:
   CHAINGUARD_IMAGE: dataverk-airflow-cg
