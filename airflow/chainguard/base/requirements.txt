@@ -1,7 +1,7 @@
 apache-airflow[cncf.kubernetes,google,slack,oracle,apache-kafka,smtp,ssh,sftp]==2.11.0
 apache-airflow-providers-snowflake==6.5.3
 asyncpg==0.30.0
-authlib==1.6.3
+authlib==1.6.6
 cloud-sql-python-connector[pg8000]==1.18.4
 dataverk-airflow==1.8.2
 Flask-Limiter==3.12 # må pinnes da nyere versjon er inkompatibel med Airflow 2.11
