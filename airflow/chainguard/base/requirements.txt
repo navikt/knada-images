@@ -5,7 +5,7 @@ authlib==1.6.3
 cloud-sql-python-connector[pg8000]==1.18.4
 dataverk-airflow==1.8.2
 Flask-Limiter==3.12 # må pinnes da nyere versjon er inkompatibel med Airflow 2.11
-geopandas==1.1.1
+geopandas==1.1.2
 great-expectations==1.5.11
 icecream==2.1.7
 numpy==1.26.4
