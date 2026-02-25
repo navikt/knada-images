@@ -3,7 +3,7 @@ name: Airflow
 on:
   push:
     branches:
-      - no-exist
+      - main
     paths:
       - .github/workflows/airflow.yaml
       - airflow/chainguard/base/Dockerfile

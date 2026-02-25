@@ -3,7 +3,7 @@ name: Airflow
 on:
   push:
     branches:
-      - no-exist
+      - main
     paths:
       - .github/workflows/dataverk-airflow.yaml
       - airflow/chainguard/dataverk/Dockerfile
