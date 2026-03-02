@@ -1,4 +1,4 @@
-papermill==2.6.0
-ipykernel==7.1.0
+papermill==2.7.0
+ipykernel==7.2.0
 knatch==1.1.0
-uv==0.9.18
+uv==0.10.7
