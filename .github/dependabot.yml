@@ -25,6 +25,7 @@ updates:
     ignore:
       - dependency-name: numpy
       - dependency-name: apache-airflow
+      - dependency-name: flask-limiter
   - package-ecosystem: "pip"
     directory: "/airflow/chainguard/dataverk"
     schedule:
