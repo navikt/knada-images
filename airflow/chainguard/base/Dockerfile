@@ -1,13 +1,13 @@
 FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/airflow-core:2.11-dev as dev
 
 USER root
-RUN apk add --update py3.12-pip && python -m pip install --upgrade pip
+RUN apk add --update py3.12-pip && python -m ensurepip
 
 ENV PIP_TARGET=/home/airflow/.local/lib/python3.12/site-packages
 ENV PYTHONPATH=$PIP_TARGET
 COPY airflow/chainguard/base/requirements.txt .
 
-RUN pip install \ 
+RUN pip3 install \ 
  --upgrade \
  -r requirements.txt
 
