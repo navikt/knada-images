@@ -1,5 +1,4 @@
-apache-airflow[cncf.kubernetes,google,slack,oracle,apache-kafka,smtp,ssh,sftp,snowflake]==2.11.1
-# apache-airflow-providers-snowflake==6.9.1
+apache-airflow[cncf.kubernetes,google,slack,oracle,apache-kafka,smtp,ssh,sftp,snowflake] @ git+https://github.com/navikt/airflow-2-fork@v2-11-stable
 asyncpg==0.31.0
 authlib==1.6.11
 cloud-sql-python-connector[pg8000]==1.20.1
