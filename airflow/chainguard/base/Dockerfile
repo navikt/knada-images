@@ -1,3 +1,16 @@
+ARG AIRFLOW_FORK_BRANCH=v2-11-stable
+ARG AIRFLOW_FORK_REPOSITORY=https://github.com/navikt/airflow-2-fork
+
+FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24-dev as nodeBuilder
+
+RUN git clone ${AIRFLOW_FORK_REPOSITORY} airflow-2-fork
+WORKDIR /app/airflow-2-fork
+
+RUN git checkout ${AIRFLOW_FORK_BRANCH} && \
+    cd airflow/www && \
+    npm install --force && \
+    npm run build
+
 FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/python:3.12-dev as dev
 
 ARG AIRFLOW_USER=airflow
@@ -31,8 +44,8 @@ RUN mkdir -p /opt/airflow && chown -R "${AIRFLOW_USER}:0" /opt/airflow
 COPY airflow/chainguard/base/clean-logs.sh /clean-logs
 COPY airflow/chainguard/base/entrypoint.sh /entrypoint
 
-# TODO: build this ourselves
-COPY airflow/chainguard/base/dist ${PYTHONPATH}/airflow/www/static/dist
+# Copy UI dist folder from nodeBuilder stage
+COPY --from=nodeBuilder /app/airflow-2-fork/airflow/www/static/dist ${PYTHONPATH}/airflow/www/static/dist
 
 USER ${AIRFLOW_UID}
 WORKDIR /opt/airflow
