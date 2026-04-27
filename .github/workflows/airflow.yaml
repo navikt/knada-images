@@ -52,11 +52,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - run: echo "TAG=$(git log -1 --pretty=%ad --date=format:%Y%m%d-%H%M%S)" >> $GITHUB_ENV
-
       - uses: docker/build-push-action@v7
         with:
           file: airflow/chainguard/base/Dockerfile
           push: true
+          build-args: |
+            AIRFLOW_FORK_REPOSITORY=https://github.com/navikt/airflow-2-fork
+            AIRFLOW_FORK_BRANCH=v2-11-stable
           tags: |
             europe-north1-docker.pkg.dev/knada-gcp/knada-north/${{ env.CHAINGUARD_IMAGE }}:${{ env.TAG }}
             ghcr.io/${{ github.repository }}/${{ env.CHAINGUARD_IMAGE }}:${{ env.TAG }}
