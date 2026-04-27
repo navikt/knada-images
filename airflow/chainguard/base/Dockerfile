@@ -1,7 +1,7 @@
+FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24-dev as nodeBuilder
+
 ARG AIRFLOW_FORK_BRANCH=v2-11-stable
 ARG AIRFLOW_FORK_REPOSITORY=https://github.com/navikt/airflow-2-fork
-
-FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24-dev as nodeBuilder
 
 RUN git clone ${AIRFLOW_FORK_REPOSITORY} airflow-2-fork
 WORKDIR /app/airflow-2-fork
