@@ -19,7 +19,7 @@ ARG AIRFLOW_USER_HOME_DIR=/home/airflow
 
 USER root
 
-RUN adduser --disabled-password "${AIRFLOW_USER}" --uid "${AIRFLOW_UID}" -g "0" --home "${AIRFLOW_USER_HOME_DIR}" && \
+RUN adduser --disabled-password "${AIRFLOW_USER}" --uid "${AIRFLOW_UID}" -G "root" --home "${AIRFLOW_USER_HOME_DIR}" && \
     mkdir -p "${AIRFLOW_USER_HOME_DIR}" && chown -R "${AIRFLOW_USER}:0" "${AIRFLOW_USER_HOME_DIR}"
 
 ENV PATH="${AIRFLOW_USER_HOME_DIR}/.local/bin:${PATH}"
