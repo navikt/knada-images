@@ -15,6 +15,7 @@ RUN apk add --update \
       shadow \
       libaio \
       libnsl \
+      tzdata \
       "py${PYTHON_VERSION}-pip" \
       wget && \
       rm -rf /var/cache/apk/*
