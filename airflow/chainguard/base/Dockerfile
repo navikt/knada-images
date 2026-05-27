@@ -11,8 +11,6 @@ RUN git checkout ${AIRFLOW_FORK_BRANCH} && \
     npm install --force && \
     npm run build
 
-RUN apk add tzdata
-
 FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/python:3.12-dev as dev
 
 ARG AIRFLOW_USER=airflow
@@ -27,6 +25,8 @@ RUN adduser --disabled-password "${AIRFLOW_USER}" --uid "${AIRFLOW_UID}" -G "roo
 ENV PATH="${AIRFLOW_USER_HOME_DIR}/.local/bin:${PATH}"
 ENV PYTHONPATH="${AIRFLOW_USER_HOME_DIR}/.local/lib/python3.12/site-packages"
 RUN pip config set global.prefix "${AIRFLOW_USER_HOME_DIR}/.local"
+
+RUN apk add tzdata
 
 COPY airflow/chainguard/base/requirements.txt .
 RUN pip3 install \
@@ -48,9 +48,6 @@ COPY airflow/chainguard/base/entrypoint.sh /entrypoint
 
 # Copy UI dist folder from nodeBuilder stage
 COPY --from=nodeBuilder /app/airflow-2-fork/airflow/www/static/dist ${PYTHONPATH}/airflow/www/static/dist
-
-# Copy time zone database
-COPY --from=nodeBuilder /usr/share/zoneinfo /usr/share/zoneinfo
 
 USER ${AIRFLOW_UID}
 WORKDIR /opt/airflow
