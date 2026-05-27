@@ -26,8 +26,10 @@ ENV PATH="${AIRFLOW_USER_HOME_DIR}/.local/bin:${PATH}"
 ENV PYTHONPATH="${AIRFLOW_USER_HOME_DIR}/.local/lib/python3.12/site-packages"
 RUN pip config set global.prefix "${AIRFLOW_USER_HOME_DIR}/.local"
 
+RUN apk add tzdata
+
 COPY airflow/chainguard/base/requirements.txt .
-RUN pip3 install \ 
+RUN pip3 install \
  --upgrade \
  -r requirements.txt
 
