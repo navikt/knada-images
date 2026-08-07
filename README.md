@@ -4,14 +4,6 @@ Samling av Docker images til tjenester vi tilbyr i KNADA.
 
 ## Imager vi tilbyr
 
-### Jupyter
-[![Build Jupyter image](https://github.com/navikt/knada-images/actions/workflows/jupyter.yaml/badge.svg)](https://github.com/navikt/knada-images/actions/workflows/jupyter.yaml)
-
-- Image: [ghcr.io/navikt/knada-images/jupyter](https://github.com/navikt/knada-images/pkgs/container/knada-images%2Fjupyter)
-- [Dockerfile](https://github.com/navikt/knada-images/blob/main/jupyter/Dockerfile)
-
-Vi installerer ingen python dependencies utover det som følger med [base imaget](https://quay.io/repository/jupyter/base-notebook) vi bygger på. Brukerne er ment å installere pakkene de trenger selv i sine egne jupytermiljøer. Python versjon i imaget er 3.11.
-
 ### Airflow
 For airflow tilbyr vi to imager:
 
