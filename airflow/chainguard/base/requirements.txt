@@ -9,7 +9,7 @@ great-expectations==1.19.1
 icecream==2.2.0
 numpy==1.26.4 #
 openpyxl==3.1.5
-pandas==2.1.4 # må pinnes da avhengigheter for Airflow 2 krever pandas < 2.2
+pandas==3.0.5 # må pinnes da avhengigheter for Airflow 2 krever pandas < 2.2
 papermill==2.7.0
 plotly-express==0.4.1
 plotly==6.9.0
