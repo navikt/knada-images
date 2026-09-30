@@ -15,7 +15,7 @@ plotly-express==0.4.1
 plotly==6.9.0
 polars==1.43.2
 psycopg2-binary==2.9.12
-PyJWT==2.13.0
+PyJWT==2.14.0
 pysftp==0.2.9
 python-google-places==1.4.2
 scikit-learn==1.9.0
