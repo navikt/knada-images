@@ -9,8 +9,8 @@ on:
       - airflow/chainguard/base/Dockerfile
       - airflow/chainguard/base/requirements.txt
   workflow_dispatch:
-  schedule:
-    - cron: "0 9 * * 1-5"
+#  schedule:
+#    - cron: "0 9 * * 1-5"
 
 env:
   CHAINGUARD_IMAGE: airflow-cg
