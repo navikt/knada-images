@@ -26,6 +26,7 @@ updates:
       - dependency-name: numpy
       - dependency-name: apache-airflow
       - dependency-name: flask-limiter
+      - dependency-name: pandas
   - package-ecosystem: "pip"
     directory: "/airflow/chainguard/dataverk"
     schedule:
