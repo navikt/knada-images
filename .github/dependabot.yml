@@ -35,12 +35,3 @@ updates:
       dataverk-docker-cg:
         patterns:
         - '*'
-
-  - package-ecosystem: "pip"
-    directory: "/jupyter"
-    schedule:
-      interval: "weekly"
-    groups:
-      jupyter-pip:
-        patterns:
-        - '*'
