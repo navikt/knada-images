@@ -26,20 +26,12 @@ updates:
       - dependency-name: numpy
       - dependency-name: apache-airflow
       - dependency-name: flask-limiter
+      - dependency-name: pandas
   - package-ecosystem: "pip"
     directory: "/airflow/chainguard/dataverk"
     schedule:
       interval: "weekly"
     groups:
       dataverk-docker-cg:
-        patterns:
-        - '*'
-
-  - package-ecosystem: "pip"
-    directory: "/jupyter"
-    schedule:
-      interval: "weekly"
-    groups:
-      jupyter-pip:
         patterns:
         - '*'
