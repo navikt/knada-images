@@ -27,6 +27,7 @@ updates:
       - dependency-name: apache-airflow
       - dependency-name: flask-limiter
       - dependency-name: pandas
+      - dependency-name: geopandas
   - package-ecosystem: "pip"
     directory: "/airflow/chainguard/dataverk"
     schedule:
