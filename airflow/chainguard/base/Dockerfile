@@ -41,9 +41,7 @@ RUN apk del py3.12-pip
 # when it is imported (https://stackoverflow.com/questions/78780698/cannot-import-name-sequence-from-collections)
 # Pip also breaks as it uses pathlib so below we need to remove the library manually..
 RUN rm -rf ${PYTHONPATH}/pathlib-1.0.1.dist-info/ && \
-  rm ${PYTHONPATH}/pathlib.py && \
-  rm -rf ${PYTHONPATH}/certifi && \
-  rm -rf ${PYTHONPATH}/certifi*
+  rm ${PYTHONPATH}/pathlib.py
   
 
 RUN mkdir -p /opt/airflow && chown -R "${AIRFLOW_USER}:0" /opt/airflow
