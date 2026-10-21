@@ -33,13 +33,18 @@ RUN pip3 install \
   --upgrade \
   -r requirements.txt
 
+RUN apk del py3.12-pip
+
 # Pathlib is part of the standard distro for python 3.12, and installing it from pip is
 # meant for python versions < 3.4 and other dependencies that require it are incompatible with the non standard distro version.
 # It is however included as a dependency for some of the packages we install which causes a conflict
 # when it is imported (https://stackoverflow.com/questions/78780698/cannot-import-name-sequence-from-collections)
 # Pip also breaks as it uses pathlib so below we need to remove the library manually..
 RUN rm -rf ${PYTHONPATH}/pathlib-1.0.1.dist-info/ && \
-  rm ${PYTHONPATH}/pathlib.py
+  rm ${PYTHONPATH}/pathlib.py && \
+  rm -rf ${PYTHONPATH}/certifi && \
+  rm -rf ${PYTHONPATH}/certifi*
+  
 
 RUN mkdir -p /opt/airflow && chown -R "${AIRFLOW_USER}:0" /opt/airflow
 
