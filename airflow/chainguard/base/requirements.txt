@@ -1,6 +1,6 @@
 apache-airflow[cncf.kubernetes,google,slack,oracle,apache-kafka,smtp,ssh,sftp,snowflake,statsd] @ git+https://github.com/navikt/airflow-2-fork@v2-11-stable
 asyncpg==0.31.0
-authlib==1.8.0
+authlib==1.9.1
 cloud-sql-python-connector[pg8000]==1.22.0
 dataverk-airflow==1.8.5
 Flask-Limiter==3.12 # må pinnes da nyere versjon er inkompatibel med Airflow 2.11
