@@ -28,6 +28,8 @@ updates:
       - dependency-name: flask-limiter
       - dependency-name: pandas
       - dependency-name: geopandas
+      - dependency-name: great-expectations
+      - dependency-name: pyarrow
   - package-ecosystem: "pip"
     directory: "/airflow/chainguard/dataverk"
     schedule:
